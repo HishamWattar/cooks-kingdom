@@ -5,8 +5,7 @@ const orderItemsSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Price is required'],
   },
-   timestamps: true 
-  ,
+ 
   dishId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Dish',
@@ -15,6 +14,8 @@ const orderItemsSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Quantity is required'],
   },
+},{
+  timestamps: true 
 });
 
 // Define Order schema
