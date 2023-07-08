@@ -1,23 +1,19 @@
 const mongoose = require('mongoose');
 // Define Order Items Schema
 const orderItemsSchema = new mongoose.Schema({
-  Price: {
+  price: {
     type: Number,
     required: [true, 'Price is required'],
   },
-  Created_At: {
-    type: Date,
-    default: Date.now,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at' 
   },
-  Updated_At: {
-    type: Date,
-    default: Date.now,
-  },
-  DishId: {
+  dishId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Dish',
   },
-  Quantity: {
+  quantity: {
     type: Number,
     required: [true, 'Quantity is required'],
   },
@@ -25,40 +21,28 @@ const orderItemsSchema = new mongoose.Schema({
 
 // Define Order schema
 const orderSchema = new mongoose.Schema({
-  CustomerId: {
+  customerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Customer',
   },
-  CookId: {
+  chefId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Chef',
   },
-  Total_Price: {
+  totalPrice: {
     type: Number,
     required: [true, 'Total Price is required'],
   },
-  Status: {
+  status: {
     type: String,
     enum: ['pending', 'canceled', 'in_progress', 'delivered'],
     required: [true, 'Status is required'],
   },
-  OrderItems: [orderItemsSchema],
-  Quantity: {
+  orderItems: [orderItemsSchema],
+  quantity: {
     type: Number,
     required: [true, 'Quantity is required'],
   },
 });
-// The pre method is a function provided by Mongoose to define middleware functions that are executed before  saving a document (save).
-orderItemsSchema.pre('save', function (next) {
-  const currentDate = new Date();
-  this.updated_at = currentDate;
 
-  // Set created_at only if it's not already defined
-  if (!this.created_at) {
-    this.created_at = currentDate;
-  }
-
-  next();
-});
-
-module.exports = mongoose.model('orderSchema', orderSchema);
+module.exports = mongoose.model('Order', orderSchema);
