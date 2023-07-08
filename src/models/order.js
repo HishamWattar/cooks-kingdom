@@ -5,10 +5,8 @@ const orderItemsSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Price is required'],
   },
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at' 
-  },
+   timestamps: true 
+  ,
   dishId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Dish',
