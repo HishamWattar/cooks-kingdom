@@ -6,7 +6,7 @@ const dishSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cookerId: {
+  chefId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cooker',
   },
