@@ -2,6 +2,41 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
+// Address schema
+const addressSchema = new Schema(
+  {
+    city: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    street: {
+      type: String,
+      required: true,
+    },
+    block: {
+      type: String,
+      required: true,
+    },
+    postalCode: {
+      type: String,
+    },
+    apartment: {
+      type: Number,
+    },
+    isDefault: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 // Base user schema
 const userSchema = new Schema(
   {
@@ -25,6 +60,7 @@ const userSchema = new Schema(
     avatar: {
       type: String,
     },
+    addresses: [addressSchema], // User addresses
   },
   {
     timestamps: true,
