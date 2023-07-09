@@ -12,6 +12,7 @@ const dishSchema = new mongoose.Schema({
   },
   description: String,
   image: String,
+
   ingredients: [String],
   price: {
     type: Number,
