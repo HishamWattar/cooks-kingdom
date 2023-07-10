@@ -11,6 +11,7 @@ const reviewSchema = new Schema({
   rate: {
     type: Number,
     maximum: 5,
+    require: true,
   },
   description: {
     type: String,
