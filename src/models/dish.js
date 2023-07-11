@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const reviewSchema = require('./reviewSchema');
+
 
 // Define the Dish schema
 const dishSchema = new mongoose.Schema({
@@ -19,7 +19,13 @@ const dishSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  reviews: [reviewSchema],
+  reviews:  [{
+    rating: {
+      type: Number,
+      required: true
+    },
+    comment: String
+  }]
 });
 
 // Create the Dish model
