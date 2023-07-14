@@ -48,25 +48,43 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
       lowercase: true,
+      unique: true,
     },
     password: {
       type: String,
-      required: true,
     },
     avatar: {
       type: String,
+    },
+    providerId: {
+      type: String,
+      unique: true,
+    },
+    provider: {
+      type: String,
+      enum: ['google', 'facebook', 'local'],
+      default: 'local',
+    },
+    role: {
+      type: String,
+      enum: ['customer', 'chef', 'admin'],
     },
     addresses: [addressSchema], // User addresses
   },
   {
     timestamps: true,
-    discriminatorKey: 'role',
+    discriminatorKey: 'type',
   }
 );
+
 // Base user model
 const userModel = mongoose.model('User', userSchema);
 
@@ -74,11 +92,6 @@ const userModel = mongoose.model('User', userSchema);
 const chefModel = userModel.discriminator(
   'Chef',
   new Schema({
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     experienceYears: Number,
     bio: String,
     rating: Number,
@@ -94,11 +107,6 @@ const chefModel = userModel.discriminator(
 const customerModel = userModel.discriminator(
   'Customer',
   new Schema({
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     preferences: {
       type: [String],
     },
@@ -110,19 +118,10 @@ const customerModel = userModel.discriminator(
 );
 
 // Admin model
-const adminModel = userModel.discriminator(
-  'Admin',
-  new Schema({
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-  }),
-  'admin'
-);
+const adminModel = userModel.discriminator('Admin', new Schema(), 'admin');
 
 module.exports = {
+  User: userModel,
   Customer: customerModel,
   Chef: chefModel,
   Admin: adminModel,

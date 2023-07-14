@@ -1,7 +1,9 @@
-/* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-// Define Order Items Schema
-const orderItemsSchema = new mongoose.Schema({
+
+const { Schema } = mongoose;
+
+// Order Items Schema
+const orderItemsSchema = new Schema({
   price: {
     type: Number,
     required: [true, 'Price is required'],
@@ -17,8 +19,8 @@ const orderItemsSchema = new mongoose.Schema({
   },
 });
 
-// Define Order schema
-const orderSchema = new mongoose.Schema(
+// Order schema
+const orderSchema = new Schema(
   {
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -48,4 +50,5 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+// Order model
 module.exports = mongoose.model('Order', orderSchema);
