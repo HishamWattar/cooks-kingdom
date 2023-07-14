@@ -1,8 +1,25 @@
 const mongoose = require('mongoose');
 
+const { Schema } = mongoose;
 
-// Define the Dish schema
-const dishSchema = new mongoose.Schema({
+// Review schema
+const reviewSchema = new Schema({
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+  },
+  rate: {
+    type: Number,
+    maximum: 5,
+    require: true,
+  },
+  description: {
+    type: String,
+  },
+});
+
+// Dish schema
+const dishSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -13,22 +30,13 @@ const dishSchema = new mongoose.Schema({
   },
   description: String,
   image: String,
-
   ingredients: [String],
   price: {
     type: Number,
     required: true,
   },
-  reviews:  [{
-    rating: {
-      type: Number,
-      required: true
-    },
-    comment: String
-  }]
+  reviews: [reviewSchema],
 });
 
-// Create the Dish model
-const Dish = mongoose.model('Dish', dishSchema);
-
-module.exports = Dish;
+// Dish model
+module.exports = mongoose.model('Dish', dishSchema);
