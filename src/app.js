@@ -21,6 +21,7 @@ app.use('/api', apiRoutes);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
+    // eslint-disable-next-line no-console
     console.log(`Server listening on port ${port}`);
     connectToMongo();
   });
