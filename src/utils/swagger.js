@@ -1,3 +1,5 @@
+const swaggerJSDoc = require('swagger-jsdoc');
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -20,7 +22,7 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes/*.js'],
+  apis: ['./src/docs/**/*.yaml'],
 };
 
-module.exports = options;
+module.exports = swaggerJSDoc(options);
