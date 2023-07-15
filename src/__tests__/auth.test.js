@@ -64,3 +64,44 @@ describe('Google Auth Endpoints', () => {
     });
   });
 });
+
+describe('Facebook Auth Endpoints', () => {
+  describe('GET /api/auth/facebook', () => {
+    it('Redirects to facebook authorization page', (done) => {
+      req
+        .get('/api/auth/facebook')
+        .expect(302)
+        .expect('location', /facebook\.com/)
+        .end(done);
+    });
+
+    it('Redirects with correct scope and credentials', async () => {
+      const res = await req.get('/api/auth/google');
+      const { location } = res.header;
+
+      expect(location).not.toBeNull();
+
+      // eslint-disable-next-line node/no-unsupported-features/node-builtins
+      const uri = new URL(location);
+      const redirectTo = uri.searchParams.get('redirect_uri') ?? '';
+      // eslint-disable-next-line camelcase
+      const client_id = uri.searchParams.get('client_id') ?? '';
+
+      expect(redirectTo).toMatch(URL_REGEX);
+      // eslint-disable-next-line camelcase
+      expect(client_id.length).toBeGreaterThan(10);
+
+      // eslint-disable-next-line node/no-unsupported-features/node-builtins
+      if (redirectTo) redirectUri = new URL(redirectTo);
+    });
+  });
+
+  describe(`GET REDIRECT_URI`, () => {
+    it('Redirects to facebook sign in page without cookie for incorrect credentials', async () => {
+      expect(redirectUri).not.toBeNull();
+      const res = await req.get(redirectUri.pathname);
+      expect(res.status).toBe(302);
+      expect(res.header['set-cookie']).not.toBeDefined();
+    });
+  });
+});

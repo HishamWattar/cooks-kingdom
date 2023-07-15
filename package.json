@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.2",
     "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "supertest": "^6.3.3",
     "yarn-upgrade-all": "^0.6.1"

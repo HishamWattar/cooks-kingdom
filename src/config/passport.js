@@ -33,8 +33,8 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.FB_ID,
-      clientSecret: process.env.FB_SECRET,
+      clientID: process.env.FB_CLIENT_ID,
+      clientSecret: process.env.FB_CLIENT_SECRET,
       callbackURL: 'http://localhost:3000/api/auth/facebook/callback',
       profileFields: ['id', 'displayName', 'photos', 'name', 'email'],
     },
@@ -42,9 +42,9 @@ passport.use(
       const userProfile = {
         email: profile._json.email,
         name: profile._json.name,
-        firstName: profile._json.given_name,
-        lastName: profile._json.family_name,
-        avatar: profile._json.picture,
+        firstName: profile._json.first_name,
+        lastName: profile._json.last_name,
+        avatar: profile._json.picture.data.url,
         providerId: profile._json.sub,
         provider: 'facebook',
       };

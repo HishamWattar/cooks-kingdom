@@ -8,10 +8,12 @@ const connectToMongo = () => {
   const db = mongoose.connection;
 
   db.once('open', () => {
+    // eslint-disable-next-line no-console
     console.log('Database connected: ', url);
   });
 
   db.on('error', (err) => {
+    // eslint-disable-next-line no-console
     console.error('Database connection error: ', err);
   });
 };
