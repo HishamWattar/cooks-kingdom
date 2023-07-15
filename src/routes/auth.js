@@ -18,4 +18,15 @@ routes.get(
   authController.savePayloadToToken
 );
 
+routes.get('/facebook', passport.authenticate('facebook'));
+
+routes.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', {
+    session: false,
+    failureRedirect: '/api/auth/facebook',
+  }),
+  authController.savePayloadToToken
+);
+
 module.exports = routes;
