@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 require('dotenv').config();
 require('./config/passport');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
 
 const apiRoutes = require('./routes/index');
 
@@ -18,7 +20,7 @@ app.use(passport.initialize());
 app.use(cookieParser());
 
 app.use('/api', apiRoutes);
-
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
