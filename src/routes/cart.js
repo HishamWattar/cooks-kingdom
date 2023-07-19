@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const routes = express.Router();
 const Cart = require('./models/Cart');
-
+const cartControllers = require('../controllers/cart');
 
 routes.post('/', async (req, res) => {
     try {
@@ -96,8 +96,13 @@ routes.delete('CartItem/:id', async(req, res) =>{
        res.status(500).json({ message: 'Failed to delete item' , error: err});   
     }
 })
+
+
+
 function getUserID(req) {
     const { token } = req.cookies;
     const decoded = jwt.verify(token, process.env.APP_SECRET);
     return decoded.userId;
 }
+
+
