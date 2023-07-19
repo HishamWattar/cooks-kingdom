@@ -18,4 +18,24 @@ const connectToMongo = () => {
   });
 };
 
-module.exports = connectToMongo;
+const closeDatabase = async (drop = false) => {
+  // eslint-disable-next-line no-unused-expressions
+  drop && (await mongoose.connection.dropDatabase());
+  await mongoose.disconnect();
+  await mongoose.connection.close();
+};
+
+const clearDatabase = async () => {
+  const { collections } = mongoose.connection;
+  // eslint-disable-next-line guard-for-in,no-restricted-syntax
+  for (const key in collections) {
+    // eslint-disable-next-line no-await-in-loop
+    await collections[key].deleteMany();
+  }
+};
+
+module.exports = {
+  connectToMongo,
+  closeDatabase,
+  clearDatabase,
+};

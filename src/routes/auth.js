@@ -3,6 +3,18 @@ const express = require('express');
 const routes = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/auth');
+const { isAuthenticated } = require('../middlewares/auth');
+const {
+  signup,
+  signin,
+  validationHandler,
+} = require('../middlewares/validation');
+
+routes.post('/signup', signup, validationHandler, authController.signup);
+
+routes.post('/signin', signin, validationHandler, authController.signin);
+
+routes.post('/signout', isAuthenticated, authController.signout);
 
 routes.get(
   '/google',

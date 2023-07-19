@@ -10,7 +10,7 @@ const globalErrorHandler = require('./middlewares/error');
 
 const apiRoutes = require('./routes/index');
 
-const connectToMongo = require('./db/connection');
+const { connectToMongo } = require('./db/connection');
 
 const app = express();
 const port = process.env.NODE_LOCAL_PORT;
