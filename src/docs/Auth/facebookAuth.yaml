@@ -1,0 +1,6 @@
+paths:
+  /api/auth/facebook:
+    get:
+      tags:
+        - Authentication
+      summary: Signin to the website using 3rd party authentication service
