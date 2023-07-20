@@ -1,32 +1,32 @@
 /* eslint-disable prettier/prettier */
 const dishModel = require('../models/dish');
+const CustomError = require('../utils/customError');
 
-const getAllDishes = async (req, res) => {
+const getAllDishes = async (req, res, next) => {
   try {
     const Dishes = await dishModel.find();
-    res.json(Dishes);
+    return res.json(Dishes);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return next(new CustomError(err.message, 422));
   }
 };
 
-const getDishById = async (req, res) => {
+const getDishById = async (req, res, next) => {
   const { id } = req.params;
   try {
     // Find by ID query
     const dish = await dishModel.findById(id);
     if (!dish) {
-      res
-        .status(422)
-        .json({ message: "the dish you are looking for wasn't found" });
-    } else {
-      res.json(dish);
+      return next(
+        new CustomError("the dish you are looking for wasn't found", 422)
+      );
     }
+    return res.json(dish);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return next(new CustomError(err.message, 422));
   }
 };
-const filterDishes = async (req, res) => {
+const filterDishes = async (req, res, next) => {
   try {
     const { maxPrice, minPrice, rate } = req.query;
     let { ingredients } = req.query;
@@ -44,22 +44,22 @@ const filterDishes = async (req, res) => {
     if (rate) filters['reviews.rate'] = { $gte: Number(rate) };
 
     const filteredDishes = await dishModel.find(filters);
-    res.json(filteredDishes);
+    return res.json(filteredDishes);
   } catch (err) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    return next(new CustomError(err.message, 500));
   }
 };
-const addDish = async (req, res) => {
+const addDish = async (req, res, next) => {
   const { name, chefId, description, image, ingredients, price } = req.body;
   const dishData = { name, chefId, description, image, ingredients, price };
   try {
     const newDish = await dishModel.create(dishData);
-    res.status(201).json(newDish);
+    return res.status(201).json(newDish);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return next(new CustomError(err.message, 422));
   }
 };
-const updateDish = async (req, res) => {
+const updateDish = async (req, res, next) => {
   const { id } = req.params;
   const { name, chefId, ingredients, price, reviews, image } = req.body;
   try {
@@ -76,29 +76,27 @@ const updateDish = async (req, res) => {
       { returnOriginal: false }
     );
     if (!updatedDish) {
-      res
-        .status(422)
-        .json({ message: "the dish you are trying to update wasn't found" });
-    } else {
-      res.json(updatedDish);
+      return next(
+        new CustomError("the dish you are trying to update wasn't found", 422)
+      );
     }
+    return res.json(updatedDish);
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return next(new CustomError(err.message, 422));
   }
 };
-const deleteDish = async (req, res) => {
+const deleteDish = async (req, res, next) => {
   const { id } = req.params;
   try {
     const dish = await dishModel.findByIdAndDelete(id);
     if (!dish) {
-      res
-        .status(422)
-        .json({ message: "the dish you are trying to delete wasn't found" });
-    } else {
-      res.status(204).send();
+      return next(
+        new CustomError("the dish you are trying to delete wasn't found", 404)
+      );
     }
+    return res.status(204).send();
   } catch (err) {
-    res.status(422).json({ message: err.message });
+    return next(new CustomError(err.message, 422));
   }
 };
 module.exports = {

@@ -6,6 +6,7 @@ jest.mock('../models/dish');
 describe('Dish Controller', () => {
   let req;
   let res;
+  let next;
 
   beforeEach(() => {
     req = {};
@@ -28,7 +29,7 @@ describe('Dish Controller', () => {
       ];
       dishModel.find.mockResolvedValue(mockDishes);
 
-      await dishController.getAllDishes(req, res);
+      await dishController.getAllDishes(res, res, next);
 
       expect(res.json).toHaveBeenCalledWith(mockDishes);
     });
@@ -37,7 +38,7 @@ describe('Dish Controller', () => {
       const errorMessage = 'Database error';
       dishModel.find.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.getAllDishes(req, res);
+      await dishController.getAllDishes(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
@@ -51,7 +52,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findById.mockResolvedValue(mockDish);
 
-      await dishController.getDishById(req, res);
+      await dishController.getDishById(res, res, next);
 
       expect(res.json).toHaveBeenCalledWith(mockDish);
     });
@@ -61,7 +62,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findById.mockResolvedValue(null);
 
-      await dishController.getDishById(req, res);
+      await dishController.getDishById(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({
@@ -75,7 +76,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findById.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.getDishById(req, res);
+      await dishController.getDishById(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
@@ -97,7 +98,7 @@ describe('Dish Controller', () => {
       req.query = mockQuery;
       dishModel.find.mockResolvedValue(mockFilteredDishes);
 
-      await dishController.filterDishes(req, res);
+      await dishController.filterDishes(res, res, next);
 
       expect(res.json).toHaveBeenCalledWith(mockFilteredDishes);
     });
@@ -107,7 +108,7 @@ describe('Dish Controller', () => {
       req.query = { maxPrice: '20' };
       dishModel.find.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.filterDishes(req, res);
+      await dishController.filterDishes(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: errorMessage });
@@ -135,7 +136,7 @@ describe('Dish Controller', () => {
       };
       dishModel.create.mockResolvedValue(mockNewDish);
 
-      await dishController.addDish(req, res);
+      await dishController.addDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(mockNewDish);
@@ -153,7 +154,7 @@ describe('Dish Controller', () => {
       };
       dishModel.create.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.addDish(req, res);
+      await dishController.addDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
@@ -182,7 +183,7 @@ describe('Dish Controller', () => {
       };
       dishModel.findOneAndUpdate.mockResolvedValue(mockUpdatedDish);
 
-      await dishController.updateDish(req, res);
+      await dishController.updateDish(res, res, next);
 
       expect(res.json).toHaveBeenCalledWith(mockUpdatedDish);
     });
@@ -199,7 +200,7 @@ describe('Dish Controller', () => {
       };
       dishModel.findOneAndUpdate.mockResolvedValue(null);
 
-      await dishController.updateDish(req, res);
+      await dishController.updateDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({
@@ -220,7 +221,7 @@ describe('Dish Controller', () => {
       };
       dishModel.findOneAndUpdate.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.updateDish(req, res);
+      await dishController.updateDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
@@ -233,7 +234,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findByIdAndDelete.mockResolvedValue({ _id: mockId });
 
-      await dishController.deleteDish(req, res);
+      await dishController.deleteDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(204);
       expect(res.send).toHaveBeenCalled();
@@ -244,7 +245,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findByIdAndDelete.mockResolvedValue(null);
 
-      await dishController.deleteDish(req, res);
+      await dishController.deleteDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({
@@ -258,7 +259,7 @@ describe('Dish Controller', () => {
       req.params = { id: mockId };
       dishModel.findByIdAndDelete.mockRejectedValue(new Error(errorMessage));
 
-      await dishController.deleteDish(req, res);
+      await dishController.deleteDish(res, res, next);
 
       expect(res.status).toHaveBeenCalledWith(422);
       expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
