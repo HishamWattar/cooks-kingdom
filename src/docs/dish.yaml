@@ -1,0 +1,157 @@
+paths:
+  /dishes:
+    get:
+      tags:
+        - Dish
+      summary: Get all dishes
+      description: Retrieves all dishes from the database.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable Entity. An error occurred during the retrieval.
+    
+    post:
+      tags:
+        - Dish
+      summary: Add a new dish
+      description: Creates a new dish and adds it to the database.
+      requestBody:
+        description: Dish details to be added.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dish'
+        required: true
+      responses:
+        '201':
+          description: Dish added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable Entity. An error occurred during dish creation.
+
+  /dishes/{id}:
+    get:
+      tags:
+        - Dish
+      summary: Get a dish by ID
+      description: Retrieves a specific dish by its ID from the database.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable Entity. The dish with the specified ID was not found.
+
+    put:
+      tags:
+        - Dish
+      summary: Update a dish
+      description: Updates an existing dish with new data.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Dish details to be updated.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dish'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable Entity. The dish with the specified ID was not found.
+
+    delete:
+      tags:
+        - Dish
+      summary: Delete a dish
+      description: Deletes a dish from the database based on its ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content. Dish deleted successfully.
+        '422':
+          description: Unprocessable Entity. The dish with the specified ID was not found.
+
+components:
+  schemas:
+    Dish:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the dish.
+          example: Spaghetti Bolognese
+        chefId:
+          type: string
+          description: ID of the chef who created the dish.
+          example: chef123
+        description:
+          type: string
+          description: Description of the dish.
+          example: Delicious spaghetti with Bolognese sauce.
+        image:
+          type: string
+          description: URL of the dish image.
+          example: https://example.com/spaghetti.jpg
+        ingredients:
+          type: array
+          items:
+            type: string
+          description: List of ingredients used in the dish.
+          example: ["spaghetti", "tomato sauce", "ground beef"]
+        price:
+          type: number
+          description: Price of the dish.
+          example: 12.99
+        reviews:
+          type: array
+          items:
+            type: object
+            properties:
+              rating:
+                type: number
+                description: Rating given by the reviewer.
+                example: 4.5
+              comment:
+                type: string
+                description: Reviewer's comment about the dish.
+                example: "Delicious dish, will order again!"
+          description: List of reviews for the dish.
+          example: [{"rating": 4.5, "comment": "Delicious dish, will order again!"}]
