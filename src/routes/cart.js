@@ -9,7 +9,4 @@ routes.put('CartItem/:id', cartControllers.putCartItemByDishId)
 routes.get('CartItem/:id',  cartControllers.getCartItemByDishId)
 routes.delete('CartItem/:id',  cartControllers.deleteCartItemByDishId)
 
-
-
-
-
+module.exports = routes;

@@ -8,3 +8,5 @@ routes.get('Order/:id', orderControllers.getOrderById)
 routes.delete('Order/:id', orderControllers.deleteOrderById)
 routes.get('Orders/', orderControllers.getOrders)
 
+
+module.exports = routes;
