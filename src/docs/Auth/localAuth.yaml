@@ -10,7 +10,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              properties:
+                firstName:
+                  type: string
+                  description: first name of user
+                  example: John
+                lastName:
+                  type: string
+                  description: last name of user
+                  example: Doe
+                name:
+                  type: string
+                  description: name of user
+                  example: JohnDoe
+                email:
+                  type: string
+                  description: email of user
+                  example: john@example.com
+                password:
+                  type: string
+                  description: password of profile
+                  example: Example$123
         required: true
       responses:
         201:
@@ -104,26 +124,3 @@ paths:
                     example: You logged out successfully.
         '401':
           description: Unauthenticated. Please check if you are logged in.
-
-
-
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        firstName:
-          type: string
-          example: John
-        lastName:
-          type: string
-          example: Doe
-        name:
-          type: string
-          example: JohnDoe
-        email:
-          type: string
-          example: john@example.com
-        password:
-          type: string
-          example: Example$123

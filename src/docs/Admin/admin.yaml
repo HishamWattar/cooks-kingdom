@@ -1,0 +1,313 @@
+paths:
+  /api/admin/user:
+    get:
+      tags:
+        - Admin
+      summary: Get all users
+      description: Returns a list of all users.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        500:
+          description: Internal Server Error.
+    post:
+      tags:
+        - Admin
+      summary: Create a new user.
+      description: Creates a new user with the given details.
+      produces:
+        - application/json
+      requestBody:
+        description: Create a new user.
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  description: first name of user
+                  example: John
+                lastName:
+                  type: string
+                  description: last name of user
+                  example: Doe
+                name:
+                  type: string
+                  description: name of user
+                  example: JohnDoe
+                email:
+                  type: string
+                  description: email of user
+                  example: john@example.com
+                password:
+                  type: string
+                  description: password of profile
+                  example: Example$123
+                role:
+                  type: string
+                  description: role of created user
+                  example: customer
+        required: true
+      responses:
+        201:
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                properties:
+                  firstName:
+                    type: string
+                    description: first name of user
+                    example: John
+                  lastName:
+                    type: string
+                    description: last name of user
+                    example: Doe
+                  name:
+                    type: string
+                    description: name of user
+                    example: JohnDoe
+                  email:
+                    type: string
+                    description: email of user
+                    example: john@example.com
+                  provider:
+                    type: string
+                    description: provider of email
+                    example: local
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        422:
+          description: Invalid input. Please check the provided data.
+        409:
+          description: Email already exists. Please use a different email.
+        500:
+          description: Internal Server Error.
+  /api/admin/user/filter:
+    get:
+      tags:
+        - Admin
+      summary: Get all users
+      description: Fetch all users from DB.
+      produces:
+        - application/json
+      parameters:
+        - name: role
+          in: query
+          description: Role of the user.
+          type: string
+        - name: firstName
+          in: query
+          description: First name of the user.
+          type: string
+        - name: lastName
+          in: query
+          description: Last name of the user.
+          type: string
+      responses:
+        200:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        500:
+          description: Internal Server Error.
+  /api/admin/user/{id}:
+    get:
+      tags:
+        - Admin
+      summary: Get user by ID
+      description: Returns a single user based on their ID.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to retrieve.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/components/schemas/User'
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+    put:
+      tags:
+        - Admin
+      summary: Update user by ID
+      description: Updates a single user based on their ID.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to update.
+          required: true
+          type: string
+      requestBody:
+        description: Fields to update.
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  description: first name of user
+                  example: jay
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - Admin
+      summary: Delete user by ID
+      description: Delete a single user based on their ID.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to update.
+          required: true
+          type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        '500':
+          description: Internal Server Error
+
+
+
+
+
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+          example: 'New York'
+        country:
+          type: string
+          example: 'USA'
+        street:
+          type: string
+          example: '123 Main St'
+        block:
+          type: string
+          example: 'A'
+        postalCode:
+          type: string
+          example: '10001'
+        apartment:
+          type: integer
+          example: 101
+        isDefault:
+          type: boolean
+          example: true
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64bbd06f57ca63db37263e56'
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        name:
+          type: string
+          example: JohnDoe
+        email:
+          type: string
+          example: john@example.com
+        provider:
+          type: string
+          example: local
+        role:
+          type: string
+          example: admin
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          example:
+            - city: 'New York'
+              country: 'USA'
+              street: '123 Main St'
+              block: 'A'
+              postalCode: '10001'
+              apartment: 'Apt 101'
+              isDefault: true
+            - city: 'Los Angeles'
+              country: 'USA'
+              street: '456 Oak Ave'
+              block: 'B'
+              postalCode: '90001'
+              apartment: 202
+              isDefault: false
+        avatar:
+          type: string
+          example: profile1picture.jpg
+        providerId:
+          type: string
+          example: 12425635346734125432
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-07-22T12:49:51.705Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2023-07-22T12:49:51.705Z'
