@@ -126,7 +126,6 @@ const chefModel = userModel.discriminator(
     rating: Number,
     specialty: {
       type: String,
-      required: true,
     },
   }),
   'chef'
