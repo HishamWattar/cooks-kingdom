@@ -27,6 +27,7 @@ const dishSchema = new Schema({
   chefId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Chef',
+    required: true,
   },
   description: String,
   image: String,

@@ -15,4 +15,8 @@ router.post('/', isAuthenticated, isChef, dishController.addDish);
 router.put('/:id', isAuthenticated, isChef, dishController.updateDish);
 router.delete('/:id', isAuthenticated, isChef, dishController.deleteDish);
 
+// router.post('/',  dishController.addDish);
+// router.put('/:id',  dishController.updateDish);
+// router.delete('/:id',  dishController.deleteDish);
+
 module.exports = router;

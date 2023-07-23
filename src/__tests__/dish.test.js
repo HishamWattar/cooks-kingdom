@@ -1,268 +1,255 @@
-const dishController = require('../controllers/dish');
+// dishes.test.js
+const supertest = require('supertest');
 const dishModel = require('../models/dish');
+const app = require('../app');
+const db = require('../db/connection');
+const dish = require('../models/dish');
 
-jest.mock('../models/dish');
+const req = supertest(app);
 
-describe('Dish Controller', () => {
-  let req;
-  let res;
-  let next;
+let allDishes;
+let dishId;
+let token;
 
-  beforeEach(() => {
-    req = {};
-    res = {
-      json: jest.fn(),
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-    };
+const chef = {
+  firstName: 'chef',
+  lastName: 'chef',
+  password: 'cheFf%123',
+  name: 'chefName',
+  email: 'chef@example.com',
+  role: 'chef',
+};
+
+const spaghetti = {
+  name: 'Spaghetti Bolognese',
+  price: 12.5,
+  ingredients: ['Tomato sauce', 'Minced beef', 'Pasta'],
+  reviews: [
+    {
+      rate: 5,
+      description: 'Absolutely delicious, perfect spaghetti bolognese!',
+    },
+    {
+      rate: 4,
+      description: 'Great Italian classic, will definitely order again.',
+    },
+  ],
+};
+
+const fish = {
+  name: 'Fish and Chips',
+  price: 5,
+  ingredients: [
+    'Tomato sauce',
+    'Cod fish',
+    'Potatoes',
+    'Vegetable oil',
+    'Yogurt marinade',
+  ],
+  reviews: [
+    {
+      rate: 4,
+      description: 'Perfect portion sizes and crispy batter.',
+    },
+  ],
+};
+
+const chicken = {
+  name: 'Chicken Tikka Masala',
+  price: 10,
+  ingredients: [
+    'Chicken thighs',
+    'Yogurt marinade',
+    'Tomato sauce',
+    'Spices',
+    'Potatoes',
+  ],
+  reviews: [
+    {
+      rate: 5,
+      description: 'Flavours were spot on, really tasty dish.',
+    },
+    {
+      rate: 3,
+      description: 'A bit low on spice for my liking.',
+    },
+  ],
+};
+
+// beforeAll(async () => {
+//   await db.connectToMongo();
+//   const res = await req.post('/api/auth/signup').send(chef);
+//   [token] = res.headers['set-cookie'][0].split(';');
+// });
+
+beforeAll(async () => {
+  await db.connectToMongo();
+  const res = await req.post('/api/auth/signup').send(chef);
+  [token] = res.headers['set-cookie'][0].split(';');
+
+  // Create sample dishes for tests
+  allDishes = await dishModel.insertMany([fish, chicken]);
+  dishId = allDishes[0]._id;
+});
+
+afterAll(async () => {
+  await db.clearDatabase();
+  await db.closeDatabase();
+});
+
+describe('GET /api/dishes', () => {
+  it('Returns all dishes', async () => {
+    const res = await req.get('/api/dishes').set('Cookie', token);
+    expect(res.body.data).toHaveLength(allDishes.length);
   });
+});
 
-  afterEach(() => {
-    jest.clearAllMocks();
+describe('GET /api/dishes/filter', () => {
+  it('Filters by single ingredient returns one item', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ ingredients: 'Chicken thighs' })
+      .set('Cookie', token);
+    expect(res.body.data).toHaveLength(1);
   });
-
-  describe('getAllDishes', () => {
-    test('should return all dishes', async () => {
-      const mockDishes = [
-        { name: 'Dish 1', price: 450 },
-        { name: 'Dish 2', price: 20 },
-      ];
-      dishModel.find.mockResolvedValue(mockDishes);
-
-      await dishController.getAllDishes(res, res, next);
-
-      expect(res.json).toHaveBeenCalledWith(mockDishes);
-    });
-
-    test('should handle errors', async () => {
-      const errorMessage = 'Database error';
-      dishModel.find.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.getAllDishes(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
-    });
+  it('Filters by single ingredient returns multiple items', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ ingredients: 'Potatoes' })
+      .set('Cookie', token);
+    expect(res.body.data).toHaveLength(2);
   });
+  it('Filters by multiple ingredients returns one item', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ ingredients: ['Cod fish', 'Vegetable oil'] })
+      .set('Cookie', token);
 
-  describe('getDishById', () => {
-    test('should return a dish by ID', async () => {
-      const mockId = '12345';
-      const mockDish = { name: 'Dish 1', price: 258, _id: mockId };
-      req.params = { id: mockId };
-      dishModel.findById.mockResolvedValue(mockDish);
-
-      await dishController.getDishById(res, res, next);
-
-      expect(res.json).toHaveBeenCalledWith(mockDish);
-    });
-
-    test('should return an error if the dish is not found', async () => {
-      const mockId = 'non-existent-id';
-      req.params = { id: mockId };
-      dishModel.findById.mockResolvedValue(null);
-
-      await dishController.getDishById(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({
-        message: "the dish you are looking for wasn't found",
-      });
-    });
-
-    test('should handle errors', async () => {
-      const mockId = '12345';
-      const errorMessage = 'Database error';
-      req.params = { id: mockId };
-      dishModel.findById.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.getDishById(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
-    });
+    expect(res.body.data).toHaveLength(1);
   });
+  it('Filters by multiple ingredients returns multiple items', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ ingredients: ['Tomato sauce', 'Yogurt marinade'] })
+      .set('Cookie', token);
 
-  describe('filterDishes', () => {
-    test('should filter dishes based on query parameters', async () => {
-      const mockFilteredDishes = [
-        { name: 'Filtered Dish 1' },
-        { name: 'Filtered Dish 2' },
-      ];
-      const mockQuery = {
-        maxPrice: '20',
-        minPrice: '10',
-        rate: '4.5',
-        ingredients: 'ingredient1,ingredient2',
-      };
-      req.query = mockQuery;
-      dishModel.find.mockResolvedValue(mockFilteredDishes);
-
-      await dishController.filterDishes(res, res, next);
-
-      expect(res.json).toHaveBeenCalledWith(mockFilteredDishes);
-    });
-
-    test('should handle errors', async () => {
-      const errorMessage = 'Internal Server Error';
-      req.query = { maxPrice: '20' };
-      dishModel.find.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.filterDishes(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: errorMessage });
-    });
+    expect(res.body.data).toHaveLength(2);
   });
+  it('Filters by minimum price', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ minPrice: 9 })
+      .set('Cookie', token);
 
-  describe('addDish', () => {
-    test('should add a new dish', async () => {
-      const mockDishData = {
-        name: 'New Dish',
-        chefId: 'chef123',
-        description: 'Delicious new dish',
-        image: 'https://example.com/new-dish.jpg',
-        ingredients: ['ingredient1', 'ingredient2'],
-        price: 15.99,
-      };
-      req.body = mockDishData;
-      const mockNewDish = {
-        name: mockDishData.name,
-        chefId: mockDishData.chefId,
-        ingredients: mockDishData.ingredients,
-        price: mockDishData.price,
-        reviews: mockDishData.reviews,
-        _id: 'new-dish-id',
-      };
-      dishModel.create.mockResolvedValue(mockNewDish);
-
-      await dishController.addDish(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith(mockNewDish);
-    });
-
-    test('should handle errors', async () => {
-      const errorMessage = 'Database error';
-      req.body = {
-        name: 'New Dish',
-        chefId: 'chef123',
-        description: 'Delicious new dish',
-        image: 'https://example.com/new-dish.jpg',
-        ingredients: ['ingredient1', 'ingredient2'],
-        price: 15.99,
-      };
-      dishModel.create.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.addDish(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
-    });
+    expect(res.body.data).toHaveLength(1);
   });
+  it('Filters by maximum price', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ maxPrice: 20 })
+      .set('Cookie', token);
 
-  describe('updateDish', () => {
-    test('should update an existing dish', async () => {
-      const mockId = 'existing-dish-id';
-      const mockDishData = {
-        name: 'Updated Dish',
-        chefId: 'updated-chef123',
-        ingredients: ['ingredient1', 'ingredient2', 'ingredient3'],
-        price: 19.99,
-        reviews: [{ rating: 4.5, comment: 'Updated review' }],
-      };
-      req.params = { id: mockId };
-      req.body = mockDishData;
-      const mockUpdatedDish = {
-        name: mockDishData.name,
-        chefId: mockDishData.chefId,
-        ingredients: mockDishData.ingredients,
-        price: mockDishData.price,
-        reviews: mockDishData.reviews,
-        _id: mockId,
-      };
-      dishModel.findOneAndUpdate.mockResolvedValue(mockUpdatedDish);
-
-      await dishController.updateDish(res, res, next);
-
-      expect(res.json).toHaveBeenCalledWith(mockUpdatedDish);
-    });
-
-    test('should return an error if the dish is not found', async () => {
-      const mockId = 'non-existent-id';
-      req.params = { id: mockId };
-      req.body = {
-        name: 'Updated Dish',
-        chefId: 'updated-chef123',
-        ingredients: ['ingredient1', 'ingredient2', 'ingredient3'],
-        price: 19.99,
-        reviews: [{ rating: 4.5, comment: 'Updated review' }],
-      };
-      dishModel.findOneAndUpdate.mockResolvedValue(null);
-
-      await dishController.updateDish(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({
-        message: "the dish you are trying to update wasn't found",
-      });
-    });
-
-    test('should handle errors', async () => {
-      const mockId = 'existing-dish-id';
-      const errorMessage = 'Database error';
-      req.params = { id: mockId };
-      req.body = {
-        name: 'Updated Dish',
-        chefId: 'updated-chef123',
-        ingredients: ['ingredient1', 'ingredient2', 'ingredient3'],
-        price: 19.99,
-        reviews: [{ rating: 4.5, comment: 'Updated review' }],
-      };
-      dishModel.findOneAndUpdate.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.updateDish(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
-    });
+    expect(res.body.data).toHaveLength(2);
   });
+  it('Filters by maximum and minimum price', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ maxPrice: 20, minPrice: 6 })
+      .set('Cookie', token);
 
-  describe('deleteDish', () => {
-    test('should delete a dish', async () => {
-      const mockId = 'existing-dish-id';
-      req.params = { id: mockId };
-      dishModel.findByIdAndDelete.mockResolvedValue({ _id: mockId });
+    expect(res.body.data).toHaveLength(1);
+  });
+  it('Filters by rate', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ rate: 5 })
+      .set('Cookie', token);
 
-      await dishController.deleteDish(res, res, next);
+    expect(res.body.data).toHaveLength(1);
+  });
+  it('Filters by name', async () => {
+    const res = await req
+      .get('/api/dishes/filter')
+      .query({ name: 'chi' })
+      .set('Cookie', token);
 
-      expect(res.status).toHaveBeenCalledWith(204);
-      expect(res.send).toHaveBeenCalled();
-    });
+    expect(res.body.data).toHaveLength(2);
+  });
+});
 
-    test('should return an error if the dish is not found', async () => {
-      const mockId = 'non-existent-id';
-      req.params = { id: mockId };
-      dishModel.findByIdAndDelete.mockResolvedValue(null);
+describe('POST /api/dishes', () => {
+  it('Adds a new dish', async () => {
+    const res = await req
+      .post('/api/dishes')
+      .send(spaghetti)
+      .set('Cookie', token);
+    expect(res.body.data.name).toBe('Spaghetti Bolognese');
+  });
+  it("Doesn't add a new dish with missing details", async () => {
+    const res = await req
+      .post('/api/dishes')
+      .send({ name: 'hello' })
+      .set('Cookie', token);
+    expect(res.status).toBe(422);
+  });
+});
 
-      await dishController.deleteDish(res, res, next);
+describe('PUT /api/dishes/:id', () => {
+  it('Updates a dish', async () => {
+    const res = await req
+      .put(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.body.data.name).toBe('Not fish');
+  });
+  it("Doesn't update others' dishes", async () => {
+    const res = await req
+      .put(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.body.data.name).toBe('Not fish');
+  });
+  it("Doesn't update non-existing dishes", async () => {
+    const res = await req
+      .put(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.body.data.name).toBe(422);
+  });
+});
 
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({
-        message: "the dish you are trying to delete wasn't found",
-      });
-    });
-
-    test('should handle errors', async () => {
-      const mockId = 'existing-dish-id';
-      const errorMessage = 'Database error';
-      req.params = { id: mockId };
-      dishModel.findByIdAndDelete.mockRejectedValue(new Error(errorMessage));
-
-      await dishController.deleteDish(res, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(422);
-      expect(res.json).toHaveBeenCalledWith({ message: errorMessage });
-    });
+describe('DELETE /api/dishes/:id', () => {
+  it('Deletes a dish', async () => {
+    const res = await req
+      .delete(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.status).toBe(204);
+  });
+  it("Doesn't delete others' dishes", async () => {
+    const res = await req
+      .delete(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.status).toBe(204);
+  });
+  it("Doesn't delete non-existing dishes", async () => {
+    const res = await req
+      .delete(`/api/dishes/${dishId.toString()}`)
+      .send({
+        name: 'Not fish',
+      })
+      .set('Cookie', token);
+    expect(res.status).toBe(404);
   });
 });
