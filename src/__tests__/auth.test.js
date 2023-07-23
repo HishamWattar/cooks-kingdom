@@ -34,15 +34,15 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await User.deleteMany({
+    email: newUser.email,
+  });
   await db.closeDatabase();
 });
 
 let redirectUri = null;
 
 describe('Local Auth Endpoints', () => {
-  afterAll(async () => {
-    await db.clearDatabase();
-  });
   describe('Post /api/auth/signup', () => {
     it('Returns a new user', async () => {
       const res = await req.post('/api/auth/signup').send(newUser);
