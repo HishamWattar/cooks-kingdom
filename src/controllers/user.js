@@ -11,34 +11,42 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
+const updateUserRole = async (req, res, next) => {
+  try {
+    const { role } = req.body;
+    const user = await User.findById(req.user.id);
+
+    // Check if user already has a role
+    if (user.role) {
+      return next(new CustomError("You can't change your role", 422));
+    }
+
+    // Email admin in case a user wants to be a chef
+    if (role === 'chef') {
+      const admin = await User.findOne({ role: 'admin' });
+      sendEmail(admin.email, user._id);
+    }
+
+    // Update a user role and type
+    await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        role,
+        type: role,
+      },
+      {
+        new: true,
+        overwriteDiscriminatorKey: true,
+      }
+    );
+    return res.json({ message: 'Your role has been updated successfully' });
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 const updateUserProfile = async (req, res, next) => {
   try {
-    // Solution 1 for addresses and does not change the address id
-    // And require user to send address id he wants to update besides the updated address fields
-    // if (addresses && addresses.length > 0) {
-    //   // eslint-disable-next-line no-restricted-syntax
-    //   for (const address of addresses) {
-    //     const addressIdToUpdate = address._id; // Assuming you have a unique identifier for the address, like _id
-    //     // eslint-disable-next-line no-await-in-loop
-    //     await User.updateMany(
-    //       { _id: req.user.id, 'addresses._id': addressIdToUpdate },
-    //       { $set: { 'addresses.$': address } }
-    //     );
-    //   }
-    // }
-
-    // if (addresses && addresses.length > 0) {
-    //   // eslint-disable-next-line no-restricted-syntax
-    //   for (const address of addresses) {
-    //     const addressIdToUpdate = address.id; // Use the custom id field
-    //     // eslint-disable-next-line no-await-in-loop
-    //     await User.updateOne(
-    //       { _id: req.user.id },
-    //       { $set: { 'addresses.$[elem]': address } },
-    //       { arrayFilters: [{ 'elem.id': addressIdToUpdate }] }
-    //     );
-    //   }
-    // }
     const {
       name,
       addresses,
@@ -49,7 +57,6 @@ const updateUserProfile = async (req, res, next) => {
       role,
       experienceYears,
       bio,
-      rating,
       specialty,
       preferences,
       allergies,
@@ -67,33 +74,16 @@ const updateUserProfile = async (req, res, next) => {
       role,
       experienceYears,
       bio,
-      rating,
       specialty,
       preferences,
       allergies,
     };
 
     const user = await User.findById(req.user.id);
-    // If the user role is not specified yet
+
+    // Check if user didn't specify his role yet
     if (!user.role) {
-      if (role) {
-        updateData.type = role;
-        options.overwriteDiscriminatorKey = true;
-      }
-
-      // Check if the user wants to be a chef
-      if (role === 'chef') {
-        // Email admin in case user wants to an admin
-        const admin = await User.findOne({ role: 'admin' });
-        sendEmail(admin.email, user._id);
-      }
-
-      // solution 2 for addresses and changes the address id
-      updatedUser = await User.findByIdAndUpdate(
-        req.user.id,
-        updateData,
-        options
-      );
+      return next(new CustomError('You should update your role first', 400));
     }
 
     // Update the user based on their role
@@ -120,4 +110,5 @@ const updateUserProfile = async (req, res, next) => {
 module.exports = {
   getUserProfile,
   updateUserProfile,
+  updateUserRole,
 };

@@ -141,12 +141,8 @@ const customerModel = userModel.discriminator(
   'customer'
 );
 
-// Admin model
-const adminModel = userModel.discriminator('Admin', new Schema(), 'admin');
-
 module.exports = {
   User: userModel,
   Customer: customerModel,
   Chef: chefModel,
-  Admin: adminModel,
 };

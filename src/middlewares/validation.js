@@ -132,6 +132,14 @@ const updateUser = [
     .optional(),
 ];
 
+const updateRole = [
+  check('role')
+    .notEmpty() // Allow the role field to be optional
+    .withMessage('role should not be empty')
+    .isIn(['customer', 'chef'])
+    .withMessage('role should be chef or customer'),
+];
+
 // Validation rules when user update his profile
 const updateProfile = [
   check('firstName')
@@ -165,21 +173,6 @@ const updateProfile = [
     })
     .withMessage('Only one address can be set as a default'),
   check('email').isEmail().withMessage('Invalid Email').optional(),
-  check('role')
-    .optional() // Allow the role field to be optional
-    // eslint-disable-next-line consistent-return
-    .custom(async (value, { req }) => {
-      const userWithRole = await User.findOne({
-        _id: req.user.id,
-        role: { $exists: true },
-      });
-      if (userWithRole && value !== undefined) {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        return Promise.reject('You already have a role');
-      }
-    })
-    .isIn(['customer', 'chef'])
-    .withMessage('role should be chef or customer'),
 ];
 
 // This middleware to handle the validation rules that are defined above
@@ -196,6 +189,7 @@ module.exports = {
   signin,
   createUser,
   updateUser,
+  updateRole,
   updateProfile,
   validationHandler,
 };

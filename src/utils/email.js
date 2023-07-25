@@ -55,7 +55,7 @@ const sendEmail = (email, userId) => {
         <p>Hello Admin,</p>
         <p>A user has requested to become a chef on our platform. Please review the request and approve it if appropriate.</p>
         <p>To approve the user, click the button below:</p>
-        <a href="http://localhost:3000/admin/approve-user/${userId}" class="btn">
+        <a href="http://localhost:3000/api/admin/user/approve-chef/${userId}" class="btn">
           Approve
         </a>
         <p>If you have any questions or need further information, please contact our support team.</p>
