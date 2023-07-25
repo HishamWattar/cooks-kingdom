@@ -50,7 +50,7 @@ const dishes = [
   },
 ];
 
-describe('Auth Endpoints', () => {
+describe('cart Endpoints', () => {
   describe('post /api/cart/', () => {
     it('Creates new cart', async () => {
       req

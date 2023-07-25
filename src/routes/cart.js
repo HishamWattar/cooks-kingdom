@@ -1,3 +1,22 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Cart
+ *   description: API endpoints for managing the cart
+ */
+
+/**
+ * @swagger
+ * /cart:
+ *   post:
+ *     summary: Create a new cart
+ *     tags: [Cart]
+ *     responses:
+ *       201:
+ *         description: Successfully created a new cart
+ *       500:
+ *         description: Failed to create cart
+ */
 const express = require('express');
 const cartControllers = require('../controllers/cart');
 
