@@ -1,0 +1,6 @@
+paths:
+  /api/auth/google:
+    get:
+      tags:
+        - Authentication
+      summary: Signin to the website using 3rd party authentication service

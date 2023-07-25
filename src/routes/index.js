@@ -2,9 +2,9 @@ const express = require('express');
 
 const routes = express.Router();
 const authRoutes = require('./auth');
-const cartRoutes = require('./cart');
+const adminRoutes = require('./admin');
 
 routes.use('/auth', authRoutes);
-routes.use('/cart', cartRoutes);
+routes.use('/admin/user', adminRoutes);
 
 module.exports = routes;

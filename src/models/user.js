@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
@@ -66,7 +67,6 @@ const userSchema = new Schema(
     },
     providerId: {
       type: String,
-      unique: true,
     },
     provider: {
       type: String,
@@ -84,6 +84,35 @@ const userSchema = new Schema(
     discriminatorKey: 'type',
   }
 );
+userSchema.pre('save', async function (next) {
+  // Only hash the password if it's being modified (or new)
+  if (!this.isModified('password')) {
+    return next();
+  }
+
+  try {
+    // Generate a salt to add to the password hash
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash the password with the generated salt
+    // Replace the plaintext password with the hashed password
+    this.password = await bcrypt.hash(this.password, salt);
+
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+// Hide "__v" and "password" fields from query results
+userSchema.set('toJSON', {
+  transform(doc, ret) {
+    // eslint-disable-next-line no-param-reassign
+    delete ret.__v;
+    // eslint-disable-next-line no-param-reassign
+    delete ret.password;
+  },
+});
 
 // Base user model
 const userModel = mongoose.model('User', userSchema);
@@ -97,7 +126,6 @@ const chefModel = userModel.discriminator(
     rating: Number,
     specialty: {
       type: String,
-      required: true,
     },
   }),
   'chef'
