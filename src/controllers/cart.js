@@ -27,7 +27,9 @@ exports.deleteCart = async (req, res) => {
   try {
     const userId = getUserID(req);
     Cart.deleteOne({ customerId: userId });
-    res.status(204).end();
+    res.status(204).json({
+      message: 'the cart was deleted',
+    });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete cart', error: err });
   }
