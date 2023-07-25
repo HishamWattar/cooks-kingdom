@@ -1,5 +1,6 @@
 const { check, validationResult } = require('express-validator');
 require('../utils/customError');
+const { User } = require('../models/user');
 
 // Validation rules for signup
 const signup = [
@@ -116,7 +117,7 @@ const updateUser = [
     .isLength({ min: 6 })
     .withMessage('name should be at least 6 characters long')
     .matches(/^\S+$/)
-    .withMessage('firstName should not include spaces and special charters')
+    .withMessage('name should not include spaces and special charters')
     .optional(),
   check('email').isEmail().withMessage('Invalid Email').optional(),
   check('password')
@@ -129,6 +130,56 @@ const updateUser = [
       'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'
     )
     .optional(),
+];
+
+// Validation rules when user update his profile
+const updateProfile = [
+  check('firstName')
+    .isLength({ min: 3 })
+    .withMessage('firstName should be at least 3 characters long')
+    .matches(/^[A-Za-z]+$/)
+    .withMessage('firstName should not include spaces and special charters')
+    .optional(),
+  check('lastName')
+    .isLength({ min: 3 })
+    .withMessage('lastName should be at least 3 characters long')
+    .matches(/^[A-Za-z]+$/)
+    .withMessage('firstName should not include spaces and special charters')
+    .optional(),
+  check('name')
+    .isLength({ min: 6 })
+    .withMessage('name should be at least 6 characters long')
+    .matches(/^\S+$/)
+    .withMessage('name should not include spaces and special charters')
+    .optional(),
+  // special code :D
+  check('addresses.*.isDefault')
+    .isBoolean()
+    .withMessage('isDefault should be either true or false')
+    .custom((value, { req }) => {
+      const { addresses } = req.body;
+      const isDefaultCount = addresses.filter(
+        (address) => address.isDefault
+      ).length;
+      return isDefaultCount <= 1;
+    })
+    .withMessage('Only one address can be set as a default'),
+  check('email').isEmail().withMessage('Invalid Email').optional(),
+  check('role')
+    .optional() // Allow the role field to be optional
+    // eslint-disable-next-line consistent-return
+    .custom(async (value, { req }) => {
+      const userWithRole = await User.findOne({
+        _id: req.user.id,
+        role: { $exists: true },
+      });
+      if (userWithRole && value !== undefined) {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        return Promise.reject('You already have a role');
+      }
+    })
+    .isIn(['customer', 'chef'])
+    .withMessage('role should be chef or customer'),
 ];
 
 // This middleware to handle the validation rules that are defined above
@@ -145,5 +196,6 @@ module.exports = {
   signin,
   createUser,
   updateUser,
+  updateProfile,
   validationHandler,
 };
