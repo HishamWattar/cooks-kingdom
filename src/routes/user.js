@@ -7,6 +7,7 @@ const {
   updateProfile,
   validationHandler,
   updateRole,
+  updateAddress,
 } = require('../middlewares/validation');
 
 // Get authenticated user profile
@@ -19,6 +20,15 @@ routes.put(
   updateRole,
   validationHandler,
   userController.updateUserRole
+);
+
+// Update an authenticated user address by id
+routes.put(
+  '/profile/address/:id',
+  isAuthenticated,
+  updateAddress,
+  validationHandler,
+  userController.updateUserAddress
 );
 
 // Update authenticated user profile

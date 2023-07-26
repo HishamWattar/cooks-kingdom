@@ -45,6 +45,37 @@ const updateUserRole = async (req, res, next) => {
   }
 };
 
+const updateUserAddress = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { address } = req.body;
+    // const user = await User.findById(req.user.id);
+
+    // TODO ASK KISHI IF THIS IS A GOOD APPROACH
+    const updatedUserAddress = await User.findOneAndUpdate(
+      {
+        _id: req.user.id,
+        'addresses._id': id,
+      },
+      {
+        $set: {
+          'addresses.$.city': address.city,
+          'addresses.$.country': address.country,
+          'addresses.$.street': address.street,
+          'addresses.$.block': address.block,
+          'addresses.$.postalCode': address.postalCode,
+          'addresses.$.apartment': address.apartment,
+          'addresses.$.isDefault': address.isDefault,
+        },
+      },
+      { new: true }
+    );
+
+    return res.json(updatedUserAddress);
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
 const updateUserProfile = async (req, res, next) => {
   try {
     const {
@@ -54,7 +85,6 @@ const updateUserProfile = async (req, res, next) => {
       lastName,
       email,
       avatar,
-      role,
       experienceYears,
       bio,
       specialty,
@@ -66,12 +96,11 @@ const updateUserProfile = async (req, res, next) => {
     let updatedUser;
     const updateData = {
       name,
-      $set: { addresses },
+      $push: { addresses },
       firstName,
       lastName,
       email,
       avatar,
-      role,
       experienceYears,
       bio,
       specialty,
@@ -109,6 +138,7 @@ const updateUserProfile = async (req, res, next) => {
 
 module.exports = {
   getUserProfile,
-  updateUserProfile,
   updateUserRole,
+  updateUserAddress,
+  updateUserProfile,
 };
