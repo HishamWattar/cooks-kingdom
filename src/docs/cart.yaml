@@ -1,5 +1,5 @@
 paths:
-  /cart/:               
+  /api/cart/:               
     post:                
       tags:               
         - Cart            
@@ -26,7 +26,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.  
         500:
           description: Internal Server Error.        
-  /cart/CartItem/{dishId}:
+  /api/cart/CartItem/{id}:
       get:
         tags:
           - cartItem
