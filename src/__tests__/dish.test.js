@@ -3,6 +3,7 @@ const supertest = require('supertest');
 const dishModel = require('../models/dish');
 const app = require('../app');
 const db = require('../db/connection');
+const { User } = require('../models/user');
 
 const req = supertest(app);
 
@@ -105,7 +106,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await db.clearDatabase();
+  // await db.clearDatabase();
+  await dishModel.deleteMany({});
+  await User.deleteMany({});
+
   await db.closeDatabase();
 });
 
@@ -177,7 +181,6 @@ describe('POST /api/dishes', () => {
     const res = await req
       .post('/api/dishes')
       .send(spaghetti)
-
       .set('Cookie', ownerChefToken);
     spaghettiId = res.body.data._id;
     expect(res.body.data.name).toBe('Spaghetti Bolognese');
