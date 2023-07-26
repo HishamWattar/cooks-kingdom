@@ -2,7 +2,9 @@ const Cart = require('../models/cart');
 
 exports.postCart = async (req, res) => {
   try {
-    const cart = new Cart({ customerId: req.user.id });
+    let cart = Cart.findOne({ customerId: req.user.id });
+    if (cart) res.status(300).json({ message: 'user already has a cart' });
+    cart = new Cart({ customerId: req.user.id });
     await cart.save();
     res.status(201).json(cart);
   } catch (err) {
