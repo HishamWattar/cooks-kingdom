@@ -1,32 +1,21 @@
-const jwt = require('jsonwebtoken');
 const Cart = require('../models/cart');
-
-function getUserID(req) {
-  let bearerToken = req.header('Authorization');
-  bearerToken = bearerToken.split(' ');
-  const token = bearerToken[1];
-  const decoded = jwt.verify(token, process.env.APP_SECRET);
-  return decoded.userId;
-}
 
 exports.postCart = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    const cart = new Cart({ customerId: userId });
+    const cart = new Cart({ customerId: req.user.id });
     await cart.save();
     res.status(201).json(cart);
   } catch (err) {
     res.status(500).json({
       message: 'Failed to create cart',
-      error: req.header('Authorization'),
+      error: err,
     });
   }
 };
 
 exports.deleteCart = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    Cart.deleteOne({ customerId: userId });
+    Cart.deleteOne({ customerId: req.user.id });
     res.status(204).json({
       message: 'the cart was deleted',
     });
@@ -37,8 +26,7 @@ exports.deleteCart = async (req, res) => {
 
 exports.postCartItemByDishId = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    const cart = Cart.findOne({ customerId: userId });
+    const cart = Cart.findOne({ customerId: req.user.id });
     const cartItem = {
       dishId: req.params.id,
       quantity: 1,
@@ -53,8 +41,7 @@ exports.postCartItemByDishId = async (req, res) => {
 
 exports.putCartItemByDishId = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    const cart = Cart.findOne({ customerId: userId });
+    const cart = Cart.findOne({ customerId: req.user.id });
     const cartItem = cart.cartItems.find(
       (item) => item.dishId === req.params.id
     );
@@ -72,8 +59,7 @@ exports.putCartItemByDishId = async (req, res) => {
 
 exports.getCartItemByDishId = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    const cart = Cart.findOne({ customerId: userId });
+    const cart = Cart.findOne({ customerId: req.user.id });
     const cartItem = cart.cartItems.find(
       (item) => item.dishId === req.params.id
     );
@@ -89,8 +75,7 @@ exports.getCartItemByDishId = async (req, res) => {
 
 exports.deleteCartItemByDishId = async (req, res) => {
   try {
-    const userId = getUserID(req);
-    const cart = Cart.findOne({ customerId: userId });
+    const cart = Cart.findOne({ customerId: req.user.id });
     const cartItemIndex = cart.cartItems.findIndex(
       (item) => item.dishId === req.params.id
     );

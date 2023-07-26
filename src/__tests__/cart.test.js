@@ -1,11 +1,12 @@
 const supertest = require('supertest');
 const app = require('../app');
+const db = require('../db/connection');
+const { User } = require('../models/user');
 
 // Mock the getUserID function
+let customerToken;
+let customerId;
 const req = supertest(app);
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGJlN2M4ZDljMjcxMjRiNWI2ZmU0MzciLCJpYXQiOjE2OTAyMDUzMjUsImV4cCI6MTY5MTUwMTMyNX0.9GPQYXtWvI5OFYVowYrqOR8oidzkiaPesxdpiU8IsFo';
-let cartId;
 const dishId = 'one';
 const dishes = [
   {
@@ -50,17 +51,38 @@ const dishes = [
   },
 ];
 
+const customerUser = {
+  firstName: 'cartCustomer',
+  lastName: 'cartCustomer',
+  password: 'cartCustomer%123',
+  name: 'cartCustomerUser',
+  email: 'cartCustomer@example.com',
+  role: 'customer',
+};
+
+beforeAll(async () => {
+  db.connectToMongo();
+  const res = await req.post('/api/auth/signup').send(customerUser);
+  customerId = res.body.data._id;
+  [customerToken] = res.headers['set-cookie'][0].split(';');
+});
+
+afterAll(async () => {
+  await User.deleteMany({
+    email: customerUser.email,
+  });
+});
+afterAll(async () => db.closeDatabase());
 describe('cart Endpoints', () => {
   describe('post /api/cart/', () => {
-    it('Creates new cart', async () => {
+    test('Creates new cart', async () => {
       req
         .post('/api/cart')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .send(dishes[0])
         .expect('Content-Type', /json/)
-        .expect(201, (err, res) => {
-          cartId = res.body._id;
-        });
+        .expect(201)
+        .end();
     });
   });
 
@@ -68,7 +90,7 @@ describe('cart Endpoints', () => {
     it('Deletes cart', async () => {
       req
         .delete('/api/cart')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .expect('Content-Type', /json/)
         .expect(204);
     });
@@ -78,7 +100,7 @@ describe('cart Endpoints', () => {
     it('it adds cartitem to cart by dish Id', async () => {
       req
         .post(`/api/cart/${dishId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .expect('Content-Type', /json/)
         .expect(201);
     });
@@ -88,7 +110,7 @@ describe('cart Endpoints', () => {
     it('it increase the quantity by 1 for the cartitem to cart by dish Id', async () => {
       req
         .put(`/api/cart/${dishId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .expect('Content-Type', /json/)
         .expect(201);
     });
@@ -98,7 +120,7 @@ describe('cart Endpoints', () => {
     it('it gets cartitem by dish Id', async () => {
       req
         .get(`/api/cart/${dishId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .expect('Content-Type', /json/)
         .expect(201);
     });
@@ -108,7 +130,7 @@ describe('cart Endpoints', () => {
     it('it deletes cartitem by dish Id', async () => {
       req
         .delete(`/api/cart/${dishId}`)
-        .set('Authorization', `Bearer ${token}`)
+        .set('Cookie', customerToken)
         .expect('Content-Type', /json/)
         .expect(201);
     });
