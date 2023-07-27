@@ -1,5 +1,20 @@
 paths:
-  /api/cart/:               
+  /api/cart/:    
+    get:                
+      tags:               
+        - Cart            
+      summary: gets a cart for the user
+      produces:
+      - application/json
+      responses:          
+        201:
+          description: An object with a cart 
+        404:
+          description: cart not found
+        401:
+          description: Unauthenticated. Please check if you are logged in.  
+        500:
+          description: Internal Server Error.             
     post:                
       tags:               
         - Cart            
@@ -65,6 +80,8 @@ paths:
         responses:
           '200':
             description: An object with cart
+          '300':
+            description: item already in cart  
           401:
             description: Unauthenticated. Please check if you are logged in.  
           500:
@@ -79,6 +96,10 @@ paths:
           - name: dishId
             in: path
             description: ID of dish that needs to be updated
+            required: true
+          - name: qauntity
+            in: body
+            description: quantity for the item, must be greater than 0 and less than a 100
             required: true
         produces:
         - application/json  

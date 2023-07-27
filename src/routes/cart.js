@@ -1,6 +1,10 @@
 const express = require('express');
 const cartControllers = require('../controllers/cart');
 const { isAuthenticated, isCustomer } = require('../middlewares/auth');
+const {
+  updateCartItem,
+  validationHandler,
+} = require('../middlewares/validation');
 
 const routes = express.Router();
 
@@ -15,6 +19,8 @@ routes.post(
 );
 routes.put(
   '/cartItem/:id',
+  updateCartItem,
+  validationHandler,
   isAuthenticated,
   isCustomer,
   cartControllers.putCartItemByDishId

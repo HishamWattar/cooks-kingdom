@@ -130,7 +130,14 @@ const updateUser = [
     )
     .optional(),
 ];
-
+// update cartItem quantity
+const updateCartItem = [
+  check('quantity')
+    .notEmpty()
+    .withMessage('Quantity cannot be empty.')
+    .isInt({ min: 1, max: 99 })
+    .withMessage('Quantity must be a number between 1 and 99.'),
+];
 // This middleware to handle the validation rules that are defined above
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
@@ -145,5 +152,6 @@ module.exports = {
   signin,
   createUser,
   updateUser,
+  updateCartItem,
   validationHandler,
 };

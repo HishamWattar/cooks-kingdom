@@ -43,8 +43,7 @@ exports.postCartItemByDishId = async (req, res, next) => {
       customerId: req.user.id,
       'cartItems.dishId': req.params.id,
     });
-    if (cartItem.cartItems[0])
-      return next(new CustomError('item already in cart', 300));
+    if (cartItem) return next(new CustomError('item already in cart', 300));
 
     cartItem = { dishId: req.params.id, quantity: 1 };
     cart.cartItems.push(cartItem);
@@ -65,7 +64,7 @@ exports.putCartItemByDishId = async (req, res, next) => {
     });
 
     if (cart.cartItems[0]) {
-      cart.cartItems[0].quantity += 1;
+      cart.cartItems[0].quantity = req.body.quantity;
       cart.save();
     } else {
       return next(new CustomError('item not found', 404));
