@@ -1,17 +1,25 @@
 const Cart = require('../models/cart');
+const CustomError = require('../utils/customError');
 
-exports.postCart = async (req, res) => {
+exports.getCart = async (req, res, next) => {
   try {
-    let cart = Cart.findOne({ customerId: req.user.id });
-    if (cart) res.status(300).json({ message: 'user already has a cart' });
+    const cart = await Cart.findOne({ customerId: req.user.id });
+    if (!cart) return next(new CustomError('cart not found', 404));
+    return res.status(201).json(cart);
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
+  }
+};
+
+exports.postCart = async (req, res, next) => {
+  try {
+    let cart = await Cart.findOne({ customerId: req.user.id });
+    if (cart) return next(new CustomError('cart already exist', 300));
     cart = new Cart({ customerId: req.user.id });
     await cart.save();
-    res.status(201).json(cart);
+    return res.status(201).json(cart);
   } catch (err) {
-    res.status(500).json({
-      message: 'Failed to create cart',
-      error: err,
-    });
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -26,47 +34,56 @@ exports.deleteCart = async (req, res) => {
   }
 };
 
-exports.postCartItemByDishId = async (req, res) => {
+exports.postCartItemByDishId = async (req, res, next) => {
   try {
-    const cart = Cart.findOne({ customerId: req.user.id });
-    const cartItem = {
-      dishId: req.params.id,
-      quantity: 1,
-    };
+    const cart = await Cart.findOne({ customerId: req.user.id });
+    if (!cart) return next(new CustomError('cart not found', 404));
+
+    let cartItem = await Cart.findOne({
+      customerId: req.user.id,
+      'cartItems.dishId': req.params.id,
+    });
+    if (cartItem.cartItems[0])
+      return next(new CustomError('item already in cart', 300));
+
+    cartItem = { dishId: req.params.id, quantity: 1 };
     cart.cartItems.push(cartItem);
     cart.save();
-    res.status(201).json(cart);
+    return res.status(201).json(cart);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to add item to cart', error: err });
+    return res
+      .status(500)
+      .json({ message: 'Failed to add item to cart', error: err });
   }
 };
 
-exports.putCartItemByDishId = async (req, res) => {
+exports.putCartItemByDishId = async (req, res, next) => {
   try {
-    const cart = Cart.findOne({ customerId: req.user.id });
-    const cartItem = cart.cartItems.find(
-      (item) => item.dishId === req.params.id
-    );
-    if (cartItem) {
-      cartItem.quantity += 1;
+    const cart = await Cart.findOne({
+      customerId: req.user.id,
+      'cartItems.dishId': req.params.id,
+    });
+
+    if (cart.cartItems[0]) {
+      cart.cartItems[0].quantity += 1;
       cart.save();
     } else {
-      res.status(404).json({ message: 'item not found' });
+      return next(new CustomError('item not found', 404));
     }
-    res.status(201).json(cart);
+    return res.status(201).json(cart);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update item', error: err });
+    return next(new CustomError(err.message, 500));
   }
 };
 
 exports.getCartItemByDishId = async (req, res) => {
   try {
-    const cart = Cart.findOne({ customerId: req.user.id });
-    const cartItem = cart.cartItems.find(
-      (item) => item.dishId === req.params.id
-    );
-    if (cartItem) {
-      res.status(201).json(cartItem);
+    const cart = await Cart.findOne({
+      customerId: req.user.id,
+      'cartItems.dishId': req.params.id,
+    });
+    if (cart.cartItems[0]) {
+      res.status(201).json(cart.cartItems[0]);
     } else {
       res.status(404).json({ message: 'item not found' });
     }
@@ -77,18 +94,18 @@ exports.getCartItemByDishId = async (req, res) => {
 
 exports.deleteCartItemByDishId = async (req, res) => {
   try {
-    const cart = Cart.findOne({ customerId: req.user.id });
-    const cartItemIndex = cart.cartItems.findIndex(
-      (item) => item.dishId === req.params.id
-    );
+    const cart = await Cart.findOne({
+      customerId: req.user.id,
+      'cartItems.dishId': req.params.id,
+    });
 
-    if (cartItemIndex !== -1) {
-      cart.cartItems.splice(cartItemIndex, 1);
+    if (cart.cartItems[0]) {
+      cart.cartItems.splice(0, 1);
       cart.save();
     } else {
       res.status(404).json({ message: 'item not found' });
     }
-    res.status(204).json(cart);
+    res.status(204).json({ message: 'the item was deleted' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete item', error: err });
   }

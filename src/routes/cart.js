@@ -4,28 +4,29 @@ const { isAuthenticated, isCustomer } = require('../middlewares/auth');
 
 const routes = express.Router();
 
+routes.get('/', isAuthenticated, isCustomer, cartControllers.getCart);
 routes.post('/', isAuthenticated, isCustomer, cartControllers.postCart);
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
 routes.post(
-  '/CartItem/:id',
+  '/cartItem/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.postCartItemByDishId
 );
 routes.put(
-  'CartItem/:id',
+  '/cartItem/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.putCartItemByDishId
 );
 routes.get(
-  'CartItem/:id',
+  '/cartItem/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.getCartItemByDishId
 );
 routes.delete(
-  'CartItem/:id',
+  '/cartItem/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.deleteCartItemByDishId
