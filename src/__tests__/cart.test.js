@@ -41,9 +41,9 @@ beforeAll(async () => {
   const res = await req.post('/api/auth/signup').send(customerUser);
   customerId = res.body.data._id;
   [customerToken] = res.headers['set-cookie'][0].split(';');
-  const dish = new Dish(dishes[0]);
-  await dish.save();
-  dishId = dish.id;
+  // const dish = new Dish(dishes[0]);
+  // await dish.save();
+  dishId = customerId;
 });
 
 afterAll(async () => {
