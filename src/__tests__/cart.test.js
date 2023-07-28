@@ -1,17 +1,18 @@
 const supertest = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
-const { User } = require('../models/user');
 const { connectDB, dropDB } = require('../utils/setuptestdb');
+const Dish = require('../models/dish');
+
 // Mock the getUserID function
 let customerToken;
 let customerId;
 const req = supertest(app);
-const dishId = 'one';
+let dishId;
 const dishes = [
   {
     name: 'Spaghetti Carbonara',
-    chefId: 'I1NiIsInR5cCI6Ikp',
+    chefId: customerId,
     description:
       'Classic Italian pasta dish with eggs, cheese, pancetta, and black pepper.',
     image: 'spaghetti-carbonara.jpg',
@@ -23,31 +24,6 @@ const dishes = [
       'Black Pepper',
     ],
     price: 12.99,
-  },
-  {
-    name: 'Chicken Alfredo',
-    chefId: 'bGciOiJIUzI1NiI',
-    description:
-      'Creamy pasta dish with grilled chicken, Alfredo sauce, and Parmesan cheese.',
-    image: 'chicken-alfredo.jpg',
-    ingredients: [
-      'Fettuccine',
-      'Chicken',
-      'Heavy Cream',
-      'Butter',
-      'Garlic',
-      'Parmesan Cheese',
-    ],
-    price: 14.99,
-  },
-  {
-    name: 'Steak Au Poivre',
-    chefId: 'jMjcxMjRiNWI2ZmU0Mzci',
-    description:
-      'Tender steak coated in crushed peppercorns, served with a creamy sauce.',
-    image: 'steak-au-poivre.jpg',
-    ingredients: ['Beef Steak', 'Peppercorns', 'Brandy', 'Heavy Cream'],
-    price: 24.99,
   },
 ];
 
@@ -65,6 +41,9 @@ beforeAll(async () => {
   const res = await req.post('/api/auth/signup').send(customerUser);
   customerId = res.body.data._id;
   [customerToken] = res.headers['set-cookie'][0].split(';');
+  const dish = new Dish(dishes[0]);
+  await dish.save();
+  dishId = dish.id;
 });
 
 afterAll(async () => {
@@ -87,43 +66,92 @@ describe('Cart Endpoints', () => {
       expect(res.body.message).toBe('Unauthenticated');
     });
   });
-  // describe('delete /api/cart/', () => {
-  //   it('Deletes cart', async () => {
-  //     req.delete('/api/cart').set('Cookie', customerToken);
 
-  //     expect(204);
-  //   });
-  // });
+  describe('get /api/cart', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req.get('/api/cart').set('Cookie', customerToken);
 
-  // describe('post /api/cart/', () => {
-  //   it('it adds cartitem to cart by dish Id', async () => {
-  //     req.post(`/api/cart/${dishId}`).set('Cookie', customerToken);
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(200);
+    });
 
-  //     expect(201);
-  //   });
-  // });
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.post('/api/cart');
 
-  // describe('put /api/cart/', () => {
-  //   it('it increase the quantity by 1 for the cartitem to cart by dish Id', async () => {
-  //     req.put(`/api/cart/${dishId}`).set('Cookie', customerToken);
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
+    });
+  });
 
-  //     expect(201);
-  //   });
-  // });
+  describe('delete /api/cart', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req.delete('/api/cart').set('Cookie', customerToken);
 
-  // describe('get /api/cart/', () => {
-  //   it('it gets cartitem by dish Id', async () => {
-  //     req.get(`/api/cart/${dishId}`).set('Cookie', customerToken);
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(204);
+    });
 
-  //     expect(201);
-  //   });
-  // });
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.post('/api/cart');
 
-  // describe('delete /api/cart/', () => {
-  //   it('it deletes cartitem by dish Id', async () => {
-  //     req.delete(`/api/cart/${dishId}`).set('Cookie', customerToken);
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
+    });
+  });
+});
 
-  //     expect(201);
-  //   });
-  // });
+describe('CartItem Endpoints', () => {
+  describe('post /api/cart/cartItem/:dishId', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req
+        .post(`/api/cart/cartItem/${dishId}`)
+        .set('Cookie', customerToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(201);
+    });
+
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.post(`/api/cart/cartItem/${dishId}`);
+
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
+    });
+  });
+
+  describe('get /api/cart/cartItem/:dishId', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req
+        .get(`/api/cart/cartItem/${dishId}`)
+        .set('Cookie', customerToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(200);
+    });
+
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.get(`/api/cart/cartItem/${dishId}`);
+
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
+    });
+  });
+
+  describe('delete /api/cart/cartItem/:dishId', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req
+        .delete(`/api/cart/cartItem/${dishId}`)
+        .set('Cookie', customerToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(204);
+    });
+
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.delete('/api/cart');
+
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
+    });
+  });
 });

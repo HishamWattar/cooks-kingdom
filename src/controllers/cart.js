@@ -5,7 +5,7 @@ exports.getCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ customerId: req.user.id });
     if (!cart) return next(new CustomError('cart not found', 404));
-    return res.status(201).json(cart);
+    return res.status(200).json(cart);
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -82,7 +82,7 @@ exports.getCartItemByDishId = async (req, res) => {
       'cartItems.dishId': req.params.id,
     });
     if (cart.cartItems[0]) {
-      res.status(201).json(cart.cartItems[0]);
+      res.status(200).json(cart.cartItems[0]);
     } else {
       res.status(404).json({ message: 'item not found' });
     }
