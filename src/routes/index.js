@@ -8,7 +8,7 @@ const cartRoutes = require('./cart');
 
 routes.use('/auth', authRoutes);
 routes.use('/dishes', dishRoutes);
-routes.use('/cart', cartRoutes);
 routes.use('/admin/user', adminRoutes);
+routes.use('/cart', cartRoutes);
 
 module.exports = routes;
