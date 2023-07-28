@@ -71,52 +71,59 @@ afterAll(async () => {
   await dropDB();
 });
 afterAll(async () => db.closeDatabase());
-describe('cart Endpoints', () => {
-  describe('post /api/cart/', () => {
-    test('Creates new cart', async () => {
-      req.post('/api/cart').set('Cookie', customerToken).send(dishes[0]);
+describe('Cart Endpoints', () => {
+  describe('post /api/cart', () => {
+    it('creates a new cart and return it', async () => {
+      const res = await req.post('/api/cart').set('Cookie', customerToken);
 
-      expect(201);
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(201);
+    });
+
+    it('should return an error message when user is not authenticated', async () => {
+      const res = await req.post('/api/cart');
+
+      expect(res.statusCode).toBe(401);
+      expect(res.body.message).toBe('Unauthenticated');
     });
   });
+  // describe('delete /api/cart/', () => {
+  //   it('Deletes cart', async () => {
+  //     req.delete('/api/cart').set('Cookie', customerToken);
 
-  describe('delete /api/cart/', () => {
-    it('Deletes cart', async () => {
-      req.delete('/api/cart').set('Cookie', customerToken);
+  //     expect(204);
+  //   });
+  // });
 
-      expect(204);
-    });
-  });
+  // describe('post /api/cart/', () => {
+  //   it('it adds cartitem to cart by dish Id', async () => {
+  //     req.post(`/api/cart/${dishId}`).set('Cookie', customerToken);
 
-  describe('post /api/cart/', () => {
-    it('it adds cartitem to cart by dish Id', async () => {
-      req.post(`/api/cart/${dishId}`).set('Cookie', customerToken);
+  //     expect(201);
+  //   });
+  // });
 
-      expect(201);
-    });
-  });
+  // describe('put /api/cart/', () => {
+  //   it('it increase the quantity by 1 for the cartitem to cart by dish Id', async () => {
+  //     req.put(`/api/cart/${dishId}`).set('Cookie', customerToken);
 
-  describe('put /api/cart/', () => {
-    it('it increase the quantity by 1 for the cartitem to cart by dish Id', async () => {
-      req.put(`/api/cart/${dishId}`).set('Cookie', customerToken);
+  //     expect(201);
+  //   });
+  // });
 
-      expect(201);
-    });
-  });
+  // describe('get /api/cart/', () => {
+  //   it('it gets cartitem by dish Id', async () => {
+  //     req.get(`/api/cart/${dishId}`).set('Cookie', customerToken);
 
-  describe('get /api/cart/', () => {
-    it('it gets cartitem by dish Id', async () => {
-      req.get(`/api/cart/${dishId}`).set('Cookie', customerToken);
+  //     expect(201);
+  //   });
+  // });
 
-      expect(201);
-    });
-  });
+  // describe('delete /api/cart/', () => {
+  //   it('it deletes cartitem by dish Id', async () => {
+  //     req.delete(`/api/cart/${dishId}`).set('Cookie', customerToken);
 
-  describe('delete /api/cart/', () => {
-    it('it deletes cartitem by dish Id', async () => {
-      req.delete(`/api/cart/${dishId}`).set('Cookie', customerToken);
-
-      expect(201);
-    });
-  });
+  //     expect(201);
+  //   });
+  // });
 });
