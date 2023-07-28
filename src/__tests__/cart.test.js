@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
 const Dish = require('../models/dish');
+const Cart = require('../models/cart');
 const { User } = require('../models/user');
 
 // Mock the getUserID function
@@ -50,8 +51,8 @@ afterAll(async () => {
   await User.deleteMany({
     email: customerUser.email,
   });
-  await Dish.deleteMany({ id: dishId });
-
+  await Dish.deleteMany({});
+  await Cart.deleteMany({});
   await db.closeDatabase();
 });
 describe('Cart Endpoints', () => {
