@@ -2,7 +2,7 @@ const supertest = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
 const { User } = require('../models/user');
-
+const { connectDB, dropDB } = require('../utils/setuptestdb');
 // Mock the getUserID function
 let customerToken;
 let customerId;
@@ -61,16 +61,14 @@ const customerUser = {
 };
 
 beforeAll(async () => {
-  db.connectToMongo();
+  await connectDB();
   const res = await req.post('/api/auth/signup').send(customerUser);
   customerId = res.body.data._id;
   [customerToken] = res.headers['set-cookie'][0].split(';');
 });
 
 afterAll(async () => {
-  await User.deleteMany({
-    email: customerUser.email,
-  });
+  await dropDB();
 });
 afterAll(async () => db.closeDatabase());
 describe('cart Endpoints', () => {
