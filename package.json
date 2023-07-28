@@ -15,6 +15,7 @@
     "postinstall": "husky install && husky add .husky/pre-commit \"yarn validate-staged\" && husky add .husky/pre-push \"yarn test\""
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.12.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^14.2.0",
@@ -22,6 +23,7 @@
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.0",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.4",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
@@ -29,6 +31,7 @@
     "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0",
     "yarn-upgrade-all": "^0.6.1"
   },
   "devDependencies": {

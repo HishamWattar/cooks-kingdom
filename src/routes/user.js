@@ -1,6 +1,7 @@
 const express = require('express');
 
 const routes = express.Router();
+
 const userController = require('../controllers/user');
 const { isAuthenticated } = require('../middlewares/auth');
 const {
@@ -9,6 +10,7 @@ const {
   updateRole,
   updateAddress,
 } = require('../middlewares/validation');
+const upload = require('../middlewares/multer');
 
 // Get authenticated user profile
 routes.get('/me', isAuthenticated, userController.getUserProfile);
@@ -39,5 +41,15 @@ routes.put(
   validationHandler,
   userController.updateUserProfile
 );
+
+// Upload a new profile picture for authenticated user profile
+routes.post(
+  '/profile/upload',
+  isAuthenticated,
+  upload.single('image'),
+  userController.uploadUserImage
+);
+
+routes.delete('/profile', isAuthenticated, userController.deleteUserProfile);
 
 module.exports = routes;

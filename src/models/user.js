@@ -73,6 +73,7 @@ const userSchema = new Schema(
       enum: ['customer', 'chef', 'admin'],
     },
     addresses: [addressSchema], // User addresses
+    isActive: Boolean,
   },
   {
     timestamps: true,

@@ -19,14 +19,17 @@ const isAuthenticated = async (req, res, next) => {
 };
 
 const isChef = (req, res, next) => {
-  if (req.user.role === 'chef') {
+  if (
+    (req.user.role === 'chef' && req.user.isApproved) ||
+    req.user.role === 'admin'
+  ) {
     return next();
   }
   return res.status(403).json({ message: 'This action is unauthorized' });
 };
 
 const isCustomer = (req, res, next) => {
-  if (req.user.role === 'customer') {
+  if (req.user.role === 'customer' || req.user.role === 'admin') {
     return next();
   }
   return res.status(403).json({ message: 'This action is unauthorized' });

@@ -1,6 +1,7 @@
 const { User, Chef, Customer } = require('../models/user');
 const CustomError = require('../utils/customError');
 const sendEmail = require('../utils/email');
+const uploadImage = require('../services/gcs');
 
 const getUserProfile = async (req, res, next) => {
   try {
@@ -49,9 +50,7 @@ const updateUserAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { address } = req.body;
-    // const user = await User.findById(req.user.id);
 
-    // TODO ASK KISHI IF THIS IS A GOOD APPROACH
     const updatedUserAddress = await User.findOneAndUpdate(
       {
         _id: req.user.id,
@@ -70,6 +69,10 @@ const updateUserAddress = async (req, res, next) => {
       },
       { new: true }
     );
+
+    if (!updatedUserAddress) {
+      return next(new CustomError('Address is not found', 404));
+    }
 
     return res.json(updatedUserAddress);
   } catch (error) {
@@ -136,9 +139,42 @@ const updateUserProfile = async (req, res, next) => {
   }
 };
 
+const uploadUserImage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      const imgUrl = await uploadImage(req.file);
+      await User.findByIdAndUpdate(
+        req.user.id,
+        {
+          avatar: imgUrl,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.json({ message: 'Profile image uploaded successfully' });
+    }
+    return next(new CustomError('Please provide a profile image', 422));
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
+const deleteUserProfile = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, { isActive: false });
+    res.clearCookie('token');
+    return res.sendStatus(204);
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 module.exports = {
   getUserProfile,
   updateUserRole,
   updateUserAddress,
   updateUserProfile,
+  uploadUserImage,
+  deleteUserProfile,
 };
