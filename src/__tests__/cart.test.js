@@ -1,8 +1,8 @@
 const supertest = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
-const { connectDB, dropDB } = require('../utils/setuptestdb');
 const Dish = require('../models/dish');
+const { User } = require('../models/user');
 
 // Mock the getUserID function
 let customerToken;
@@ -37,7 +37,7 @@ const customerUser = {
 };
 
 beforeAll(async () => {
-  await connectDB();
+  await db.connectToMongo();
   const res = await req.post('/api/auth/signup').send(customerUser);
   customerId = res.body.data._id;
   [customerToken] = res.headers['set-cookie'][0].split(';');
@@ -47,9 +47,13 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await dropDB();
+  await User.deleteMany({
+    email: customerUser.email,
+  });
+  await Dish.deleteMany({ id: dishId });
+
+  await db.closeDatabase();
 });
-afterAll(async () => db.closeDatabase());
 describe('Cart Endpoints', () => {
   describe('post /api/cart', () => {
     it('creates a new cart and return it', async () => {

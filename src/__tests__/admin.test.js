@@ -1,6 +1,7 @@
 const supertest = require('supertest');
 const app = require('../app'); // Import your Express app
 const db = require('../db/connection');
+const { User } = require('../models/user');
 
 const req = supertest(app);
 
@@ -36,7 +37,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await db.clearDatabase();
+  // await db.clearDatabase();
+  await User.deleteMany({});
   await db.closeDatabase();
 });
 
