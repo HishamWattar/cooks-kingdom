@@ -1,0 +1,219 @@
+paths:
+  /api/user/me:
+    get:
+      tags:
+        - User
+      summary: Get my profile
+      description: Returns authenticated user profile.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '500':
+          description: Internal Server Error.
+
+  /api/user/profile/role:
+    put:
+      tags:
+        - User
+      summary: Update authenticated user role.
+      description: Update authenticated user role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  description: Role of the user
+                  example: chef
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
+  /api/user/profile:
+    put:
+      tags:
+        - User
+      summary: Update authenticated user profile.
+      description: Update authenticated user profile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
+    delete:
+      tags:
+        - User
+      summary: Delete authenticated user profile
+      description: Delete the authenticated user profile.
+      responses:
+        '204':
+          description: Profile deleted successfully
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '500':
+          description: Internal Server Error
+
+  /api/user/profile/address/{id}:
+    put:
+      tags:
+        - User
+      summary: Update authenticated user address.
+      description: Update authenticated user address.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the address to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressUpdate'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+        - User
+      summary: Delete authenticated user's address by addressId
+      description: Delete the address of the authenticated user using the provided addressId.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the address to update.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Address deleted successfully
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '404':
+          description: User or address not found
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
+  /api/user/profile/upload:
+    put:
+      tags:
+        - User
+      summary: Upload an image for authenticated user's profile
+      description: Upload an image for the authenticated user's profile.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The image file to upload (JPEG, PNG, etc.).
+      responses:
+        '200':
+          description: Image uploaded successfully
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        data:
+          type: object
+          $ref: '#/components/schemas/UserData'
+
+    UserData:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: customerName
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          example:
+            - city: 'New York'
+              country: 'USA'
+              street: '123 Main St'
+              block: 'A'
+              postalCode: '10001'
+              apartment: 'Apt 101'
+              isDefault: true
+            - city: 'Los Angeles'
+              country: 'USA'
+              street: '456 Oak Ave'
+              block: 'B'
+              postalCode: '90001'
+              apartment: '202'
+              isDefault: false
+
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+          example: new york
+
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: customerName
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressUpdate'
+
+    AddressUpdate:
+      type: object
+      properties:
+        city:
+          type: string
+          example: new york

@@ -33,6 +33,13 @@ routes.put(
   userController.updateUserAddress
 );
 
+// Delete an authenticated user address by id
+routes.delete(
+  '/profile/address/:id',
+  isAuthenticated,
+  userController.deleteUserAddress
+);
+
 // Update authenticated user profile
 routes.put(
   '/profile',
@@ -43,7 +50,7 @@ routes.put(
 );
 
 // Upload a new profile picture for authenticated user profile
-routes.post(
+routes.put(
   '/profile/upload',
   isAuthenticated,
   upload.single('image'),

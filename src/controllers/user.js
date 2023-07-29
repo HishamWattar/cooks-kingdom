@@ -74,11 +74,37 @@ const updateUserAddress = async (req, res, next) => {
       return next(new CustomError('Address is not found', 404));
     }
 
-    return res.json(updatedUserAddress);
+    return res.json({ message: 'Address updated successfully' });
   } catch (error) {
     return next(new CustomError(error.message, 500));
   }
 };
+
+const deleteUserAddress = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const updateResult = await User.findByIdAndUpdate(
+      {
+        _id: req.user.id,
+      },
+      {
+        $pull: { addresses: { _id: id } },
+      },
+      { new: true }
+    );
+
+    // TODO THIS CONDITION NEEDS TO FIXED LATER
+    if (!updateResult) {
+      return next(new CustomError('Address is not found', 404));
+    }
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 const updateUserProfile = async (req, res, next) => {
   try {
     const {
@@ -131,6 +157,12 @@ const updateUserProfile = async (req, res, next) => {
         updateData,
         options
       );
+    } else {
+      updatedUser = await User.findByIdAndUpdate(
+        req.user.id,
+        updateData,
+        options
+      );
     }
 
     return res.json(updatedUser);
@@ -174,6 +206,7 @@ module.exports = {
   getUserProfile,
   updateUserRole,
   updateUserAddress,
+  deleteUserAddress,
   updateUserProfile,
   uploadUserImage,
   deleteUserProfile,
