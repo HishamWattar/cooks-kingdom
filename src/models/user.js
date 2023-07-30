@@ -4,39 +4,34 @@ const bcrypt = require('bcrypt');
 const { Schema } = mongoose;
 
 // Address schema
-const addressSchema = new Schema(
-  {
-    city: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    street: {
-      type: String,
-      required: true,
-    },
-    block: {
-      type: String,
-      required: true,
-    },
-    postalCode: {
-      type: String,
-    },
-    apartment: {
-      type: Number,
-    },
-    isDefault: {
-      type: Boolean,
-      default: false,
-    },
+const addressSchema = new Schema({
+  city: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  country: {
+    type: String,
+    required: true,
+  },
+  street: {
+    type: String,
+    required: true,
+  },
+  block: {
+    type: String,
+    required: true,
+  },
+  postalCode: {
+    type: String,
+  },
+  apartment: {
+    type: String,
+  },
+  isDefault: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 // Base user schema
 const userSchema = new Schema(
@@ -78,6 +73,7 @@ const userSchema = new Schema(
       enum: ['customer', 'chef', 'admin'],
     },
     addresses: [addressSchema], // User addresses
+    isActive: Boolean,
   },
   {
     timestamps: true,
@@ -124,6 +120,7 @@ const chefModel = userModel.discriminator(
     experienceYears: Number,
     bio: String,
     rating: Number,
+    isApproved: Boolean,
     specialty: {
       type: String,
     },
@@ -145,12 +142,8 @@ const customerModel = userModel.discriminator(
   'customer'
 );
 
-// Admin model
-const adminModel = userModel.discriminator('Admin', new Schema(), 'admin');
-
 module.exports = {
   User: userModel,
   Customer: customerModel,
   Chef: chefModel,
-  Admin: adminModel,
 };

@@ -225,9 +225,6 @@ paths:
           description: Internal Server Error
 
 
-
-
-
 components:
   schemas:
     Address:
@@ -290,6 +287,7 @@ components:
               postalCode: '10001'
               apartment: 'Apt 101'
               isDefault: true
+              _id: '64bbd06f57ca63db37263e23'
             - city: 'Los Angeles'
               country: 'USA'
               street: '456 Oak Ave'
@@ -297,12 +295,10 @@ components:
               postalCode: '90001'
               apartment: 202
               isDefault: false
+              _id: '64bbd06f57ca63db37263e24'
         avatar:
           type: string
           example: profile1picture.jpg
-        providerId:
-          type: string
-          example: 12425635346734125432
         createdAt:
           type: string
           format: date-time
