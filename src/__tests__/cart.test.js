@@ -5,7 +5,6 @@ const Dish = require('../models/dish');
 const Cart = require('../models/cart');
 const { User } = require('../models/user');
 
-// Mock the getUserID function
 let customerToken;
 let customerId;
 const req = supertest(app);

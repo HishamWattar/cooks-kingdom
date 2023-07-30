@@ -21,6 +21,25 @@ paths:
       summary: creates a new cart for the user
       produces:
       - application/json
+      requestBody:
+          description: creates a new cart for the usert.
+          content:
+            application/json:
+              schema:
+               properties:
+                  _id:
+                    type: string
+                    description: cart id
+                    example: 64c69697afcf6e333eace111
+                  customerId:
+                    type: ObjectId
+                    description: last name of user
+                    example: 64c6968dafcf6e333eace10d
+                  cartItems:
+                    type: array
+                    description: array of items
+                    example: []
+          required: true
       responses:          
         201:
           description: An object with new cart 
@@ -68,8 +87,32 @@ paths:
         tags:
           - cartItem
         summary: adds an cartItem to the cart 
-        description: ''
         operationId: postCartItemByDishId
+        requestBody:
+          description: adds a new cart item to cart.
+          content:
+            application/json:
+              schema:
+               properties:
+                  _id:
+                    type: string
+                    description: cart id
+                    example: 64c69697afcf6e333eace111
+                  customerId:
+                    type: ObjectId
+                    description: last name of user
+                    example: 64c6968dafcf6e333eace10d
+                  cartItems:
+                    type: array
+                    description: array of items
+                    example:  
+                      - dishId: '64c236f2a598b483623bf1a9'
+                        quantity: 6
+                        _id: 64c696a0afcf6e333eace116
+                      - dishId: '64c69697afcf6e333eace111'
+                        quantity: 5
+                        _id: 64c698c16af29132bc11b6ef 
+          required: true
         parameters:
           - name: dishId
             in: path
@@ -94,8 +137,34 @@ paths:
         tags:
           - cartItem
         summary: increase the quantity for cartItem by one
-        description: increases the quantity by one for the cartItem
         operationId: putCartItemByDishId
+        requestBody:
+          description: increases the quantity by one for the cartItem.
+          content:
+            application/json:
+              schema:
+               properties:
+                  _id:
+                    type: string
+                    description: cart id
+                    example: 64c69697afcf6e333eace111
+                  customerId:
+                    type: ObjectId
+                    description: last name of user
+                    example: 64c6968dafcf6e333eace10d
+                  cartItems:
+                    type: array
+                    description: array of items
+                    example: 
+                      - dishId: '64c236f2a598b483623bf1a9'
+                        quantity: 6
+                        _id: 64c696a0afcf6e333eace116
+                      - dishId: '64c69697afcf6e333eace111'
+                        quantity: 5
+                        _id: 64c698c16af29132bc11b6ef  
+
+                      
+          required: true
         parameters:
           - name: dishId
             in: path
