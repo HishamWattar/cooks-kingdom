@@ -9,7 +9,8 @@ const connectToMongo = () => {
 
   db.once('open', () => {
     // eslint-disable-next-line no-console
-    console.log('Database connected: ', url);
+    if (process.env.NODE_ENV !== 'test')
+      console.log('Database connected: ', url);
   });
 
   db.on('error', (err) => {
