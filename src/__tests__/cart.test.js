@@ -10,23 +10,6 @@ let customerToken;
 let customerId;
 const req = supertest(app);
 let dishId;
-const dishes = [
-  {
-    name: 'Spaghetti Carbonara',
-    chefId: customerId,
-    description:
-      'Classic Italian pasta dish with eggs, cheese, pancetta, and black pepper.',
-    image: 'spaghetti-carbonara.jpg',
-    ingredients: [
-      'Spaghetti',
-      'Eggs',
-      'Pancetta',
-      'Parmesan Cheese',
-      'Black Pepper',
-    ],
-    price: 12.99,
-  },
-];
 
 const customerUser = {
   firstName: 'cartCustomer',
@@ -59,8 +42,6 @@ describe('Cart Endpoints', () => {
   describe('post /api/cart', () => {
     it('creates a new cart and return it', async () => {
       const res = await req.post('/api/cart').set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(201);
     });
 
@@ -73,10 +54,8 @@ describe('Cart Endpoints', () => {
   });
 
   describe('get /api/cart', () => {
-    it('creates a new cart and return it', async () => {
+    it('gets a cart ', async () => {
       const res = await req.get('/api/cart').set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(200);
     });
 
@@ -89,10 +68,8 @@ describe('Cart Endpoints', () => {
   });
 
   describe('delete /api/cart', () => {
-    it('creates a new cart and return it', async () => {
+    it('deletes a cart ', async () => {
       const res = await req.delete('/api/cart').set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(204);
     });
 
@@ -107,12 +84,10 @@ describe('Cart Endpoints', () => {
 
 describe('CartItem Endpoints', () => {
   describe('post /api/cart/cartItem/:dishId', () => {
-    it('creates a new cart and return it', async () => {
+    it('creates a new cart item and return the cart', async () => {
       const res = await req
         .post(`/api/cart/cartItem/${dishId}`)
         .set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(201);
     });
 
@@ -125,12 +100,10 @@ describe('CartItem Endpoints', () => {
   });
 
   describe('get /api/cart/cartItem/:dishId', () => {
-    it('creates a new cart and return it', async () => {
+    it('gets a cart item ', async () => {
       const res = await req
         .get(`/api/cart/cartItem/${dishId}`)
         .set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(200);
     });
 
@@ -143,12 +116,10 @@ describe('CartItem Endpoints', () => {
   });
 
   describe('delete /api/cart/cartItem/:dishId', () => {
-    it('creates a new cart and return it', async () => {
+    it('deletes cart item and return the cart', async () => {
       const res = await req
         .delete(`/api/cart/cartItem/${dishId}`)
         .set('Cookie', customerToken);
-
-      // Check if the response status code is correct
       expect(res.statusCode).toBe(204);
     });
 

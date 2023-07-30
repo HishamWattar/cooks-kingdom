@@ -45,7 +45,10 @@ exports.postCartItemByDishId = async (req, res, next) => {
     });
     if (cartItem) return next(new CustomError('item already in cart', 300));
 
-    cartItem = { dishId: req.params.id, quantity: 1 };
+    cartItem = {
+      dishId: req.params.id,
+      quantity: req.body.quantity ? req.body.quantity : 1,
+    };
     cart.cartItems.push(cartItem);
     cart.save();
     return res.status(201).json(cart);
@@ -104,7 +107,7 @@ exports.deleteCartItemByDishId = async (req, res) => {
     } else {
       res.status(404).json({ message: 'item not found' });
     }
-    res.status(204).json({ message: 'the item was deleted' });
+    res.status(204).json(cart);
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete item', error: err });
   }

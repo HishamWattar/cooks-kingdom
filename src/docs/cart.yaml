@@ -75,6 +75,10 @@ paths:
             in: path
             description: ID of dish that needs to be added
             required: true
+          - name: qauntity
+            in: body
+            description: quantity for the item, must be greater than 0 and less than a 100
+            required: false  
         produces:
         - application/json  
         responses:
