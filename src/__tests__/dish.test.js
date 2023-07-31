@@ -92,7 +92,7 @@ const chicken = {
 beforeAll(async () => {
   await db.connectToMongo();
   const _ownerChef = await Chef.create(ownerChef);
-  const _otherChef = await Chef.create(otherChef);
+  await Chef.create(otherChef);
   let res = await req.post('/api/auth/signin').send(ownerChef);
   [ownerChefToken] = res.headers['set-cookie'][0].split(';');
   fish.chefId = _ownerChef._id;
