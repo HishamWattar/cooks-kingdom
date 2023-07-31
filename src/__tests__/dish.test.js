@@ -111,6 +111,7 @@ afterAll(async () => {
   // await db.clearDatabase();
   await dishModel.deleteMany({});
   await Chef.deleteMany({});
+
   await db.closeDatabase();
 });
 
