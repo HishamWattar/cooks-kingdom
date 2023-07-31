@@ -1,6 +1,7 @@
 const { check, validationResult } = require('express-validator');
 require('../utils/customError');
 const { User } = require('../models/user');
+const logger = require('../utils/logger');
 
 // Validation rules for signup
 const signup = [
@@ -266,6 +267,7 @@ const updateProfile = [
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    logger.error(errors.array());
     return res.status(422).json({ errors: errors.array() });
   }
   return next();
