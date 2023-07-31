@@ -32,7 +32,6 @@ const orderSchema = new Schema(
     },
     totalPrice: {
       type: Number,
-      required: [true, 'Total Price is required'],
     },
     status: {
       type: String,
@@ -42,13 +41,26 @@ const orderSchema = new Schema(
     orderItems: [orderItemsSchema],
     quantity: {
       type: Number,
-      required: [true, 'Quantity is required'],
     },
   },
   {
     timestamps: true,
   }
 );
+orderSchema.pre('save', function (next) {
+  const order = this;
+
+  // Calculate the total price from the order items
+  const totalPrice = order.orderItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
+  // Update the totalPrice field in the order
+  order.totalPrice = totalPrice;
+
+  return next();
+});
 
 // Order model
 module.exports = mongoose.model('Order', orderSchema);
