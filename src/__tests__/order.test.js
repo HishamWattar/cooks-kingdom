@@ -110,6 +110,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await User.deleteMany({});
+  await dishModel.deleteMany({});
   await Chef.deleteMany({});
   await db.closeDatabase();
 });

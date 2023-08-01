@@ -85,7 +85,7 @@ const deleteOrder = async (req, res) => {
 };
 const addOrderItem = async (req, res) => {
   const { orderId } = req.params;
-  const { dishId, quantity, customerId } = req.body;
+  const { dishId, quantity } = req.body;
 
   try {
     const order = await Order.findById(orderId);
@@ -101,25 +101,29 @@ const addOrderItem = async (req, res) => {
     }
 
     // Calculate the total price for this particular dish in the order
-    const { chefId, price } = dish;
+    const { price } = dish;
     const totalPrice = price * quantity;
-    const status = 'pending';
     // Create the new order item for the dish
     const newOrderItem = {
       dishId,
       quantity,
       price: totalPrice,
     };
-    const orderData = {
-      customerId,
-      chefId,
-      status,
-      orderItems: [newOrderItem],
-      quantity: 1,
-    };
-
-    const newOrder = await Order.create(orderData);
-
+    // const orderData = {
+    //   customerId,
+    //   chefId,
+    //   status,
+    //   orderItems: [newOrderItem],
+    //   quantity: 1,
+    // };
+    const newOrder = await Order.findOneAndUpdate(
+      { _id: orderId },
+      {
+        $push: {
+          orderItems: newOrderItem,
+        },
+      }
+    );
     return res.status(201).json({ data: newOrder });
   } catch (err) {
     return res.status(500).json({ message: 'Internal Server Error' });
