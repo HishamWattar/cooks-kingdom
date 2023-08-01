@@ -8,11 +8,20 @@ const {
   signup,
   signin,
   validationHandler,
+  updatePassword,
 } = require('../middlewares/validation');
 
 routes.post('/signup', signup, validationHandler, authController.signup);
 
 routes.post('/signin', signin, validationHandler, authController.signin);
+
+routes.post(
+  '/update-password',
+  isAuthenticated,
+  updatePassword,
+  validationHandler,
+  authController.changePassword
+);
 
 routes.post('/signout', isAuthenticated, authController.signout);
 
