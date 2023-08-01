@@ -6,6 +6,7 @@ require('dotenv').config();
 require('./config/passport');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
+const logger = require('./utils/logger');
 const globalErrorHandler = require('./middlewares/error');
 
 const apiRoutes = require('./routes/index');
@@ -29,6 +30,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`Server listening on port ${port}`);
+    logger.info(`Server listening on port ${port}`);
     connectToMongo();
   });
 }
