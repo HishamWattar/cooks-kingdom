@@ -130,7 +130,7 @@ const addOrderItem = async (req, res) => {
   }
 };
 
-// chef controller
+// chef controllers
 
 const orderUpdate = async (req, res) => {
   const { orderId } = req.params;
