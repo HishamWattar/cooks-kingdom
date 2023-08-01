@@ -6,11 +6,13 @@ const dishRoutes = require('./dish');
 const adminRoutes = require('./admin');
 const userRoutes = require('./user');
 const orderRoutes = require('./order');
+const cartRoutes = require('./cart');
 
 routes.use('/auth', authRoutes);
 routes.use('/dishes', dishRoutes);
 routes.use('/orders', orderRoutes);
 routes.use('/admin/user', adminRoutes);
 routes.use('/user', userRoutes);
+routes.use('/cart', cartRoutes);
 
 module.exports = routes;
