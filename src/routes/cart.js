@@ -9,16 +9,22 @@ const {
 const routes = express.Router();
 
 routes.get('/', isAuthenticated, isCustomer, cartControllers.getCart);
-routes.post('/', isAuthenticated, isCustomer, cartControllers.postCart);
+routes.post(
+  '/',
+  updateCartItem,
+  isAuthenticated,
+  isCustomer,
+  cartControllers.postCart
+);
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
 routes.post(
-  '/cartItem/:id',
+  '/item/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.postCartItemByDishId
 );
 routes.put(
-  '/cartItem/:id',
+  '/item/:id',
   updateCartItem,
   validationHandler,
   isAuthenticated,
@@ -26,13 +32,13 @@ routes.put(
   cartControllers.putCartItemByDishId
 );
 routes.get(
-  '/cartItem/:id',
+  '/item/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.getCartItemByDishId
 );
 routes.delete(
-  '/cartItem/:id',
+  '/item/:id',
   isAuthenticated,
   isCustomer,
   cartControllers.deleteCartItemByDishId

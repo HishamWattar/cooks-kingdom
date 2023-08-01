@@ -82,42 +82,42 @@ describe('Cart Endpoints', () => {
 });
 
 describe('CartItem Endpoints', () => {
-  describe('post /api/cart/cartItem/:dishId', () => {
+  describe('post /api/cart/item/:dishId', () => {
     it('creates a new cart item and return the cart', async () => {
       const res = await req
-        .post(`/api/cart/cartItem/${dishId}`)
+        .post(`/api/cart/item/${dishId}`)
         .set('Cookie', customerToken);
       expect(res.statusCode).toBe(201);
     });
 
     it('should return an error message when user is not authenticated', async () => {
-      const res = await req.post(`/api/cart/cartItem/${dishId}`);
+      const res = await req.post(`/api/cart/item/${dishId}`);
 
       expect(res.statusCode).toBe(401);
       expect(res.body.message).toBe('Unauthenticated');
     });
   });
 
-  describe('get /api/cart/cartItem/:dishId', () => {
+  describe('get /api/cart/item/:dishId', () => {
     it('gets a cart item ', async () => {
       const res = await req
-        .get(`/api/cart/cartItem/${dishId}`)
+        .get(`/api/cart/item/${dishId}`)
         .set('Cookie', customerToken);
       expect(res.statusCode).toBe(200);
     });
 
     it('should return an error message when user is not authenticated', async () => {
-      const res = await req.get(`/api/cart/cartItem/${dishId}`);
+      const res = await req.get(`/api/cart/item/${dishId}`);
 
       expect(res.statusCode).toBe(401);
       expect(res.body.message).toBe('Unauthenticated');
     });
   });
 
-  describe('delete /api/cart/cartItem/:dishId', () => {
+  describe('delete /api/cart/item/:dishId', () => {
     it('deletes cart item and return the cart', async () => {
       const res = await req
-        .delete(`/api/cart/cartItem/${dishId}`)
+        .delete(`/api/cart/item/${dishId}`)
         .set('Cookie', customerToken);
       expect(res.statusCode).toBe(204);
     });

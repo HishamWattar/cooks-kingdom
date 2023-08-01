@@ -1,153 +1,13 @@
 paths:
-  /dishes:
+  /api/dishes:
     get:
       tags:
-        - Dish
+        - Dishes
       summary: Get all dishes
-      description: Retrieves all dishes from the database.
+      description: Retrieve a list of all dishes.
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Dish'
-        '422':
-          description: Unprocessable Entity. An error occurred during the retrieval.
-
-    post:
-      tags:
-        - Dish
-      summary: Add a new dish
-      description: Creates a new dish and adds it to the database.
-      requestBody:
-        description: Dish details to be added.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Dish'
-        required: true
-      responses:
-        '201':
-          description: Dish added successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dish'
-        '422':
-          description: Unprocessable Entity. An error occurred during dish creation.
-
-  /dishes/{id}:
-    get:
-      tags:
-        - Dish
-      summary: Get a dish by ID
-      description: Retrieves a specific dish by its ID from the database.
-      parameters:
-        - name: id
-          in: path
-          description: ID of the dish to retrieve.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dish'
-        '422':
-          description: Unprocessable Entity. The dish with the specified ID was not found.
-
-    put:
-      tags:
-        - Dish
-      summary: Update a dish
-      description: Updates an existing dish with new data.
-      parameters:
-        - name: id
-          in: path
-          description: ID of the dish to update.
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Dish details to be updated.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Dish'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Dish'
-        '422':
-          description: Unprocessable Entity. The dish with the specified ID was not found.
-
-    delete:
-      tags:
-        - Dish
-      summary: Delete a dish
-      description: Deletes a dish from the database based on its ID.
-      parameters:
-        - name: id
-          in: path
-          description: ID of the dish to delete.
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: No Content. Dish deleted successfully.
-        '422':
-          description: Unprocessable Entity. The dish with the specified ID was not found.
-
-  /dishes/filter:
-    get:
-      tags:
-        - Dish
-      summary: Filter dishes
-      description: Retrieves a list of dishes from the database that match the specified filters.
-      parameters:
-        - in: query
-          name: name
-          schema:
-            type: string
-          description: Filter by dish name (case-insensitive).
-        - in: query
-          name: maxPrice
-          schema:
-            type: number
-          description: Filter by maximum price.
-        - in: query
-          name: minPrice
-          schema:
-            type: number
-          description: Filter by minimum price.
-        - in: query
-          name: rate
-          schema:
-            type: number
-          description: Filter by minimum rating.
-        - in: query
-          name: ingredients
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
-          description: Filter by ingredients (match dishes that contain all specified ingredients).
-      responses:
-        '200':
-          description: OK
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -158,58 +18,259 @@ paths:
                     items:
                       $ref: '#/components/schemas/Dish'
         '422':
-          description: Unprocessable Entity. An error occurred during the retrieval.
+          description: Unprocessable entity. An error occurred while processing the request.
+    post:
+      tags:
+        - Dishes
+      summary: Add a new dish
+      description: Add a new dish to the system.
+      requestBody:
+        description: Dish data to add.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishInput'
+      responses:
+        '201':
+          description: Dish created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable entity. An error occurred while processing the request.
 
+  /api/dishes/{id}:
+    get:
+      tags:
+        - Dishes
+      summary: Get a dish by ID
+      description: Retrieve a dish by its unique ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable entity. An error occurred while processing the request.
+        '404':
+          description: The dish with the specified ID was not found.
+    put:
+      tags:
+        - Dishes
+      summary: Update a dish by ID
+      description: Update an existing dish by its unique ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated dish data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DishInput'
+      responses:
+        '200':
+          description: Dish updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Dish'
+        '422':
+          description: Unprocessable entity. An error occurred while processing the request.
+        '403':
+          description: Forbidden. You don't have permission to update this dish.
+        '404':
+          description: The dish with the specified ID was not found.
+    delete:
+      tags:
+        - Dishes
+      summary: Delete a dish by ID
+      description: Delete a dish by its unique ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID of the dish to delete.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Dish deleted successfully.
+        '422':
+          description: Unprocessable entity. An error occurred while processing the request.
+        '403':
+          description: Forbidden. You don't have permission to delete this dish.
+        '404':
+          description: The dish with the specified ID was not found.
+
+  /api/dishes/filter:
+    get:
+      tags:
+        - Dishes
+      summary: Filter dishes
+      description: Retrieve a list of dishes based on specified filters.
+      parameters:
+        - name: name
+          in: query
+          description: Name of the dish to filter (case-insensitive).
+          schema:
+            type: string
+        - name: maxPrice
+          in: query
+          description: Maximum price of the dish to filter.
+          schema:
+            type: number
+            format: float
+        - name: minPrice
+          in: query
+          description: Minimum price of the dish to filter.
+          schema:
+            type: number
+            format: float
+        - name: rate
+          in: query
+          description: Minimum rating of the dish to filter.
+          schema:
+            type: integer
+          example: 4
+        - name: ingredients
+          in: query
+          description: Comma-separated list of ingredients to filter dishes by.
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dish'
+        '500':
+          description: Internal server error. An error occurred while processing the request.
+    
+    
 components:
   schemas:
     Dish:
       type: object
       properties:
+        _id:
+          type: string
+          description: Unique ID of the dish.
+          example: 6131234567890123456789abc
         name:
           type: string
           description: Name of the dish.
-          example: Spaghetti Bolognese
+          example: Chicken Alfredo Pasta
         chefId:
           type: string
-          description: ID of the chef who created the dish.
-          example: chef123
+          description: ID of the chef associated with the dish.
+          example: 6131234567890123456789def
         description:
           type: string
           description: Description of the dish.
-          example: Delicious spaghetti with Bolognese sauce.
+          example: A delicious pasta dish with creamy Alfredo sauce.
         image:
           type: string
-          format: uri
-          description: URL of the dish image.
-          example: https://example.com/images/spaghetti-bolognese.jpg
+          description: URL of the dish's image.
+          example: https://example.com/dishes/chicken_alfredo.jpg
         ingredients:
           type: array
           items:
             type: string
           description: List of ingredients used in the dish.
-          example: ['spaghetti', 'tomatoes', 'ground beef']
+          example:
+            - Chicken
+            - Alfredo Sauce
+            - Pasta
         price:
           type: number
+          format: float
           description: Price of the dish.
-          example: 12.99
+          example: 15.99
         reviews:
-          type: object
-          properties:
-            rate:
-              type: number
-              description: Average rating of the dish (out of 5).
-              example: 4.5
-            comments:
-              type: array
-              items:
-                type: object
-                properties:
-                  author:
-                    type: string
-                    description: Name of the author of the comment.
-                    example: John Doe
-                  text:
-                    type: string
-                    description: Text of the comment.
-                    example: This was the best spaghetti I've ever had!
-              description: List of comments on the dish.
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+          description: List of reviews for the dish.
+    DishInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the dish.
+          example: Chicken Alfredo Pasta
+        chefId:
+          type: string
+          description: ID of the chef associated with the dish.
+          example: 6131234567890123456789def
+        description:
+          type: string
+          description: Description of the dish.
+          example: A delicious pasta dish with creamy Alfredo sauce.
+        image:
+          type: string
+          description: URL of the dish's image.
+          example: https://example.com/dishes/chicken_alfredo.jpg
+        ingredients:
+          type: array
+          items:
+            type: string
+          description: List of ingredients used in the dish.
+          example:
+            - Chicken
+            - Alfredo Sauce
+            - Pasta
+        price:
+          type: number
+          format: float
+          description: Price of the dish.
+          example: 15.99
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+          description: List of reviews for the dish.
+    Review:
+      type: object
+      properties:
+        rating:
+          type: integer
+          description: Rating for the dish (out of 5).
+          example: 4
+        comment:
+          type: string
+          description: Comment/review for the dish.
+          example: This dish was amazing! Highly recommended.

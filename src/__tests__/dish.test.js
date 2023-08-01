@@ -3,14 +3,13 @@ const supertest = require('supertest');
 const dishModel = require('../models/dish');
 const app = require('../app');
 const db = require('../db/connection');
-const { User } = require('../models/user');
+const { Chef } = require('../models/user');
 
 const req = supertest(app);
 
 let allDishes;
 let fishId;
 let chickenId;
-let spaghettiId;
 let ownerChefToken;
 let otherChefToken;
 
@@ -19,6 +18,7 @@ const ownerChef = {
   lastName: 'chef',
   password: 'cheFf%123',
   name: 'chefName',
+  isApproved: true,
   email: 'chef@example.com',
   role: 'chef',
 };
@@ -26,6 +26,7 @@ const ownerChef = {
 const otherChef = {
   firstName: 'chef',
   lastName: 'chef',
+  isApproved: true,
   password: 'cheFf%123',
   name: 'chefName',
   email: 'otherChef@example.com',
@@ -90,13 +91,14 @@ const chicken = {
 
 beforeAll(async () => {
   await db.connectToMongo();
-  let res = await req.post('/api/auth/signup').send(ownerChef);
+  const _ownerChef = await Chef.create(ownerChef);
+  await Chef.create(otherChef);
+  let res = await req.post('/api/auth/signin').send(ownerChef);
   [ownerChefToken] = res.headers['set-cookie'][0].split(';');
-  fish.chefId = res.body.data._id;
-  chicken.chefId = res.body.data._id;
-  spaghetti.chefId = res.body.data._id;
-
-  res = await req.post('/api/auth/signup').send(otherChef);
+  fish.chefId = _ownerChef._id;
+  chicken.chefId = _ownerChef._id;
+  spaghetti.chefId = _ownerChef._id;
+  res = await req.post('/api/auth/signin').send(otherChef);
   [otherChefToken] = res.headers['set-cookie'][0].split(';');
 
   // Create sample dishes for tests
@@ -108,7 +110,7 @@ beforeAll(async () => {
 afterAll(async () => {
   // await db.clearDatabase();
   await dishModel.deleteMany({});
-  await User.deleteMany({});
+  await Chef.deleteMany({});
 
   await db.closeDatabase();
 });
@@ -182,7 +184,6 @@ describe('POST /api/dishes', () => {
       .post('/api/dishes')
       .send(spaghetti)
       .set('Cookie', ownerChefToken);
-    spaghettiId = res.body.data._id;
     expect(res.body.data.name).toBe('Spaghetti Bolognese');
   });
   it("Doesn't add a new dish with missing details", async () => {

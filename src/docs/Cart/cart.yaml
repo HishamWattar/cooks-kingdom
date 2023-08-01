@@ -60,7 +60,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.  
         500:
           description: Internal Server Error.        
-  /api/cart/CartItem/{id}:
+  /api/cart/item/{id}:
       get:
         tags:
           - cartItem
