@@ -70,6 +70,11 @@ const changePassword = async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
 
+    const isValidPassword = await compare(currentPassword, user.password);
+    if (!isValidPassword) {
+      return next(new CustomError('Current password in incorrect.', 400));
+    }
+
     const isSamePassword = await compare(newPassword, user.password);
     if (isSamePassword) {
       return next(
@@ -80,15 +85,10 @@ const changePassword = async (req, res, next) => {
       );
     }
 
-    const isValidPassword = await compare(currentPassword, user.password);
-    if (!isValidPassword) {
-      return next(new CustomError('Current password in incorrect.', 400));
-    }
-
     user.password = newPassword;
     await user.save();
 
-    return res.json({ message: 'Password updated successfully' });
+    return res.json({ message: 'Password updated successfully.' });
   } catch (error) {
     return next(new CustomError(error.message, 500));
   }
