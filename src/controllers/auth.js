@@ -55,9 +55,49 @@ const signout = async (req, res) => {
   return res.json({ message: 'You logged out successfully' });
 };
 
+const changePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword, passwordConfirmation } = req.body;
+
+    if (newPassword !== passwordConfirmation) {
+      return next(
+        new CustomError(
+          'New password and password confirmation do not match.',
+          400
+        )
+      );
+    }
+
+    const user = await User.findById(req.user.id);
+
+    const isValidPassword = await compare(currentPassword, user.password);
+    if (!isValidPassword) {
+      return next(new CustomError('Current password in incorrect.', 400));
+    }
+
+    const isSamePassword = await compare(newPassword, user.password);
+    if (isSamePassword) {
+      return next(
+        new CustomError(
+          'New password should be different from the current password.',
+          400
+        )
+      );
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.json({ message: 'Password updated successfully.' });
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 module.exports = {
   savePayloadToToken,
   signup,
   signin,
   signout,
+  changePassword,
 };

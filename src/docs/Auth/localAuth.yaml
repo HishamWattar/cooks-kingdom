@@ -101,6 +101,43 @@ paths:
         401:
           description: Invalid credentials. Please check your email and password.
 
+  /api/auth/update-password:
+    post:
+      tags:
+        - Authentication
+      summary: Update password.
+      description: Update authenticated user password.
+      produces:
+        - application/json
+      requestBody:
+        description: Update authenticated user password.
+        content:
+          application/json:
+            schema:
+              properties:
+                currentPassword:
+                  type: string
+                  description: current password
+                  example: Example$123
+                newPassword:
+                  type: string
+                  description: new password of user
+                  example: Newpassword$123
+                passwordConfirmation:
+                  type: string
+                  description: password confirmation of user
+                  example: Newpassword$123
+        required: true
+      responses:
+        200:
+          description: Success message
+        401:
+          description: Unauthenticated. Please check if you are logged in.
+        400:
+          description: Unprovable input.
+        422:
+          description: Invalid input.
+
   /api/auth/signout:
     post:
       tags:

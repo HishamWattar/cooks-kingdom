@@ -271,6 +271,34 @@ const updateCartItem = [
     .isInt({ min: 1, max: 99 })
     .withMessage('Quantity must be a number between 1 and 99.'),
 ];
+
+const updatePassword = [
+  check('currentPassword')
+    .notEmpty()
+    .withMessage('current password should not be empty.'),
+  check('newPassword')
+    .notEmpty()
+    .withMessage('new password should not be empty.')
+    .isLength({ min: 8 })
+    .withMessage('new password should be at least 8 characters long')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/
+    )
+    .withMessage(
+      'new password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'
+    ),
+  check('passwordConfirmation')
+    .notEmpty()
+    .withMessage('password confirmation should not be empty.')
+    .isLength({ min: 8 })
+    .withMessage('password confirmation should be at least 8 characters long')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/
+    )
+    .withMessage(
+      'password confirmation must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'
+    ),
+];
 // This middleware to handle the validation rules that are defined above
 const validationHandler = (req, res, next) => {
   const errors = validationResult(req);
@@ -290,5 +318,6 @@ module.exports = {
   updateAddress,
   updateProfile,
   updateCartItem,
+  updatePassword,
   validationHandler,
 };
