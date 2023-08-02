@@ -224,6 +224,29 @@ paths:
         '500':
           description: Internal Server Error
 
+  /api/admin/user/approve-chef/{id}:
+    put:
+      tags:
+        - Admin
+      summary: Approve Chef
+      description: Approve a user as a chef
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user to approve as a chef
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad Request - User is already approved as a chef
+        403:
+          description: Unauthorized. Please check if you have the right role.
+        '404':
+          description: Not Found - User not found
+        '500':
+          description: Internal Server Error
 
 components:
   schemas:
