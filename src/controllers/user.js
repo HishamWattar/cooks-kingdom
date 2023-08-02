@@ -1,7 +1,7 @@
 const { User, Chef, Customer } = require('../models/user');
 const CustomError = require('../utils/customError');
-const sendEmail = require('../utils/email');
 const uploadImage = require('../services/gcs');
+const { sendApprovalEmail } = require('../utils/email');
 
 const getUserProfile = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ const updateUserRole = async (req, res, next) => {
     // Email admin in case a user wants to be a chef
     if (role === 'chef') {
       const admin = await User.findOne({ role: 'admin' });
-      sendEmail(admin.email, user._id);
+      sendApprovalEmail(admin.email, user._id);
     }
 
     // Update a user role and type

@@ -1,7 +1,7 @@
 // Write your util function here
 const nodemailer = require('nodemailer');
 
-const sendEmail = (email, userId) => {
+const sendApprovalEmail = (adminEmail, userId) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     host: 'smtp.gmail.com',
@@ -65,8 +65,8 @@ const sendEmail = (email, userId) => {
   `;
 
   const mailOptions = {
-    from: 'hello@example.com',
-    to: email,
+    from: process.env.USER_EMAIL,
+    to: adminEmail,
     subject: 'Chef Request Approval Needed',
     html: htmlContent,
   };
@@ -80,4 +80,37 @@ const sendEmail = (email, userId) => {
     }
   });
 };
-module.exports = sendEmail;
+
+const sendChefWelcomeEmail = (chefEmail) => {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.USER_EMAIL, // generated ethereal user
+      pass: process.env.USER_PASSWORD, // generated ethereal password
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.USER_EMAIL,
+    to: chefEmail,
+    subject: 'Welcome to Our Platform as a Chef',
+    text: `Dear Chef,\n\nWe are delighted to welcome you to our platform. You have been approved as a chef. Start showcasing your culinary skills and delight our customers with your delicious creations.\n\nBest regards,\nThe Admin Team`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`Email sent successfully: ${info.response}`);
+    }
+  });
+};
+module.exports = {
+  sendApprovalEmail,
+  sendChefWelcomeEmail,
+};
