@@ -97,13 +97,13 @@ const approveChef = async (req, res, next) => {
     const chef = await Chef.findById(id);
 
     if (!chef) {
-      return res.status(404).json({ error: 'User not found.' });
+      return res.status(404).json({ message: 'User not found.' });
     }
 
     if (chef.isApproved) {
       return res
         .status(400)
-        .json({ error: 'User is already approved as a chef.' });
+        .json({ message: 'User is already approved as a chef.' });
     }
     chef.isApproved = true;
     await chef.save();

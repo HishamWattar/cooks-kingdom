@@ -6,12 +6,12 @@ const { User } = require('../models/user');
 
 const req = supertest(app);
 
-const sendEmail = require('../utils/email');
+const { sendApprovalEmail } = require('../utils/email');
 // const uploadImage = require('../services/gcs');
 
 jest.mock('../utils/email');
 // jest.mock('../services/gcs');
-sendEmail.mockResolvedValue();
+// sendApprovalEmail.mockResolvedValue();
 // uploadImage.mockResolvedValue();
 
 let addressId;
@@ -26,13 +26,14 @@ const newUser = {
 beforeAll(async () => {
   await db.connectToMongo();
   const res = await req.post('/api/auth/signup').send(newUser);
-  newUser._id = res.body.data._id;
+  newUser.id = res.body.data._id;
   [newUserToken] = res.headers['set-cookie'][0].split(';');
 });
 
 afterAll(async () => {
   await User.deleteMany({});
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('User Endpoints', () => {
@@ -60,7 +61,7 @@ describe('User Endpoints', () => {
   describe('PUT /api/user/profile/role', () => {
     it('should update authenticated user role', async () => {
       // mock admin who will receive an email
-      await User.create({
+      const admin = await User.create({
         firstName: 'admin',
         lastName: 'admin',
         password: 'Admin%123',
@@ -74,10 +75,11 @@ describe('User Endpoints', () => {
         .send({ role: 'chef' });
 
       // mock sending email because it is a 3rd party service
-      sendEmail.mockResolvedValueOnce();
+      // sendApprovalEmail.mockResolvedValueOnce();
 
       expect(res.statusCode).toBe(200);
-      expect(sendEmail).toHaveBeenCalledTimes(1);
+      expect(sendApprovalEmail).toHaveBeenCalledTimes(1);
+      expect(sendApprovalEmail).toHaveBeenCalledWith(admin.email, newUser.id);
       expect(res.body.message).toBe('Your role has been updated successfully');
     });
 

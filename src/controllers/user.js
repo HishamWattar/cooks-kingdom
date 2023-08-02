@@ -25,7 +25,7 @@ const updateUserRole = async (req, res, next) => {
     // Email admin in case a user wants to be a chef
     if (role === 'chef') {
       const admin = await User.findOne({ role: 'admin' });
-      sendApprovalEmail(admin.email, user._id);
+      sendApprovalEmail(admin.email, user.id);
     }
 
     // Update a user role and type
