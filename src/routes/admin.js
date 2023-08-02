@@ -35,4 +35,11 @@ routes.put(
 
 routes.delete('/:id', isAuthenticated, isAdmin, adminController.deleteUser);
 
+routes.put(
+  '/approve-chef/:id',
+  isAuthenticated,
+  isAdmin,
+  adminController.approveChef
+);
+
 module.exports = routes;
