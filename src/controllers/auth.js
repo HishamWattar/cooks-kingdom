@@ -2,6 +2,8 @@ const { compare } = require('bcrypt');
 const { User } = require('../models/user');
 const CustomError = require('../utils/customError');
 
+const { sendSignUpWelcomeEmail } = require('../utils/email');
+
 // This a function will create token and assign it to cookie
 const { saveTokenToCookie } = require('../utils/token');
 
@@ -21,6 +23,8 @@ const signup = async (req, res, next) => {
     user = await User.create(req.body);
 
     saveTokenToCookie(user, res);
+
+    sendSignUpWelcomeEmail(user.email, user.firstName);
 
     return res.status(201).json({ data: user });
   } catch (error) {
