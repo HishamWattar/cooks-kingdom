@@ -1,0 +1,1782 @@
+{
+  "info": {
+    "_postman_id": "f3262b86-8785-4769-8b62-f8671b0ff2c6",
+    "name": "Capstone",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "signup",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\":\"toxic\",\r\n    \"lastName\":\"player\",\r\n    \"email\":\"toxic@example.test\",\r\n    \"name\":\"toxicsafsdf\",\r\n    \"password\":\"Aa2$1233\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/signup",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "signup"]
+            }
+          },
+          "response": [
+            {
+              "name": "signup",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"firstName\": \"user\",\r\n  \"lastName\": \"user\",\r\n  \"name\": \"newUser\",\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"Example$123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/auth/signup",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "auth", "signup"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNiZjliNTVjZTQ3N2FkMjhiYWQ2MTUiLCJpYXQiOjE2OTEwODkzMzMsImV4cCI6MTY5MjM4NTMzM30.YwoUsRxk1W9boJ9yWbSniiOiJ1ZKNmU45s-mUuxXdJg; Max-Age=1296000; Path=/; Expires=Fri, 18 Aug 2023 19:02:13 GMT; HttpOnly"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "236"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ec-ibrRSl7wuGlO1NzZ/F4mTOMiKbw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:02:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"firstName\": \"user\",\n        \"lastName\": \"user\",\n        \"name\": \"newUser\",\n        \"email\": \"user@example.com\",\n        \"provider\": \"local\",\n        \"_id\": \"64cbf9b55ce477ad28bad615\",\n        \"addresses\": [],\n        \"createdAt\": \"2023-08-03T19:02:13.877Z\",\n        \"updatedAt\": \"2023-08-03T19:02:13.877Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "signin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"hello@example.com\",\r\n    \"password\":\"Aa2$1233\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/signin",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "signin"]
+            }
+          },
+          "response": [
+            {
+              "name": "signin",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"Newpassword$12243\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/auth/signin",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "auth", "signin"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNiZjhiYTVjZTQ3N2FkMjhiYWQ1ZWIiLCJpYXQiOjE2OTEwODkxODIsImV4cCI6MTY5MjM4NTE4Mn0.5TpWJ5U77tEfmEJuDNyU3CBxchQjcVWQzmFqAa8spEI; Max-Age=1296000; Path=/; Expires=Fri, 18 Aug 2023 18:59:42 GMT; HttpOnly"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "45"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2d-v9bx1d4Gv+QmpWmJHOMTrHdj/jY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 18:59:42 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"You have logged in successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "signout",
+          "request": {
+            "method": "POST",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "signout",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/auth/signout",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "auth", "signout"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "41"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"29-ee7HHOU0Qsd8jnOc6ATd1SpOzWw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:02:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"You logged out successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "change password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"currentPassword\":\"Example$123\",\r\n    \"newPassword\":\"Newpassword$12243\",\r\n    \"passwordConfirmation\":\"Newpassword$12243\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/update-password",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "update-password"]
+            }
+          },
+          "response": [
+            {
+              "name": "change password",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"currentPassword\":\"Example$123\",\r\n    \"newPassword\":\"Newpassword$12243\",\r\n    \"passwordConfirmation\":\"Newpassword$12243\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/auth/update-password",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "auth", "update-password"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "44"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2c-pWa8TWNQZ+5xdKvLzmkFfBbv3yI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 18:57:11 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Password updated successfully.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "list users",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "list users",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "790"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"316-3543pimBE7VYWt3S/pS6Z4+FsZc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:03:05 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"_id\": \"64cbf8145ce477ad28bad5d5\",\n            \"firstName\": \"Admin\",\n            \"lastName\": \"Admin\",\n            \"name\": \"AdminUser\",\n            \"email\": \"hishamwattar45@gmail.com\",\n            \"provider\": \"local\",\n            \"addresses\": [],\n            \"createdAt\": \"2023-08-03T18:55:16.916Z\",\n            \"updatedAt\": \"2023-08-03T18:57:11.128Z\",\n            \"role\": \"admin\"\n        },\n        {\n            \"_id\": \"64cbf8ba5ce477ad28bad5eb\",\n            \"firstName\": \"chef\",\n            \"lastName\": \"chef\",\n            \"name\": \"ChefUser\",\n            \"email\": \"huntertttv1@gmail.com\",\n            \"provider\": \"local\",\n            \"addresses\": [],\n            \"createdAt\": \"2023-08-03T18:58:02.151Z\",\n            \"updatedAt\": \"2023-08-03T19:00:51.877Z\",\n            \"isActive\": false,\n            \"role\": \"chef\",\n            \"type\": \"chef\",\n            \"isApproved\": true\n        },\n        {\n            \"_id\": \"64cbf9b55ce477ad28bad615\",\n            \"firstName\": \"user\",\n            \"lastName\": \"user\",\n            \"name\": \"newUser\",\n            \"email\": \"user@example.com\",\n            \"provider\": \"local\",\n            \"addresses\": [],\n            \"createdAt\": \"2023-08-03T19:02:13.877Z\",\n            \"updatedAt\": \"2023-08-03T19:02:13.877Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "filter users",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "filter users",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user/filter?role=chef",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user", "filter"],
+                  "query": [
+                    {
+                      "key": "firstName",
+                      "value": "user",
+                      "disabled": true
+                    },
+                    {
+                      "key": "lastName",
+                      "value": "user",
+                      "disabled": true
+                    },
+                    {
+                      "key": "role",
+                      "value": "chef"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "307"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"133-c0fZoxxesKcxyzlrbZTEkqG3qKQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:04:20 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"_id\": \"64cbf8ba5ce477ad28bad5eb\",\n            \"firstName\": \"chef\",\n            \"lastName\": \"chef\",\n            \"name\": \"ChefUser\",\n            \"email\": \"huntertttv1@gmail.com\",\n            \"provider\": \"local\",\n            \"addresses\": [],\n            \"createdAt\": \"2023-08-03T18:58:02.151Z\",\n            \"updatedAt\": \"2023-08-03T19:00:51.877Z\",\n            \"isActive\": false,\n            \"role\": \"chef\",\n            \"type\": \"chef\",\n            \"isApproved\": true\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "get user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user/64b980566645a370c08196b7",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "admin", "user", "64b980566645a370c08196b7"]
+            }
+          },
+          "response": [
+            {
+              "name": "get user",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user/64cbf8ba5ce477ad28bad5eb",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user", "64cbf8ba5ce477ad28bad5eb"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "305"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"131-pmh+KX68DEM22iyipCVKCuEPtvs\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:04:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"_id\": \"64cbf8ba5ce477ad28bad5eb\",\n        \"firstName\": \"chef\",\n        \"lastName\": \"chef\",\n        \"name\": \"ChefUser\",\n        \"email\": \"huntertttv1@gmail.com\",\n        \"provider\": \"local\",\n        \"addresses\": [],\n        \"createdAt\": \"2023-08-03T18:58:02.151Z\",\n        \"updatedAt\": \"2023-08-03T19:00:51.877Z\",\n        \"isActive\": false,\n        \"role\": \"chef\",\n        \"type\": \"chef\",\n        \"isApproved\": true\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "create user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\":\"toxic\",\r\n    \"lastName\":\"player\",\r\n    \"email\":\"toxic@example.test\",\r\n    \"name\":\"toxi23csafsdf\",\r\n    \"password\":\"Aa2$1233\",\r\n    \"role\":\"customer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "admin", "user"]
+            }
+          },
+          "response": [
+            {
+              "name": "create user",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\":\"customerFirstName\",\r\n    \"lastName\":\"customerLastName\",\r\n    \"email\":\"customer@example.com\",\r\n    \"name\":\"CustomerUser\",\r\n    \"password\":\"Customr@123\",\r\n    \"role\":\"customer\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "338"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"152-8Y8c9zmLWPmlvMLP2jOL9oAVpWU\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:06:03 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"preferences\": [],\n        \"allergies\": [],\n        \"_id\": \"64cbfa9b5ce477ad28bad62b\",\n        \"firstName\": \"customerFirstName\",\n        \"lastName\": \"customerLastName\",\n        \"name\": \"CustomerUser\",\n        \"email\": \"customer@example.com\",\n        \"provider\": \"local\",\n        \"role\": \"customer\",\n        \"type\": \"customer\",\n        \"addresses\": [],\n        \"createdAt\": \"2023-08-03T19:06:03.243Z\",\n        \"updatedAt\": \"2023-08-03T19:06:03.243Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update user",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"toxic\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user/64b986e2aff5f49089b89f78",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "admin", "user", "64b986e2aff5f49089b89f78"]
+            }
+          },
+          "response": [
+            {
+              "name": "update user",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\": \"Jon\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user/64cbfa9b5ce477ad28bad62b",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user", "64cbfa9b5ce477ad28bad62b"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "324"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"144-6ky2qL73JA2vFYmyljKrv6TXshA\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:08:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"_id\": \"64cbfa9b5ce477ad28bad62b\",\n        \"preferences\": [],\n        \"allergies\": [],\n        \"firstName\": \"Jon\",\n        \"lastName\": \"customerLastName\",\n        \"name\": \"CustomerUser\",\n        \"email\": \"customer@example.com\",\n        \"provider\": \"local\",\n        \"role\": \"customer\",\n        \"type\": \"customer\",\n        \"addresses\": [],\n        \"createdAt\": \"2023-08-03T19:06:03.243Z\",\n        \"updatedAt\": \"2023-08-03T19:08:25.479Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"toxic\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user/64b986e2aff5f49089b89f78",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "admin", "user", "64b986e2aff5f49089b89f78"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete user",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\": \"toxic\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user/64cbfa9b5ce477ad28bad62b",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "admin", "user", "64cbfa9b5ce477ad28bad62b"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:08:36 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "approve chef",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user/approve-chef/64ca6eb9abcc88b81600f6fa",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": [
+                "api",
+                "admin",
+                "user",
+                "approve-chef",
+                "64ca6eb9abcc88b81600f6fa"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "approve chef",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/admin/user/approve-chef/64cbf8ba5ce477ad28bad5eb",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "admin",
+                    "user",
+                    "approve-chef",
+                    "64cbf8ba5ce477ad28bad5eb"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "39"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"27-jN8PvfuZCxwJyZD2cXBNHD33IF0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:10:03 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Chef approval successful.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "get my profile",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/user/me",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "user", "me"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "401"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"191-Krb+xhnC1QW0gZGnAgz1/UptTKM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:12:03 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_id\": \"64cbf8ba5ce477ad28bad5eb\",\n    \"firstName\": \"chef\",\n    \"lastName\": \"chef\",\n    \"name\": \"ChefUser\",\n    \"email\": \"test@gmail.com\",\n    \"provider\": \"local\",\n    \"addresses\": [],\n    \"createdAt\": \"2023-08-03T18:58:02.151Z\",\n    \"updatedAt\": \"2023-08-03T19:11:56.439Z\",\n    \"isActive\": false,\n    \"role\": \"chef\",\n    \"type\": \"chef\",\n    \"isApproved\": true,\n    \"avatar\": \"https://storage.googleapis.com/cloud-storage-capstone/cloud-244f715a-6d52-4164-a70d-8d23401aa1fb.jpg\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "update my role",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"role\":\"chef\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile/role",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "user", "profile", "role"]
+            }
+          },
+          "response": [
+            {
+              "name": "update my role",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"role\":\"chef\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile/role",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "user", "profile", "role"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "53"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"35-4shGnM7UV/DsHoWdBicOcQlWpgk\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:09:31 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Your role has been updated successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "update my profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"customer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "user", "profile"]
+            }
+          },
+          "response": [
+            {
+              "name": "update my profile",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"addresses\": [\r\n        {\r\n            \"city\": \"New York\",\r\n            \"country\": \"USAA\",\r\n            \"street\": \"123 Main St\",\r\n            \"block\": \"A\",\r\n            \"postalCode\": \"10001\",\r\n            \"apartment\": \"Apt 101\",\r\n            \"isDefault\": false\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "user", "profile"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "454"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1c6-tjmyTOuYhk05BiysoEmBQuZ7fDc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:11:00 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_id\": \"64cbf8ba5ce477ad28bad5eb\",\n    \"firstName\": \"chef\",\n    \"lastName\": \"chef\",\n    \"name\": \"ChefUser\",\n    \"email\": \"test@gmail.com\",\n    \"provider\": \"local\",\n    \"addresses\": [\n        {\n            \"city\": \"New York\",\n            \"country\": \"USAA\",\n            \"street\": \"123 Main St\",\n            \"block\": \"A\",\n            \"postalCode\": \"10001\",\n            \"apartment\": \"Apt 101\",\n            \"isDefault\": false,\n            \"_id\": \"64cbfbc44d56281fc72c8a0c\"\n        }\n    ],\n    \"createdAt\": \"2023-08-03T18:58:02.151Z\",\n    \"updatedAt\": \"2023-08-03T19:11:00.204Z\",\n    \"isActive\": false,\n    \"role\": \"chef\",\n    \"type\": \"chef\",\n    \"isApproved\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "update my address",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"addresses\":[\r\n        {\r\n          \"city\": \"New York\",\r\n          \"country\": \"USA\",\r\n          \"street\": \"123 Main St\",\r\n          \"block\": \"AAAAA\",\r\n          \"postalCode\": \"10001\",\r\n          \"apartment\": \"Apt 101\",\r\n          \"isDefault\": true\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile/address/64c1044b76caa1689b1e68a4",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": [
+                "api",
+                "user",
+                "profile",
+                "address",
+                "64c1044b76caa1689b1e68a4"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update my address",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"address\": {\r\n        \"city\": \"New Yorke\",\r\n        \"country\": \"USA\",\r\n        \"street\": \"123 Main St\",\r\n        \"postalCode\": \"10001\",\r\n        \"isDefault\": false\r\n    }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile/address/64cbfbc44d56281fc72c8a0c",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "user",
+                    "profile",
+                    "address",
+                    "64cbfbc44d56281fc72c8a0c"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "42"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2a-hSRwV59ynpt7WYd4DtDYDpw+Sro\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:11:13 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Address updated successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete my address",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"addresses\":[\r\n        {\r\n          \"city\": \"New York\",\r\n          \"country\": \"USA\",\r\n          \"street\": \"123 Main St\",\r\n          \"block\": \"AAAAA\",\r\n          \"postalCode\": \"10001\",\r\n          \"apartment\": \"Apt 101\",\r\n          \"isDefault\": true\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile/address/64c1044b76caa1689b1e68a4",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": [
+                "api",
+                "user",
+                "profile",
+                "address",
+                "64c1044b76caa1689b1e68a4"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "delete my address",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"addresses\":[\r\n        {\r\n          \"city\": \"New York\",\r\n          \"country\": \"USA\",\r\n          \"street\": \"123 Main St\",\r\n          \"block\": \"AAAAA\",\r\n          \"postalCode\": \"10001\",\r\n          \"apartment\": \"Apt 101\",\r\n          \"isDefault\": true\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile/address/64cbfbc44d56281fc72c8a0c",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "user",
+                    "profile",
+                    "address",
+                    "64cbfbc44d56281fc72c8a0c"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:11:29 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "delete my profile",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\":\"toxic\",\r\n    \"lastName\":\"player\",\r\n    \"email\":\"toxic@example.test\",\r\n    \"password\":\"Aa2$1233\",\r\n    \"role\":\"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "user", "profile"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete my profile",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"firstName\":\"toxic\",\r\n    \"lastName\":\"player\",\r\n    \"email\":\"toxic@example.test\",\r\n    \"password\":\"Aa2$1233\",\r\n    \"role\":\"admin\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "user", "profile"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 18:59:16 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "upload",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "update address",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "image",
+                      "type": "file",
+                      "src": "/C:/Users/Hisham Wattar/Downloads/dbmem.jpg"
+                    }
+                  ],
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/user/profile/upload",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "user", "profile", "upload"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "49"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"31-z3dUNDBzVzubrufSLuVtB4GbjLM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:11:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Profile image uploaded successfully\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dish",
+      "item": [
+        {
+          "name": "get all dishes",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "234"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ea-Np6H1TbIoVDWmiAEAJZvi/cQV+E\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:13:07 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"_id\": \"64cbf9685ce477ad28bad612\",\n            \"name\": \"burger\",\n            \"chefId\": \"64cbf8ba5ce477ad28bad5eb\",\n            \"description\": \"this food contains bread and meet and tomato and chease\",\n            \"ingredients\": [\n                \"bread\",\n                \"meet\"\n            ],\n            \"price\": 5000,\n            \"reviews\": [],\n            \"__v\": 0\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "filter dishes",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes/filter?minPrice=4999&name=burger&maxPrice=6000",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes", "filter"],
+                  "query": [
+                    {
+                      "key": "minPrice",
+                      "value": "4999"
+                    },
+                    {
+                      "key": "name",
+                      "value": "burger"
+                    },
+                    {
+                      "key": "maxPrice",
+                      "value": "6000"
+                    },
+                    {
+                      "key": "rate",
+                      "value": "3",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "234"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ea-Np6H1TbIoVDWmiAEAJZvi/cQV+E\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:44:23 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": [\n        {\n            \"_id\": \"64cbf9685ce477ad28bad612\",\n            \"name\": \"burger\",\n            \"chefId\": \"64cbf8ba5ce477ad28bad5eb\",\n            \"description\": \"this food contains bread and meet and tomato and chease\",\n            \"ingredients\": [\n                \"bread\",\n                \"meet\"\n            ],\n            \"price\": 5000,\n            \"reviews\": [],\n            \"__v\": 0\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "create dish",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"burger\",\r\n    \"description\": \"this food contains bread and meet and tomato and chease\",\r\n    \"price\": 5000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/dishes",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "dishes"]
+            }
+          },
+          "response": [
+            {
+              "name": "create new dish",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"burger\",\r\n    \"description\": \"this food contains bread and meet and tomato and chease\",\r\n    \"price\": 5000,\r\n    \"ingredients\": [\r\n        \"bread\",\r\n        \"meet\"\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "232"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"e8-U6EXy/SO1ePNWR/2N2YHsGcB0C8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:00:56 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"name\": \"burger\",\n        \"chefId\": \"64cbf8ba5ce477ad28bad5eb\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 5000,\n        \"_id\": \"64cbf9685ce477ad28bad612\",\n        \"reviews\": [],\n        \"__v\": 0\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update dish",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"price\": 3500\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/dishes/64cbf9685ce477ad28bad612",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "dishes", "64cbf9685ce477ad28bad612"]
+            }
+          },
+          "response": [
+            {
+              "name": "update dish",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"price\": 3500\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes/64cbf9685ce477ad28bad612",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes", "64cbf9685ce477ad28bad612"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "232"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"e8-0/67IUcFR+Po4AthViLuAgajpCo\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:45:37 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"_id\": \"64cbf9685ce477ad28bad612\",\n        \"name\": \"burger\",\n        \"chefId\": \"64cbf8ba5ce477ad28bad5eb\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 3500,\n        \"reviews\": [],\n        \"__v\": 0\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete dish",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/dishes/64cbf9685ce477ad28bad612",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "dishes", "64cbf9685ce477ad28bad612"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete dish",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes/64cbf9685ce477ad28bad612",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes", "64cbf9685ce477ad28bad612"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 03 Aug 2023 19:46:26 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
