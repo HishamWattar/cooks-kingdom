@@ -5,7 +5,8 @@ const CustomError = require('../utils/customError');
 const addReviewToDish = async (req, res, next) => {
   const { dishId } = req.params;
   const { rating, comment } = req.body;
-  const reviewData = { rating, comment };
+  const customerId = req.user.id;
+  const reviewData = { customerId, rating, comment };
   try {
     if (!rating) {
       return next(new CustomError('Dish not found', 404));
@@ -36,7 +37,7 @@ const updateReviewToDish = async (req, res, next) => {
       reviews: { $elemMatch: { id: req.user.id } },
     });
     if (!reviewUpdate) {
-      return next(new CustomError('Review not found', 404));
+      return next(new CustomError("You don't have reviews", 404));
     }
     reviewUpdate.rating = rating;
     reviewUpdate.comment = comment;
@@ -61,7 +62,7 @@ const deleteReviewFromDish = async (req, res, next) => {
       reviews: { $elemMatch: { id: req.user.id } },
     });
     if (!reviewDelete) {
-      return next(new CustomError('Review not found', 404));
+      return next(new CustomError("You don't have reviews", 404));
     }
     dish.reviews.pull(reviewDelete);
     await dish.save();
