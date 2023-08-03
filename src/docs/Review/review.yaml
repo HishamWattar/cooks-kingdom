@@ -1,0 +1,98 @@
+paths:
+  /api/reviews/:id:
+    post:
+      tags:
+        - Review
+      summary: Add a review to a dish.
+      operationId: addReviewToDish
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the dish to add the review to.
+          type: string
+        - name: rating
+          in: body
+          required: true
+          description: The rating of the dish.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: comment
+          in: body
+          required: true
+          description: The comment for the review.
+          schema:
+            type: string
+      responses:
+        201:
+          description: The review was added successfully.
+          schema:
+            $ref: '#/definitions/Review'
+        404:
+          description: The dish was not found.
+        422:
+          description: The request body was invalid.
+    put:
+      tags:
+        - Review
+      summary: Update a review for a dish.
+      operationId: updateReviewToDish
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the dish to update the review for.
+          type: string
+        - name: rating
+          in: body
+          required: true
+          description: The new rating of the dish.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: comment
+          in: body
+          required: true
+          description: The new comment for the review.
+          schema:
+            type: string
+      responses:
+        201:
+          description: The review was updated successfully.
+          schema:
+            $ref: '#/definitions/Review'
+        404:
+          description: The dish or review was not found.
+        422:
+          description: The request body was invalid.
+    delete:
+      tags:
+        - Review
+      summary: Delete a review for a dish.
+      operationId: deleteReviewFromDish
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the dish to delete the review for.
+          type: string
+      responses:
+        204:
+          description: The review was deleted successfully.
+        404:
+          description: The dish or review was not found.
+definitions:
+  Review:
+    type: object
+    properties:
+      id:
+        type: string
+      rating:
+        type: integer
+        minimum: 1
+        maximum: 5
+      comment:
+        type: string
