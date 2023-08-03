@@ -52,7 +52,8 @@ const filterDishes = async (req, res, next) => {
   }
 };
 const addDish = async (req, res, next) => {
-  const { name, chefId, description, image, price } = req.body;
+  const { name, description, image, price } = req.body;
+  const chefId = req.user._id;
   let { ingredients } = req.body;
   if (!Array.isArray(ingredients)) {
     ingredients = ingredients ? ingredients.split(',') : [];
@@ -67,7 +68,8 @@ const addDish = async (req, res, next) => {
 };
 const updateDish = async (req, res, next) => {
   const { id } = req.params;
-  const { name, chefId, ingredients, price, reviews, image } = req.body;
+  const { name, ingredients, price, reviews, image } = req.body;
+  const chefId = req.user._id;
   try {
     // Find by ID query
     const dish = await dishModel.findById(id);
