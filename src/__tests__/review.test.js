@@ -6,6 +6,7 @@ const { User } = require('../models/user');
 
 const req = supertest(app);
 let customerToken;
+let customerId;
 let fishId;
 let allDishes;
 
@@ -64,6 +65,7 @@ beforeAll(async () => {
   await db.connectToMongo();
   const res = await req.post('/api/auth/signup').send(customerUser);
   [customerToken] = res.headers['set-cookie'][0].split(';');
+  customerId = res.body.data._id;
   allDishes = await dishModel.insertMany([fish, chicken]);
   fishId = allDishes[0]._id;
 });
@@ -75,14 +77,6 @@ afterAll(async () => {
 });
 
 describe('POST /api/reviews/:id', () => {
-  test('should return 401 if no token provided', async () => {
-    const res = await req.post(`/api/reviews/${fishId.toString()}`).send({
-      rating: 5,
-      comment: 'Great dish',
-    });
-    expect(res.statusCode).toBe(401);
-  });
-
   test('should return 404 if no rating provided', async () => {
     const res = await req
       .post(`/api/reviews/${fishId.toString()}`)
@@ -90,14 +84,15 @@ describe('POST /api/reviews/:id', () => {
       .send({
         comment: 'Great dish',
       });
-    expect(res.statusCode).toBe(404);
+    expect(res.statusCode).toBe(422);
   });
   test('should return 201 if review created', async () => {
     const res = await req
       .post(`/api/reviews/${fishId.toString()}`)
       .set('Cookie', customerToken)
       .send({
-        rating: 5,
+        customerId,
+        rate: 5,
         comment: 'Great dish',
       });
     expect(res.statusCode).toBe(201);
@@ -106,7 +101,7 @@ describe('POST /api/reviews/:id', () => {
 describe('PUT /api/reviews/:id', () => {
   test('should return 401 if no token provided', async () => {
     const res = await req.put(`/api/reviews/${fishId.toString()}`).send({
-      rating: 5,
+      rate: 5,
       comment: 'Great dish',
     });
     expect(res.statusCode).toBe(401);

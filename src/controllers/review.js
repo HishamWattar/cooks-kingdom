@@ -8,9 +8,6 @@ const addReviewToDish = async (req, res, next) => {
   const customerId = req.user.id;
   const reviewData = { customerId, rating, comment };
   try {
-    if (!rating) {
-      return next(new CustomError('Dish not found', 404));
-    }
     const dish = await dishModel.findOne({ id: dishId });
     if (!dish) {
       return next(new CustomError('Dish not found', 404));
@@ -22,6 +19,7 @@ const addReviewToDish = async (req, res, next) => {
       data: dish,
     });
   } catch (err) {
+    console.log(err.message);
     return next(new CustomError(err.message, 422));
   }
 };

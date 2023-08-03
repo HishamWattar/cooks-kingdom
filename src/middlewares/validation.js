@@ -272,6 +272,14 @@ const updateCartItem = [
     .withMessage('Quantity must be a number between 1 and 99.'),
 ];
 
+const ratingCheck = [
+  check('rate')
+    .notEmpty()
+    .withMessage('rate cannot be empty.')
+    .isInt({ min: 1, max: 5 })
+    .withMessage('rate must be a number between 1 and 5.'),
+];
+
 const updatePassword = [
   check('currentPassword')
     .notEmpty()
@@ -320,4 +328,5 @@ module.exports = {
   updateCartItem,
   updatePassword,
   validationHandler,
+  ratingCheck,
 };
