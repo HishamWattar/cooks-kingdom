@@ -68,17 +68,7 @@ const addDish = async (req, res, next) => {
 const updateDish = async (req, res, next) => {
   const { id } = req.params;
   const { name, chefId, ingredients, price, reviews, image } = req.body;
-  try {
-    // Find by ID query
-    const dish = await dishModel.findById(id);
-    if (dish) {
-      if (req.user._id.toString() !== dish.chefId.toString()) {
-        return next(new CustomError('Forbidden', 403));
-      }
-    }
-  } catch (err) {
-    return next(new CustomError(err.message, 422));
-  }
+
   try {
     const updatedDish = await dishModel.findOneAndUpdate(
       { _id: id },
@@ -104,18 +94,6 @@ const updateDish = async (req, res, next) => {
 };
 const deleteDish = async (req, res, next) => {
   const { id } = req.params;
-
-  try {
-    // Find by ID query
-    const dish = await dishModel.findById(id);
-    if (dish) {
-      if (req.user._id.toString() !== dish.chefId.toString()) {
-        return next(new CustomError('Forbidden', 403));
-      }
-    }
-  } catch (err) {
-    return next(new CustomError(err.message, 422));
-  }
 
   try {
     const dish = await dishModel.findByIdAndDelete(id);

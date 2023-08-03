@@ -1,0 +1,116 @@
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.388Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.407Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.420Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.445Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.462Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:28.479Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:29.934Z"}
+{"level":"error","message":"This action is unauthorized","timestamp":"2023-08-03T20:20:29.944Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-03T20:20:29.973Z"}
+{"level":"error","message":"The email already exists","timestamp":"2023-08-03T20:20:30.139Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not be empty","path":"firstName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"firstName","type":"field"},{"location":"body","msg":"firstName should not include spaces and special charters","path":"firstName","type":"field"},{"location":"body","msg":"lastName should not be empty","path":"lastName","type":"field"},{"location":"body","msg":"lastName should be at least 3 characters long","path":"lastName","type":"field"},{"location":"body","msg":"firstName should not include spaces and special charters","path":"lastName","type":"field"},{"location":"body","msg":"email should not be empty","path":"email","type":"field"},{"location":"body","msg":"Invalid Email","path":"email","type":"field"},{"location":"body","msg":"password should not be empty","path":"password","type":"field"},{"location":"body","msg":"password should be at least 8 characters long","path":"password","type":"field"},{"location":"body","msg":"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character","path":"password","type":"field"}],"timestamp":"2023-08-03T20:20:30.148Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-03T20:20:30.176Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not include spaces and special charters","path":"firstName","type":"field","value":342}],"timestamp":"2023-08-03T20:20:30.185Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-03T20:20:30.237Z"}
+{"level":"error","message":"Dish validation failed: price: Path `price` is required.","timestamp":"2023-08-03T20:20:33.133Z"}
+{"level":"error","message":"Unauthorized: You are not the owner of this resource","timestamp":"2023-08-03T20:20:33.188Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"0101010101\" (type string) at path \"_id\" for model \"Dish\"","timestamp":"2023-08-03T20:20:33.207Z"}
+{"level":"error","message":"Unauthorized: You are not the owner of this resource","timestamp":"2023-08-03T20:20:33.246Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"0101010101\" (type string) at path \"_id\" for model \"Dish\"","timestamp":"2023-08-03T20:20:33.261Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not be empty","path":"firstName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"firstName","type":"field"},{"location":"body","msg":"firstName should not include spaces","path":"firstName","type":"field"},{"location":"body","msg":"lastName should not be empty","path":"lastName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"lastName","type":"field"},{"location":"body","msg":"lastName should not include spaces","path":"lastName","type":"field"},{"location":"body","msg":"name should not be empty","path":"name","type":"field"},{"location":"body","msg":"name should be at least 6 characters long","path":"name","type":"field"},{"location":"body","msg":"name should not include spaces","path":"name","type":"field"}],"timestamp":"2023-08-03T20:20:35.987Z"}
+{"level":"error","message":"Invalid credentials","timestamp":"2023-08-03T20:20:36.173Z"}
+{"level":"error","message":"New password and password confirmation do not match.","timestamp":"2023-08-03T20:20:36.614Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-03T20:20:36.762Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-03T20:20:36.919Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:36.943Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:20:39.630Z"}
+{"level":"error","message":[{"location":"body","msg":"role should be chef or customer","path":"role","type":"field","value":"invalid"}],"timestamp":"2023-08-03T20:20:39.835Z"}
+{"level":"error","message":"You can't change your role","timestamp":"2023-08-03T20:20:39.855Z"}
+{"level":"error","message":[{"location":"body","msg":"Only one address can be set as a default","path":"addresses[0].isDefault","type":"field","value":true}],"timestamp":"2023-08-03T20:20:39.929Z"}
+{"level":"error","message":[{"location":"body","msg":"Country should not be empty","path":"addresses[0].country","type":"field"},{"location":"body","msg":"Country can only contain letters and spaces","path":"addresses[0].country","type":"field"},{"location":"body","msg":"Street should not be empty","path":"addresses[0].street","type":"field"},{"location":"body","msg":"Street can only contain letters, numbers, and spaces","path":"addresses[0].street","type":"field"},{"location":"body","msg":"Block should not be empty","path":"addresses[0].block","type":"field"},{"location":"body","msg":"Block can only contain letters, numbers, and spaces","path":"addresses[0].block","type":"field"},{"location":"body","msg":"Postal code should not be empty","path":"addresses[0].postalCode","type":"field"},{"location":"body","msg":"Postal code can only contain letters and numbers","path":"addresses[0].postalCode","type":"field"},{"location":"body","msg":"Apartment should not be empty","path":"addresses[0].apartment","type":"field"},{"location":"body","msg":"Apartment can only contain letters, numbers, and spaces","path":"addresses[0].apartment","type":"field"},{"location":"body","msg":"Only one address can be set as a default","path":"addresses[0].isDefault","type":"field","value":true}],"timestamp":"2023-08-03T20:20:39.951Z"}
+{"level":"error","message":"Address is not found","timestamp":"2023-08-03T20:20:40.001Z"}
+{"level":"error","message":[{"location":"body","msg":"City can only contain letters and spaces","path":"address.city","type":"field","value":"Istanbul32"}],"timestamp":"2023-08-03T20:20:40.021Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:21:57.607Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:22:02.679Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:22:02.706Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:22:02.757Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:22:02.788Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:22:02.822Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:23:15.503Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:23:15.544Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:24:52.897Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:24:52.932Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:25:03.049Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:25:03.100Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:25:14.946Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:25:14.989Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:25:16.589Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:25:16.634Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:27:26.540Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:27:26.587Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:28:36.470Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:28:36.507Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:29:02.309Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:29:02.343Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:29:21.270Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:29:21.307Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.561Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.580Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.592Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.617Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.633Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:33:34.659Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.801Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.824Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.843Z"}
+{"level":"error","message":"Failed to add item to cart","timestamp":"2023-08-03T20:34:00.860Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.877Z"}
+{"level":"error","message":"Failed to get item","timestamp":"2023-08-03T20:34:00.886Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.891Z"}
+{"level":"error","message":"Failed to delete item","timestamp":"2023-08-03T20:34:00.899Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:00.904Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.683Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.699Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.713Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.736Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.752Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:34:45.769Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.145Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.163Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.176Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.201Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.217Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:36:54.235Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:39:15.078Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:39:15.095Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:39:15.107Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:39:15.151Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:40:55.719Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:40:55.756Z"}
+{"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-03T20:41:32.128Z"}
+{"level":"info","message":"Database connected","timestamp":"2023-08-03T20:41:32.170Z"}
+{"level":"error","message":"Failed to get item","timestamp":"2023-08-03T20:42:07.536Z"}
+{"level":"error","message":"cart not found","timestamp":"2023-08-03T20:42:12.669Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.740Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.756Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.769Z"}
+{"level":"error","message":"Failed to add item to cart","timestamp":"2023-08-03T20:42:53.782Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.797Z"}
+{"level":"error","message":"Failed to get item","timestamp":"2023-08-03T20:42:53.807Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.812Z"}
+{"level":"error","message":"Failed to delete item","timestamp":"2023-08-03T20:42:53.821Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:42:53.826Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.331Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.348Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.366Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.412Z"}
+{"level":"error","message":"Failed to get item","timestamp":"2023-08-03T20:44:10.425Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.443Z"}
+{"level":"error","message":"Failed to delete item","timestamp":"2023-08-03T20:44:10.452Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:44:10.458Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.562Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.579Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.593Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.623Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.643Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-03T20:46:07.665Z"}

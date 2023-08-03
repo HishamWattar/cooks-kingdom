@@ -2,12 +2,16 @@ const supertest = require('supertest');
 const app = require('../app'); // Import your Express app
 const db = require('../db/connection');
 const { User } = require('../models/user');
+const { sendChefWelcomeEmail } = require('../utils/email');
+// const uploadImage = require('../services/gcs');
 
 const req = supertest(app);
+jest.mock('../utils/email');
 
 let adminToken;
 let customerToken;
 let customerId;
+let chefId;
 const fakeUserId = '123432334334445563122154';
 
 const customerUser = {
@@ -26,6 +30,15 @@ const adminUser = {
   name: 'AdminUser',
   email: 'admin@example.com',
   role: 'admin',
+};
+
+const newChef = {
+  firstName: 'New',
+  lastName: 'Chef',
+  name: 'newChef',
+  email: 'newchef@example.com',
+  password: 'Newchef$123',
+  role: 'chef',
 };
 beforeAll(async () => {
   await db.connectToMongo();
@@ -141,15 +154,6 @@ describe('Admin Endpoints', () => {
     });
 
     it('should return a new chef', async () => {
-      const newChef = {
-        firstName: 'New',
-        lastName: 'Chef',
-        name: 'newChef',
-        email: 'newchef@example.com',
-        password: 'Newchef$123',
-        role: 'chef',
-      };
-
       const res = await req
         .post('/api/admin/user')
         .set('Cookie', adminToken)
@@ -164,6 +168,8 @@ describe('Admin Endpoints', () => {
       expect(res.body.data.name).toBe('newChef');
       expect(res.body.data.email).toBe('newchef@example.com');
       expect(res.body.data.role).toBe('chef');
+
+      chefId = res.body.data._id;
     });
 
     it('should return 409 if the email is already taken', async () => {
@@ -245,6 +251,43 @@ describe('Admin Endpoints', () => {
       expect(res.statusCode).toBe(422);
 
       expect(res.body.errors.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('PUT /api/admin/user/approve-chef/:id', () => {
+    it('should approve the user and mark him as a chef.', async () => {
+      const res = await req
+        .put(`/api/admin/user/approve-chef/${chefId}`)
+        .set('Cookie', adminToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body.message).toBe('Chef approval successful.');
+      expect(sendChefWelcomeEmail).toHaveBeenCalledTimes(1);
+      expect(sendChefWelcomeEmail).toHaveBeenCalledWith(newChef.email);
+    });
+
+    it('should return an error message with user is not found.', async () => {
+      const res = await req
+        .put(`/api/admin/user/approve-chef/${fakeUserId}`)
+        .set('Cookie', adminToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(404);
+
+      expect(res.body.message).toBe('User not found.');
+    });
+
+    it('should return an error message when user is already approved.', async () => {
+      const res = await req
+        .put(`/api/admin/user/approve-chef/${chefId}`)
+        .set('Cookie', adminToken);
+
+      // Check if the response status code is correct
+      expect(res.statusCode).toBe(400);
+
+      expect(res.body.message).toBe('User is already approved as a chef.');
     });
   });
 

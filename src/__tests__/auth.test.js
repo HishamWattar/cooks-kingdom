@@ -3,7 +3,6 @@ require('jsonwebtoken');
 const app = require('../app');
 const db = require('../db/connection');
 const { User } = require('../models/user');
-const { createToken } = require('../utils/token');
 
 const req = supertest(app);
 
@@ -28,6 +27,8 @@ const invalidUser = {
   email: 'invalid@example.com',
   password: 'Invalid$123',
 };
+
+let token;
 
 beforeAll(async () => {
   await db.connectToMongo();
@@ -89,6 +90,8 @@ describe('Local Auth Endpoints', () => {
       const tokenCookie = res.headers['set-cookie'][0];
       expect(tokenCookie).toBeDefined();
       expect(tokenCookie.includes('token=')).toBe(true);
+
+      [token] = res.headers['set-cookie'][0].split(';');
     });
 
     it('Returns an error message when invalid credentials are provided', async () => {
@@ -100,15 +103,73 @@ describe('Local Auth Endpoints', () => {
     });
   });
 
+  describe('POST /api/auth/update-password', () => {
+    it('should update authenticated user password', async () => {
+      const res = await req
+        .post('/api/auth/update-password')
+        .set('Cookie', token)
+        .send({
+          currentPassword: correctUser.password,
+          newPassword: 'NewPassword!12243',
+          passwordConfirmation: 'NewPassword!12243',
+        });
+
+      expect(res.statusCode).toBe(200);
+
+      expect(res.body.message).toBe('Password updated successfully.');
+    });
+
+    it('should return an error message when new password and confirmation password do not match', async () => {
+      const res = await req
+        .post('/api/auth/update-password')
+        .set('Cookie', token)
+        .send({
+          currentPassword: correctUser.password,
+          newPassword: 'NewPassword!12243',
+          passwordConfirmation: 'NewPassword$12243',
+        });
+
+      expect(res.statusCode).toBe(400);
+
+      expect(res.body.message).toBe(
+        'New password and password confirmation do not match.'
+      );
+    });
+
+    it('should return an error message when current password in incorrect', async () => {
+      const res = await req
+        .post('/api/auth/update-password')
+        .set('Cookie', token)
+        .send({
+          currentPassword: 'incorrectpassword',
+          newPassword: 'NewPassword!12243',
+          passwordConfirmation: 'NewPassword!12243',
+        });
+
+      expect(res.statusCode).toBe(400);
+
+      expect(res.body.message).toBe('Current password in incorrect.');
+    });
+
+    it('should return an error message when new password is similar to current password', async () => {
+      const res = await req
+        .post('/api/auth/update-password')
+        .set('Cookie', token)
+        .send({
+          currentPassword: correctUser.password,
+          newPassword: correctUser.password,
+          passwordConfirmation: correctUser.password,
+        });
+
+      expect(res.statusCode).toBe(400);
+
+      expect(res.body.message).toBe('Current password in incorrect.');
+    });
+  });
+
   describe('Post /api/auth/signout', () => {
     it('Returns a success message when a user is authenticated', async () => {
-      const savedUser = await User.findOne({ email: correctUser.email });
-
-      const token = createToken(savedUser);
-
-      const res = await req
-        .post('/api/auth/signout')
-        .set('Cookie', `token=${token}`);
+      const res = await req.post('/api/auth/signout').set('Cookie', token);
 
       // Check if the response status code is correct
       expect(res.statusCode).toBe(200);

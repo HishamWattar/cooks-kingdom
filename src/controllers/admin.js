@@ -1,5 +1,6 @@
 const { User, Customer, Chef } = require('../models/user');
 const CustomError = require('../utils/customError');
+const { sendChefWelcomeEmail } = require('../utils/email');
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -90,6 +91,31 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const approveChef = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const chef = await Chef.findById(id);
+
+    if (!chef) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    if (chef.isApproved) {
+      return res
+        .status(400)
+        .json({ message: 'User is already approved as a chef.' });
+    }
+    chef.isApproved = true;
+    await chef.save();
+
+    sendChefWelcomeEmail(chef.email);
+
+    return res.json({ message: 'Chef approval successful.' });
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 module.exports = {
   getAllUsers,
   filterUsers,
@@ -97,4 +123,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  approveChef,
 };

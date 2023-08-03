@@ -60,7 +60,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.  
         500:
           description: Internal Server Error.        
-  /api/cart/item/{id}:
+  /api/cart/item:
       get:
         tags:
           - cartItem
@@ -69,7 +69,7 @@ paths:
         operationId: getCartItemByDishId
         parameters:
           - name: dishId
-            in: path
+            in: body
             description: ID of dish that needs to be added
             required: true
         produces:
@@ -115,7 +115,7 @@ paths:
           required: true
         parameters:
           - name: dishId
-            in: path
+            in: body
             description: ID of dish that needs to be added
             required: true
           - name: qauntity
@@ -167,7 +167,7 @@ paths:
           required: true
         parameters:
           - name: dishId
-            in: path
+            in: body
             description: ID of dish that needs to be updated
             required: true
           - name: qauntity
@@ -195,7 +195,7 @@ paths:
         operationId: deleteCartItemByDishId
         parameters:
           - name: dishId
-            in: path
+            in: body
             description: ID of dish that needs to be deleted
             required: true
         produces:
