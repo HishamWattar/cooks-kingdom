@@ -60,29 +60,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.  
         500:
           description: Internal Server Error.        
-  /api/cart/item:
-      get:
-        tags:
-          - cartItem
-        summary: Find cartItem by DishId
-        description: Returns a single cartItem
-        operationId: getCartItemByDishId
-        parameters:
-          - name: dishId
-            in: body
-            description: ID of dish that needs to be added
-            required: true
-        produces:
-        - application/json
-        responses:
-          '200':
-            description: An object with cartItem
-          '404':
-            description: item not found
-          401:
-            description: Unauthenticated. Please check if you are logged in.  
-          500:
-            description: Internal Server Error.  
+  /api/cart/item/:id:
       post:
         tags:
           - cartItem
@@ -115,7 +93,7 @@ paths:
           required: true
         parameters:
           - name: dishId
-            in: body
+            in: path
             description: ID of dish that needs to be added
             required: true
           - name: qauntity
@@ -133,6 +111,29 @@ paths:
             description: Unauthenticated. Please check if you are logged in.  
           500:
             description: Internal Server Error. 
+  /api/cart/item:
+      get:
+        tags:
+          - cartItem
+        summary: Find cartItem by DishId
+        description: Returns a single cartItem
+        operationId: getCartItemByDishId
+        parameters:
+          - name: dishId
+            in: body
+            description: ID of dish that needs to be added
+            required: true
+        produces:
+        - application/json
+        responses:
+          '200':
+            description: An object with cartItem
+          '404':
+            description: item not found
+          401:
+            description: Unauthenticated. Please check if you are logged in.  
+          500:
+            description: Internal Server Error.           
       put:
         tags:
           - cartItem

@@ -1,4 +1,5 @@
 const Cart = require('../models/cart');
+const dishModel = require('../models/dish');
 const CustomError = require('../utils/customError');
 
 exports.getCart = async (req, res, next) => {
@@ -19,7 +20,7 @@ exports.postCart = async (req, res, next) => {
     await cart.save();
     return res.status(201).json(cart);
   } catch (err) {
-    return next(new CustomError(err.message, 500));
+    return next(new CustomError(err.message));
   }
 };
 
@@ -30,7 +31,7 @@ exports.deleteCart = async (req, res, next) => {
       message: 'the cart was deleted',
     });
   } catch (err) {
-    return next(new CustomError('Failed to delete cart'));
+    return next(new CustomError(err.message));
   }
 };
 
@@ -45,15 +46,17 @@ exports.postCartItemByDishId = async (req, res, next) => {
     });
     if (cartItem) return next(new CustomError('item already in cart', 300));
 
+    const dish = await dishModel.findById(req.body.id);
+    // if (!dish) return next(new CustomError('error dish is not found', 404));
     cartItem = {
       dishId: req.body.id,
-      quantity: req.body.quantity ? req.body.quantity : 1,
+      quantity: req.body.quantity,
     };
     cart.cartItems.push(cartItem);
     cart.save();
     return res.status(201).json(cart);
   } catch (err) {
-    return next(new CustomError('Failed to add item to cart'));
+    return next(new CustomError(err.message));
   }
 };
 
@@ -61,7 +64,7 @@ exports.putCartItemByDishId = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       customerId: req.user.id,
-      'cartItems.dishId': req.body.id,
+      'cartItems.dishId': req.params.id,
     });
 
     if (cart.cartItems[0]) {
@@ -72,7 +75,7 @@ exports.putCartItemByDishId = async (req, res, next) => {
     }
     return res.status(201).json(cart);
   } catch (err) {
-    return next(new CustomError(err.message, 500));
+    return next(new CustomError(err.message));
   }
 };
 
@@ -80,14 +83,14 @@ exports.getCartItemByDishId = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       customerId: req.user.id,
-      'cartItems.dishId': req.body.id,
+      'cartItems.dishId': req.params.id,
     });
     if (cart.cartItems[0]) {
       return res.status(200).json(cart.cartItems[0]);
     }
     return res.status(404).json({ message: 'item not found' });
   } catch (err) {
-    return next(new CustomError('Failed to get item'));
+    return next(new CustomError(err.message));
   }
 };
 
@@ -95,16 +98,15 @@ exports.deleteCartItemByDishId = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       customerId: req.user.id,
-      'cartItems.dishId': req.body.id,
+      'cartItems.dishId': req.params.id,
     });
-
-    if (cart.cartItems[0]) {
+    if (cart) {
       cart.cartItems.splice(0, 1);
       cart.save();
       return res.status(204).json(cart);
     }
     return res.status(404).json({ message: 'item not found' });
   } catch (err) {
-    return next(new CustomError('Failed to delete item'));
+    return next(new CustomError(err.message));
   }
 };
