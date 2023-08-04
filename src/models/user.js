@@ -114,19 +114,15 @@ userSchema.set('toJSON', {
 const userModel = mongoose.model('User', userSchema);
 
 // Chef model
-const chefModel = userModel.discriminator(
-  'Chef',
-  new Schema({
-    experienceYears: Number,
-    bio: String,
-    rating: Number,
-    isApproved: Boolean,
-    specialty: {
-      type: String,
-    },
-  }),
-  'chef'
-);
+const chefSchema = new Schema({
+  experienceYears: Number,
+  bio: String,
+  isApproved: Boolean,
+  specialty: {
+    type: String,
+  },
+});
+const chefModel = userModel.discriminator('Chef', chefSchema, 'chef');
 
 // Customer model
 const customerModel = userModel.discriminator(
@@ -141,6 +137,30 @@ const customerModel = userModel.discriminator(
   }),
   'customer'
 );
+chefSchema.virtual('rating', {
+  ref: 'Dish',
+  localField: '_id',
+  foreignField: 'chefId',
+  justOne: false,
+  aggregate: [
+    {
+      $group: {
+        _id: null,
+        avgRating: { $avg: '$reviews.rate' },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        avgRating: 1,
+      },
+    },
+  ],
+});
+
+chefSchema.set('toJSON', {
+  virtuals: true,
+});
 
 module.exports = {
   User: userModel,
