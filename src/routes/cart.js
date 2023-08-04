@@ -18,13 +18,13 @@ routes.post(
 );
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
 routes.post(
-  '/item/:id',
+  '/item',
   isAuthenticated,
   isCustomer,
   cartControllers.postCartItemByDishId
 );
 routes.put(
-  '/item/:id',
+  '/item',
   updateCartItem,
   validationHandler,
   isAuthenticated,
@@ -32,13 +32,13 @@ routes.put(
   cartControllers.putCartItemByDishId
 );
 routes.get(
-  '/item/:id',
+  '/item',
   isAuthenticated,
   isCustomer,
   cartControllers.getCartItemByDishId
 );
 routes.delete(
-  '/item/:id',
+  '/item',
   isAuthenticated,
   isCustomer,
   cartControllers.deleteCartItemByDishId

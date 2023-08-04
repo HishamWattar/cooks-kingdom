@@ -13,5 +13,4 @@ routes.use('/admin/user', adminRoutes);
 routes.use('/user', userRoutes);
 routes.use('/cart', cartRoutes);
 
-
 module.exports = routes;
