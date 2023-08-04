@@ -19,7 +19,7 @@ const addReviewToDish = async (req, res, next) => {
       data: dish,
     });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 const updateReviewToDish = async (req, res, next) => {
@@ -44,7 +44,7 @@ const updateReviewToDish = async (req, res, next) => {
       data: dish,
     });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 const deleteReviewFromDish = async (req, res, next) => {
@@ -68,7 +68,7 @@ const deleteReviewFromDish = async (req, res, next) => {
       data: dish,
     });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 
