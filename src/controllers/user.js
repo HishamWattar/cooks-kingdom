@@ -84,9 +84,10 @@ const deleteUserAddress = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const updateResult = await User.findByIdAndUpdate(
+    const updateResult = await User.findOneAndUpdate(
       {
         _id: req.user.id,
+        'addresses._id': id,
       },
       {
         $pull: { addresses: { _id: id } },
@@ -94,7 +95,6 @@ const deleteUserAddress = async (req, res, next) => {
       { new: true }
     );
 
-    // TODO THIS CONDITION NEEDS TO FIXED LATER
     if (!updateResult) {
       return next(new CustomError('Address is not found', 404));
     }

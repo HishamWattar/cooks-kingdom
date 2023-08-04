@@ -7,12 +7,8 @@ const { User } = require('../models/user');
 const req = supertest(app);
 
 const { sendApprovalEmail } = require('../utils/email');
-// const uploadImage = require('../services/gcs');
 
 jest.mock('../utils/email');
-// jest.mock('../services/gcs');
-// sendApprovalEmail.mockResolvedValue();
-// uploadImage.mockResolvedValue();
 
 let addressId;
 let newUserToken;
@@ -236,20 +232,6 @@ describe('User Endpoints', () => {
       expect(res.statusCode).toBe(422);
     });
   });
-  // TODO NEEDS A TEST FOR UPLOAD IMAGE
-  // describe('PUT /api/user/profile/upload', () => {
-  //   it('should update user profile picture', async () => {
-  //     const mockImage = {
-  //       image: 'mockImage.png',
-  //     };
-  //     const res = await req
-  //       .put(`/api/user/profile/upload`)
-  //       .set('Cookie', newUserToken)
-  //       .attach(mockImage);
-  //
-  //     expect(res.statusCode).toBe(200);
-  //   });
-  // });
 
   describe('DELETE /api/user/profile/address/:id', () => {
     it('should delete user address by id', async () => {
@@ -259,13 +241,15 @@ describe('User Endpoints', () => {
 
       expect(res.statusCode).toBe(204);
     });
-    // it('should return an error message when address is not exists', async () => {
-    //   const res = await req
-    //       .put(`/api/user/profile/address/${addressId}`)
-    //       .set('Cookie', newUserToken);
-    //
-    //   expect(res.statusCode).toBe(404);
-    // });
+
+    it('should return an error message when address is not exists', async () => {
+      const res = await req
+        .delete(`/api/user/profile/address/${addressId}`)
+        .set('Cookie', newUserToken);
+
+      expect(res.statusCode).toBe(404);
+      expect(res.body.message).toBe('Address is not found');
+    });
   });
 
   describe('DELETE /api/user/profile', () => {
