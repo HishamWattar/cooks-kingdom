@@ -19,7 +19,6 @@ const addReviewToDish = async (req, res, next) => {
       data: dish,
     });
   } catch (err) {
-    console.log(err.message);
     return next(new CustomError(err.message, 422));
   }
 };
