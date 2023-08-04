@@ -124,3 +124,39 @@
 {"level":"error","message":"cart not found","timestamp":"2023-08-04T17:40:05.941Z"}
 {"level":"info","message":"Server listening on port 3000","timestamp":"2023-08-04T17:43:29.722Z"}
 {"level":"info","message":"Database connected","timestamp":"2023-08-04T17:43:29.761Z"}
+{"level":"error","message":"Dish validation failed: price: Path `price` is required.","timestamp":"2023-08-04T19:14:55.871Z"}
+{"level":"error","message":"Unauthorized: You are not the owner of this resource","timestamp":"2023-08-04T19:14:55.904Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"0101010101\" (type string) at path \"_id\" for model \"Dish\"","timestamp":"2023-08-04T19:14:55.918Z"}
+{"level":"error","message":"Unauthorized: You are not the owner of this resource","timestamp":"2023-08-04T19:14:55.943Z"}
+{"level":"error","message":"Cast to ObjectId failed for value \"0101010101\" (type string) at path \"_id\" for model \"Dish\"","timestamp":"2023-08-04T19:14:55.953Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:14:57.466Z"}
+{"level":"error","message":"This action is unauthorized","timestamp":"2023-08-04T19:14:57.476Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-04T19:14:57.515Z"}
+{"level":"error","message":"The email already exists","timestamp":"2023-08-04T19:14:57.694Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not be empty","path":"firstName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"firstName","type":"field"},{"location":"body","msg":"firstName should not include spaces and special charters","path":"firstName","type":"field"},{"location":"body","msg":"lastName should not be empty","path":"lastName","type":"field"},{"location":"body","msg":"lastName should be at least 3 characters long","path":"lastName","type":"field"},{"location":"body","msg":"firstName should not include spaces and special charters","path":"lastName","type":"field"},{"location":"body","msg":"email should not be empty","path":"email","type":"field"},{"location":"body","msg":"Invalid Email","path":"email","type":"field"},{"location":"body","msg":"password should not be empty","path":"password","type":"field"},{"location":"body","msg":"password should be at least 8 characters long","path":"password","type":"field"},{"location":"body","msg":"Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character","path":"password","type":"field"}],"timestamp":"2023-08-04T19:14:57.703Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-04T19:14:57.732Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not include spaces and special charters","path":"firstName","type":"field","value":342}],"timestamp":"2023-08-04T19:14:57.741Z"}
+{"level":"error","message":"User not found","timestamp":"2023-08-04T19:14:57.798Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not be empty","path":"firstName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"firstName","type":"field"},{"location":"body","msg":"firstName should not include spaces","path":"firstName","type":"field"},{"location":"body","msg":"lastName should not be empty","path":"lastName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"lastName","type":"field"},{"location":"body","msg":"lastName should not include spaces","path":"lastName","type":"field"},{"location":"body","msg":"name should not be empty","path":"name","type":"field"},{"location":"body","msg":"name should be at least 6 characters long","path":"name","type":"field"},{"location":"body","msg":"name should not include spaces","path":"name","type":"field"}],"timestamp":"2023-08-04T19:14:59.099Z"}
+{"level":"error","message":"Invalid credentials","timestamp":"2023-08-04T19:14:59.191Z"}
+{"level":"error","message":"New password and password confirmation do not match.","timestamp":"2023-08-04T19:14:59.400Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-04T19:14:59.473Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-04T19:14:59.545Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:14:59.562Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.860Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.875Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.887Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.913Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.928Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:00.945Z"}
+{"level":"error","message":[{"location":"body","msg":"rate cannot be empty.","path":"rate","type":"field"},{"location":"body","msg":"rate must be a number between 1 and 5.","path":"rate","type":"field"}],"timestamp":"2023-08-04T19:15:02.157Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:02.185Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:02.206Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-04T19:15:03.560Z"}
+{"level":"error","message":[{"location":"body","msg":"role should be chef or customer","path":"role","type":"field","value":"invalid"}],"timestamp":"2023-08-04T19:15:03.661Z"}
+{"level":"error","message":"You can't change your role","timestamp":"2023-08-04T19:15:03.672Z"}
+{"level":"error","message":[{"location":"body","msg":"Only one address can be set as a default","path":"addresses[0].isDefault","type":"field","value":true}],"timestamp":"2023-08-04T19:15:03.706Z"}
+{"level":"error","message":[{"location":"body","msg":"Country should not be empty","path":"addresses[0].country","type":"field"},{"location":"body","msg":"Country can only contain letters and spaces","path":"addresses[0].country","type":"field"},{"location":"body","msg":"Street should not be empty","path":"addresses[0].street","type":"field"},{"location":"body","msg":"Street can only contain letters, numbers, and spaces","path":"addresses[0].street","type":"field"},{"location":"body","msg":"Block should not be empty","path":"addresses[0].block","type":"field"},{"location":"body","msg":"Block can only contain letters, numbers, and spaces","path":"addresses[0].block","type":"field"},{"location":"body","msg":"Postal code should not be empty","path":"addresses[0].postalCode","type":"field"},{"location":"body","msg":"Postal code can only contain letters and numbers","path":"addresses[0].postalCode","type":"field"},{"location":"body","msg":"Apartment should not be empty","path":"addresses[0].apartment","type":"field"},{"location":"body","msg":"Apartment can only contain letters, numbers, and spaces","path":"addresses[0].apartment","type":"field"},{"location":"body","msg":"Only one address can be set as a default","path":"addresses[0].isDefault","type":"field","value":true}],"timestamp":"2023-08-04T19:15:03.720Z"}
+{"level":"error","message":"Address is not found","timestamp":"2023-08-04T19:15:03.746Z"}
+{"level":"error","message":[{"location":"body","msg":"City can only contain letters and spaces","path":"address.city","type":"field","value":"Istanbul32"}],"timestamp":"2023-08-04T19:15:03.757Z"}
+{"level":"error","message":"Address is not found","timestamp":"2023-08-04T19:15:03.778Z"}
