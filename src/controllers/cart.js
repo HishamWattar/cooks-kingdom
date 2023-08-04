@@ -27,9 +27,7 @@ exports.postCart = async (req, res, next) => {
 exports.deleteCart = async (req, res, next) => {
   try {
     Cart.deleteOne({ customerId: req.user.id });
-    return res.status(204).json({
-      message: 'the cart was deleted',
-    });
+    return res.status(204).send();
   } catch (err) {
     return next(new CustomError(err.message));
   }
@@ -103,7 +101,7 @@ exports.deleteCartItemByDishId = async (req, res, next) => {
     if (cart) {
       cart.cartItems.splice(0, 1);
       cart.save();
-      return res.status(204).json(cart);
+      return res.status(204).send();
     }
     return res.status(404).json({ message: 'item not found' });
   } catch (err) {
