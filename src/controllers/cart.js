@@ -47,7 +47,7 @@ exports.postCartItemByDishId = async (req, res, next) => {
     if (cartItem) return next(new CustomError('item already in cart', 300));
 
     const dish = await dishModel.findById(req.body.id);
-    // if (!dish) return next(new CustomError('error dish is not found', 404));
+    if (!dish) return next(new CustomError('error dish is not found', 404));
     cartItem = {
       dishId: req.body.id,
       quantity: req.body.quantity,
