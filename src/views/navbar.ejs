@@ -1,0 +1,64 @@
+<nav style="height: 5rem">
+    <div class="container h-100">
+      <div class="row align-items-center align-content-center h-100">
+        <div class="col-3">
+          <div class="logo"><a href="/">cooksKingdom</a></div>
+        </div>
+        <div class="col-6">
+          <ul class="nav justify-content-center align-items-center">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <% if (!user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/signin">Sign in</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-primary text-white" href="/user/signup">Sign up</a>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/articles/new">New article</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <img src="<%= user.avatar %>" class="rounded-circle img-fluid mx-2" style="height: 2.5rem" />
+                <b><%= user.firstname?? user.username %></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="/articles?authorId=<%= user.username %> ">My articles</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/user/edit">Edit profile</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="/user/signout">Sign out</a></li>
+              </ul>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <div class="col-3">
+          <form id="search-form" action="/search">
+            <div class="input-group">
+              <div class="input-group-text" id="btnGroupAddon">
+                <i class="bi-search"></i>
+              </div>
+              <input type="search" class="form-control form-control-sm" placeholder="Search blog" name="query"
+                aria-label="Search Blog" aria-describedby="btnGroupAddon" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <script>
+    const form = document.getElementById("search-form");
+  
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+  </script>

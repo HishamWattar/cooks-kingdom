@@ -1,0 +1,9 @@
+<div class="d-flex flex-column align-items-center fs-5 py-5">
+    <p class="fw-bold">Welcome <%= user? user.fullname:"" %> ! You will be redirected to homepage.</p>
+    <a href="/" class="small mt-5">Click here if you weren't redirected automatically</a>
+</div>
+<script>
+    setTimeout(() => {
+        window.location = "/"
+    }, 3000)
+</script>
