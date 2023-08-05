@@ -54,6 +54,9 @@ function isOwner(path) {
       let owner = false;
       if (path === 'dishes') {
         const dish = await Dish.findById(id);
+        if (!dish) {
+          return next(new CustomError("Item wasn't found", 404));
+        }
         owner = dish && dish.chefId.toString() === userId;
       } else if (path === 'cart') {
         const cart = await Cart.findById(id);
@@ -75,7 +78,7 @@ function isOwner(path) {
       }
     } catch (err) {
       // Handle any potential errors
-      return next();
+      return next(new CustomError(err.message, 500));
     }
     // If the user is the owner, continue to the next middleware or route handler
     return next();

@@ -25,6 +25,7 @@ router.delete(
   isChef,
   dishController.deleteDish
 );
+router.post('/image', isAuthenticated, isChef, dishController.uploadDishImage);
 
 // router.post('/',  dishController.addDish);
 // router.put('/:id',  dishController.updateDish);
