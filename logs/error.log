@@ -119,3 +119,14 @@
 {"level":"error","message":[{"location":"body","msg":"rate cannot be empty.","path":"rate","type":"field"},{"location":"body","msg":"rate must be a number between 1 and 5.","path":"rate","type":"field"}],"timestamp":"2023-08-05T16:19:21.784Z"}
 {"level":"error","message":"Unauthenticated","timestamp":"2023-08-05T16:19:22.593Z"}
 {"level":"error","message":"Unauthenticated","timestamp":"2023-08-05T16:19:23.823Z"}
+{"level":"error","message":"connection establishment was cancelled","timestamp":"2023-08-05T16:44:54.109Z"}
+{"level":"error","message":"Invalid credentials","timestamp":"2023-08-05T16:45:00.547Z"}
+{"level":"error","message":[{"location":"body","msg":"firstName should not be empty","path":"firstName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"firstName","type":"field"},{"location":"body","msg":"firstName should not include spaces","path":"firstName","type":"field"},{"location":"body","msg":"lastName should not be empty","path":"lastName","type":"field"},{"location":"body","msg":"firstName should be at least 3 characters long","path":"lastName","type":"field"},{"location":"body","msg":"lastName should not include spaces","path":"lastName","type":"field"},{"location":"body","msg":"username should not be empty","path":"username","type":"field"},{"location":"body","msg":"username should be at least 6 characters long","path":"username","type":"field"},{"location":"body","msg":"username should not include spaces","path":"username","type":"field"}],"timestamp":"2023-08-05T16:45:10.836Z"}
+{"level":"error","message":"Invalid credentials","timestamp":"2023-08-05T16:45:11.239Z"}
+{"level":"error","message":"New password and password confirmation do not match.","timestamp":"2023-08-05T16:45:12.590Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-05T16:45:13.062Z"}
+{"level":"error","message":"Current password in incorrect.","timestamp":"2023-08-05T16:45:13.755Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-05T16:45:14.174Z"}
+{"level":"error","message":[{"location":"body","msg":"rate cannot be empty.","path":"rate","type":"field"},{"location":"body","msg":"rate must be a number between 1 and 5.","path":"rate","type":"field"}],"timestamp":"2023-08-05T16:45:18.873Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-05T16:45:19.440Z"}
+{"level":"error","message":"Unauthenticated","timestamp":"2023-08-05T16:45:19.995Z"}
