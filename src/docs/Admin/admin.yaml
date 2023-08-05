@@ -46,9 +46,9 @@ paths:
                   type: string
                   description: last name of user
                   example: Doe
-                name:
+                username:
                   type: string
-                  description: name of user
+                  description: username of user
                   example: JohnDoe
                 email:
                   type: string
@@ -78,9 +78,9 @@ paths:
                     type: string
                     description: last name of user
                     example: Doe
-                  name:
+                  username:
                     type: string
-                    description: name of user
+                    description: username of user
                     example: JohnDoe
                   email:
                     type: string
@@ -286,7 +286,7 @@ components:
         lastName:
           type: string
           example: Doe
-        name:
+        username:
           type: string
           example: JohnDoe
         email:
