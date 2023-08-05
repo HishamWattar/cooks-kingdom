@@ -108,7 +108,7 @@ const deleteUserAddress = async (req, res, next) => {
 const updateUserProfile = async (req, res, next) => {
   try {
     const {
-      name,
+      username,
       addresses,
       firstName,
       lastName,
@@ -124,7 +124,7 @@ const updateUserProfile = async (req, res, next) => {
     const options = { new: true };
     let updatedUser;
     const updateData = {
-      name,
+      username,
       $push: { addresses },
       firstName,
       lastName,

@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 const dishModel = require('../models/dish');
 const CustomError = require('../utils/customError');
+const uploadImage = require('../services/gcs');
 
 const getAllDishes = async (req, res, next) => {
   try {
     const Dishes = await dishModel.find();
     return res.json({ data: Dishes });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -16,14 +17,9 @@ const getDishById = async (req, res, next) => {
   try {
     // Find by ID query
     const dish = await dishModel.findById(id);
-    if (!dish) {
-      return next(
-        new CustomError("the dish you are looking for wasn't found", 422)
-      );
-    }
     return res.json({ data: dish });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 const filterDishes = async (req, res, next) => {
@@ -52,9 +48,7 @@ const filterDishes = async (req, res, next) => {
   }
 };
 const addDish = async (req, res, next) => {
-  const { name, description, image, price } = req.body;
-  const chefId = req.user._id;
-
+  const { name, chefId, description, image, price } = req.body;
   let { ingredients } = req.body;
   if (!Array.isArray(ingredients)) {
     ingredients = ingredients ? ingredients.split(',') : [];
@@ -64,13 +58,12 @@ const addDish = async (req, res, next) => {
     const newDish = await dishModel.create(dishData);
     return res.status(201).json({ data: newDish });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 const updateDish = async (req, res, next) => {
   const { id } = req.params;
-  const { name, ingredients, price, reviews, image } = req.body;
-  const chefId = req.user._id;
+  const { name, chefId, ingredients, price, image } = req.body;
 
   try {
     const updatedDish = await dishModel.findOneAndUpdate(
@@ -81,35 +74,46 @@ const updateDish = async (req, res, next) => {
         ingredients,
         image,
         price,
-        reviews,
       },
       { returnOriginal: false }
     );
-    if (!updatedDish) {
-      return next(
-        new CustomError("the dish you are trying to update wasn't found", 422)
-      );
-    }
     return res.json({ data: updatedDish });
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
 const deleteDish = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const dish = await dishModel.findByIdAndDelete(id);
-    if (!dish) {
-      return next(
-        new CustomError("the dish you are trying to delete wasn't found", 404)
-      );
-    }
+    await dishModel.findByIdAndDelete(id);
+
     return res.status(204).send();
   } catch (err) {
-    return next(new CustomError(err.message, 422));
+    return next(new CustomError(err.message, 500));
   }
 };
+const uploadDishImage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      const url = await uploadImage(req.file);
+      await dishModel.findByIdAndUpdate(
+        req.user.id,
+        {
+          image: url,
+        },
+        {
+          new: true,
+        }
+      );
+      return res.json({ message: 'Dish image uploaded successfully' });
+    }
+    return next(new CustomError('Please provide a profile image', 422));
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 module.exports = {
   getAllDishes,
   getDishById,
@@ -117,4 +121,5 @@ module.exports = {
   addDish,
   updateDish,
   deleteDish,
+  uploadDishImage,
 };

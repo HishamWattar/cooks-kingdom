@@ -38,5 +38,13 @@ const dishSchema = new Schema({
   reviews: [reviewSchema],
 });
 
+// Hide "__v" field from query results
+dishSchema.set('toJSON', {
+  transform(doc, ret) {
+    // eslint-disable-next-line no-param-reassign
+    delete ret.__v;
+  },
+});
+
 // Dish model
 module.exports = mongoose.model('Dish', dishSchema);

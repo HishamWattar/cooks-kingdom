@@ -13,7 +13,7 @@ const newUser = {
   firstName: 'John',
   lastName: 'Doe',
   email: 'john.doe@example.com',
-  name: 'JohnDoe',
+  username: 'JohnDoe',
   password: 'Correct$123',
   avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
 };
@@ -55,7 +55,7 @@ describe('Local Auth Endpoints', () => {
       expect(res.body.data.firstName).toBe(newUser.firstName);
       expect(res.body.data.lastName).toBe(newUser.lastName);
       expect(res.body.data.email).toBe(newUser.email);
-      expect(res.body.data.name).toBe(newUser.name);
+      expect(res.body.data.username).toBe(newUser.username);
 
       // Check if the response contains a jwt
       const tokenCookie = res.headers['set-cookie'][0];
@@ -64,7 +64,7 @@ describe('Local Auth Endpoints', () => {
     });
 
     it('Returns validation errors for invalid data', async () => {
-      // Missing three required fields 'firstName' and 'lastName' and 'name'
+      // Missing three required fields 'firstName' and 'lastName' and 'username'
       const res = await req.post('/api/auth/signup').send(invalidUser);
 
       // Check if the response status code is correct

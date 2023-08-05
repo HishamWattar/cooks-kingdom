@@ -18,7 +18,7 @@ const customerUser = {
   firstName: 'customer',
   lastName: 'customer',
   password: 'Customer%123',
-  name: 'customerUser',
+  username: 'customerUser',
   email: 'customer@example.com',
   role: 'customer',
 };
@@ -27,7 +27,7 @@ const adminUser = {
   firstName: 'admin',
   lastName: 'admin',
   password: 'Admin%123',
-  name: 'AdminUser',
+  username: 'AdminUser',
   email: 'admin@example.com',
   role: 'admin',
 };
@@ -35,7 +35,7 @@ const adminUser = {
 const newChef = {
   firstName: 'New',
   lastName: 'Chef',
-  name: 'newChef',
+  username: 'chefUser',
   email: 'newchef@example.com',
   password: 'Newchef$123',
   role: 'chef',
@@ -87,7 +87,7 @@ describe('Admin Endpoints', () => {
   describe('GET /api/admin/user/filter', () => {
     it('should return all filtered users', async () => {
       const res = await req
-        .get('/api/admin/user/filter?role=customer')
+        .get('/api/admin/user/filter?firstName=customer')
         .set('Cookie', adminToken);
 
       // Check if the response status code is correct
@@ -131,7 +131,7 @@ describe('Admin Endpoints', () => {
       const newCustomer = {
         firstName: 'New',
         lastName: 'Customer',
-        name: 'newCustomer',
+        username: 'newCustomer',
         email: 'newcustomer@example.com',
         password: 'Newcustomer$123',
         role: 'customer',
@@ -148,7 +148,7 @@ describe('Admin Endpoints', () => {
       // Check if the response contains the created customer details
       expect(res.body.data.firstName).toBe('New');
       expect(res.body.data.lastName).toBe('Customer');
-      expect(res.body.data.name).toBe('newCustomer');
+      expect(res.body.data.username).toBe('newCustomer');
       expect(res.body.data.email).toBe('newcustomer@example.com');
       expect(res.body.data.role).toBe('customer');
     });
@@ -165,7 +165,7 @@ describe('Admin Endpoints', () => {
       // Check if the response contains the created chef details
       expect(res.body.data.firstName).toBe('New');
       expect(res.body.data.lastName).toBe('Chef');
-      expect(res.body.data.name).toBe('newChef');
+      expect(res.body.data.username).toBe('chefUser');
       expect(res.body.data.email).toBe('newchef@example.com');
       expect(res.body.data.role).toBe('chef');
 
@@ -176,7 +176,7 @@ describe('Admin Endpoints', () => {
       const duplicatedUser = {
         firstName: 'New',
         lastName: 'Customer',
-        name: 'newCustomer',
+        username: 'newCustomer',
         email: 'newcustomer@example.com',
         password: 'Newcustomer$123',
         role: 'customer',
@@ -195,7 +195,7 @@ describe('Admin Endpoints', () => {
 
     it('should return validation errors for invalid data', async () => {
       const invalidUser = {
-        name: 'newCustomer',
+        username: 'newCustomer',
         role: 'customer',
       };
 

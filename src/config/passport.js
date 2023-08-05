@@ -14,18 +14,22 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       const userProfile = {
         email: profile._json.email,
-        name: profile._json.name,
+        username: profile._json.name,
         firstName: profile._json.given_name,
         lastName: profile._json.family_name,
         avatar: profile._json.picture,
         providerId: profile._json.sub,
         provider: 'google',
       };
-      let user = await User.findOne({ providerId: userProfile.providerId });
-      if (!user) {
-        user = await User.create(userProfile);
+      try {
+        let user = await User.findOne({ providerId: userProfile.providerId });
+        if (!user) {
+          user = await User.create(userProfile);
+        }
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
       }
-      return done(null, user);
     }
   )
 );
@@ -41,18 +45,22 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       const userProfile = {
         email: profile._json.email,
-        name: profile._json.name,
+        username: profile._json.name,
         firstName: profile._json.first_name,
         lastName: profile._json.last_name,
         avatar: profile._json.picture.data.url,
         providerId: profile._json.sub,
         provider: 'facebook',
       };
-      let user = await User.findOne({ providerId: userProfile.providerId });
-      if (!user) {
-        user = await User.create(userProfile);
+      try {
+        let user = await User.findOne({ providerId: userProfile.providerId });
+        if (!user) {
+          user = await User.create(userProfile);
+        }
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
       }
-      return done(null, user);
     }
   )
 );

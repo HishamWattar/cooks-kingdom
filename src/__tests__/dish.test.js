@@ -17,7 +17,7 @@ const ownerChef = {
   firstName: 'chef',
   lastName: 'chef',
   password: 'cheFf%123',
-  name: 'chefName',
+  username: 'chefOne',
   isApproved: true,
   email: 'chef@example.com',
   role: 'chef',
@@ -28,7 +28,7 @@ const otherChef = {
   lastName: 'chef',
   isApproved: true,
   password: 'cheFf%123',
-  name: 'chefName',
+  username: 'chefTwo',
   email: 'otherChef@example.com',
   role: 'chef',
 };
@@ -191,7 +191,7 @@ describe('POST /api/dishes', () => {
       .post('/api/dishes')
       .send({ name: 'hello' })
       .set('Cookie', ownerChefToken);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(500);
   });
 });
 
@@ -216,12 +216,12 @@ describe('PUT /api/dishes/:id', () => {
   });
   it("Doesn't update non-existing dishes", async () => {
     const res = await req
-      .put(`/api/dishes/0101010101`)
+      .put(`/api/dishes/000000000000000000000000`)
       .send({
         name: 'Not fish',
       })
       .set('Cookie', ownerChefToken);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(404);
   });
 });
 
@@ -246,11 +246,11 @@ describe('DELETE /api/dishes/:id', () => {
   });
   it("Doesn't delete non-existing dishes", async () => {
     const res = await req
-      .delete(`/api/dishes/0101010101`)
+      .delete(`/api/dishes/000000000000000000000000`)
       .send({
         name: 'Not fish',
       })
       .set('Cookie', ownerChefToken);
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(404);
   });
 });
