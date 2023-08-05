@@ -24,5 +24,11 @@ const cartSchema = new Schema({
   cartItems: [cartItemSchema],
 });
 
+cartSchema.set('toJSON', {
+  transform(doc, ret) {
+    // eslint-disable-next-line no-param-reassign
+    delete ret.__v;
+  },
+});
 // Cart model
 module.exports = mongoose.model('Cart', cartSchema);
