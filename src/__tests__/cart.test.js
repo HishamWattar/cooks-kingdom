@@ -14,7 +14,7 @@ const customerUser = {
   firstName: 'cartCustomer',
   lastName: 'cartCustomer',
   password: 'cartCustomer%123',
-  name: 'cartCustomerUser',
+  username: 'cartCustomerUser',
   email: 'cartCustomer@example.com',
   role: 'customer',
 };
