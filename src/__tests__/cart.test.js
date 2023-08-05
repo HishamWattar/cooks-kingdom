@@ -40,8 +40,8 @@ beforeAll(async () => {
   await db.connectToMongo();
   const res = await req.post('/api/auth/signup').send(customerUser);
   [customerToken] = res.headers['set-cookie'][0].split(';');
-  const _ownerChef = await Chef.create(chef);
-  spaghetti.chefId = _ownerChef._id;
+  const ownerChef = await Chef.create(chef);
+  spaghetti.chefId = ownerChef._id;
   const newDish = await Dish.create(spaghetti);
   dishId = newDish._id;
 });

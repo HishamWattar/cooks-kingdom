@@ -43,8 +43,7 @@ exports.postCartItemByDishId = async (req, res, next) => {
       'cartItems.dishId': req.body.id,
     });
     if (cartItem) return next(new CustomError('item already in cart', 300));
-
-    const dish = await dishModel.findById(req.body.id);
+    const dish = await dishModel.findOne({ _id: req.body.id });
     if (!dish) return next(new CustomError('error dish is not found', 404));
     cartItem = {
       dishId: req.body.id,
@@ -86,7 +85,7 @@ exports.getCartItemByDishId = async (req, res, next) => {
     if (cart.cartItems[0]) {
       return res.status(200).json(cart.cartItems[0]);
     }
-    return res.status(404).json({ message: 'item not found' });
+    return next(new CustomError('item not found', 404));
   } catch (err) {
     return next(new CustomError(err.message));
   }
@@ -103,7 +102,7 @@ exports.deleteCartItemByDishId = async (req, res, next) => {
       cart.save();
       return res.status(204).send();
     }
-    return res.status(404).json({ message: 'item not found' });
+    return next(new CustomError('item not found', 404));
   } catch (err) {
     return next(new CustomError(err.message));
   }

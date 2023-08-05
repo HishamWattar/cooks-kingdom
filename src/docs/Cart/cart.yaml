@@ -60,7 +60,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.
         500:
           description: Internal Server Error.
-  /api/cart/item/:id:
+  /api/cart/item:
     post:
       tags:
         - cartItem
@@ -72,34 +72,16 @@ paths:
           application/json:
             schema:
               properties:
-                _id:
-                  type: string
-                  description: cart id
-                  example: 64c69697afcf6e333eace111
-                customerId:
-                  type: ObjectId
-                  description: last name of user
-                  example: 64c6968dafcf6e333eace10d
-                cartItems:
-                  type: array
-                  description: array of items
-                  example:
-                    - dishId: '64c236f2a598b483623bf1a9'
-                      quantity: 6
-                      _id: 64c696a0afcf6e333eace116
-                    - dishId: '64c69697afcf6e333eace111'
-                      quantity: 5
-                      _id: 64c698c16af29132bc11b6ef
-        required: true
+              quantity:
+                type: integer
+                description: quantity for the item, must be greater than 0 and less than a 100
+                example: 1
+      required: false
       parameters:
         - name: dishId
           in: path
           description: ID of dish that needs to be added
           required: true
-        - name: qauntity
-          in: body
-          description: quantity for the item, must be greater than 0 and less than a 100
-          required: false
       produces:
         - application/json
       responses:
@@ -111,7 +93,7 @@ paths:
           description: Unauthenticated. Please check if you are logged in.
         500:
           description: Internal Server Error.
-  /api/cart/item:
+  /api/cart/item/:id:
     get:
       tags:
         - cartItem
@@ -120,7 +102,7 @@ paths:
       operationId: getCartItemByDishId
       parameters:
         - name: dishId
-          in: body
+          in: path
           description: ID of dish that needs to be added
           required: true
       produces:
@@ -140,39 +122,20 @@ paths:
       summary: increase the quantity for cartItem by one
       operationId: putCartItemByDishId
       requestBody:
-        description: increases the quantity by one for the cartItem.
+        description: adds a new cart item to cart.
         content:
           application/json:
             schema:
               properties:
-                _id:
-                  type: string
-                  description: cart id
-                  example: 64c69697afcf6e333eace111
-                customerId:
-                  type: ObjectId
-                  description: last name of user
-                  example: 64c6968dafcf6e333eace10d
-                cartItems:
-                  type: array
-                  description: array of items
-                  example:
-                    - dishId: '64c236f2a598b483623bf1a9'
-                      quantity: 6
-                      _id: 64c696a0afcf6e333eace116
-                    - dishId: '64c69697afcf6e333eace111'
-                      quantity: 5
-                      _id: 64c698c16af29132bc11b6ef
-
-        required: true
+                quantity:
+                  type: integer
+                  description: quantity for the item, must be greater than 0 and less than a 100
+                  example: 1
+      required: true
       parameters:
         - name: dishId
-          in: body
+          in: path
           description: ID of dish that needs to be updated
-          required: true
-        - name: qauntity
-          in: body
-          description: quantity for the item, must be greater than 0 and less than a 100
           required: true
       produces:
         - application/json
@@ -194,7 +157,7 @@ paths:
       operationId: deleteCartItemByDishId
       parameters:
         - name: dishId
-          in: body
+          in: path
           description: ID of dish that needs to be deleted
           required: true
       produces:
