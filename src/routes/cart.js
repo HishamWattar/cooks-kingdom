@@ -18,7 +18,7 @@ routes.post(
 );
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
 routes.post(
-  '/item/:id',
+  '/item',
   isAuthenticated,
   isCustomer,
   cartControllers.postCartItemByDishId
