@@ -19,13 +19,13 @@ const signup = [
     .withMessage('firstName should be at least 3 characters long')
     .matches(/^[A-Za-z]+$/)
     .withMessage('lastName should not include spaces'),
-  check('name')
+  check('username')
     .notEmpty()
-    .withMessage('name should not be empty')
+    .withMessage('username should not be empty')
     .isLength({ min: 6 })
-    .withMessage('name should be at least 6 characters long')
-    .matches(/^\S+$/)
-    .withMessage('name should not include spaces'),
+    .withMessage('username should be at least 6 characters long')
+    .matches(/^[A-Za-z]+$/)
+    .withMessage('username should not include spaces'),
   check('email')
     .notEmpty()
     .withMessage('email should not be empty')
@@ -70,12 +70,12 @@ const createUser = [
     .withMessage('lastName should be at least 3 characters long')
     .matches(/^[A-Za-z]+$/)
     .withMessage('firstName should not include spaces and special charters'),
-  check('name')
+  check('username')
     .notEmpty()
-    .withMessage('name should not be empty')
+    .withMessage('username should not be empty')
     .isLength({ min: 6 })
-    .withMessage('name should be at least 6 characters long')
-    .matches(/^\S+$/)
+    .withMessage('username should be at least 6 characters long')
+    .matches(/^[A-Za-z]+$/)
     .withMessage('firstName should not include spaces and special charters'),
   check('email')
     .notEmpty()
@@ -114,11 +114,11 @@ const updateUser = [
     .matches(/^[A-Za-z]+$/)
     .withMessage('firstName should not include spaces and special charters')
     .optional(),
-  check('name')
+  check('username')
     .isLength({ min: 6 })
-    .withMessage('name should be at least 6 characters long')
-    .matches(/^\S+$/)
-    .withMessage('name should not include spaces and special charters')
+    .withMessage('username should be at least 6 characters long')
+    .matches(/^[A-Za-z]+$/)
+    .withMessage('username should not include spaces and special charters')
     .optional(),
   check('email').isEmail().withMessage('Invalid Email').optional(),
   check('password')

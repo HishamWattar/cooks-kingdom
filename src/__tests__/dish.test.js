@@ -17,7 +17,7 @@ const ownerChef = {
   firstName: 'chef',
   lastName: 'chef',
   password: 'cheFf%123',
-  name: 'chefName',
+  username: 'chefOne',
   isApproved: true,
   email: 'chef@example.com',
   role: 'chef',
@@ -28,7 +28,7 @@ const otherChef = {
   lastName: 'chef',
   isApproved: true,
   password: 'cheFf%123',
-  name: 'chefName',
+  username: 'chefTwo',
   email: 'otherChef@example.com',
   role: 'chef',
 };

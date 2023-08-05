@@ -16,7 +16,7 @@ const newUser = {
   firstName: 'John',
   lastName: 'Doe',
   email: 'john.doe@example.com',
-  name: 'JohnDoe',
+  username: 'JohnDoe',
   password: 'Correct$123',
 };
 beforeAll(async () => {
@@ -41,7 +41,7 @@ describe('User Endpoints', () => {
 
       expect(res.body.firstName).toBe(newUser.firstName);
       expect(res.body.lastName).toBe(newUser.lastName);
-      expect(res.body.name).toBe(newUser.name);
+      expect(res.body.username).toBe(newUser.username);
       expect(res.body.email).toBe(newUser.email);
     });
 
@@ -61,7 +61,7 @@ describe('User Endpoints', () => {
         firstName: 'admin',
         lastName: 'admin',
         password: 'Admin%123',
-        name: 'AdminUser',
+        username: 'AdminUser',
         email: 'admin@example.com',
         role: 'admin',
       });

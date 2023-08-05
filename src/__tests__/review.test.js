@@ -14,7 +14,7 @@ const customerUser = {
   firstName: 'customerTest',
   lastName: 'customerTests',
   password: 'Customer%123Tests',
-  name: 'customerUserTests',
+  username: 'customerUserTests',
   email: 'customerTests@example.com',
   role: 'customer',
 };
