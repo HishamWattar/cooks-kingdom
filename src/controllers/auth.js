@@ -33,18 +33,13 @@ const signin = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-
     if (!user) {
-      return res
-        .status(400)
-        .render('user/signin', { error: 'Wrong username or password' });
+      return next(new CustomError('Invalid credentials', 401));
     }
 
     const isValidPassword = await compare(password, user.password);
     if (!isValidPassword) {
-      return res
-        .status(400)
-        .render('user/signin', { error: 'Wrong username or password' });
+      return next(new CustomError('Invalid credentials', 401));
     }
 
     saveTokenToCookie(user, res);
