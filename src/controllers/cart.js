@@ -1,109 +1,147 @@
 const Cart = require('../models/cart');
-const dishModel = require('../models/dish');
+const Dish = require('../models/dish');
 const CustomError = require('../utils/customError');
 
-exports.getCart = async (req, res, next) => {
+const getCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ customerId: req.user.id });
-    if (!cart) return next(new CustomError('cart not found', 404));
-    return res.status(200).json(cart);
+
+    if (!cart) {
+      return next(new CustomError("You don't have a cart.", 404));
+    }
+
+    return res.json(cart);
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
 };
 
-exports.postCart = async (req, res, next) => {
+const deleteCart = async (req, res, next) => {
+  try {
+    const cart = await Cart.findOneAndDelete({ customerId: req.user.id });
+
+    if (!cart) {
+      return next(new CustomError("You don't have a cart.", 404));
+    }
+
+    return res.sendStatus(204);
+  } catch (err) {
+    return next(new CustomError(err.message));
+  }
+};
+
+const postCartItemById = async (req, res, next) => {
   try {
     let cart = await Cart.findOne({ customerId: req.user.id });
-    if (cart) return next(new CustomError('cart already exist', 300));
-    cart = new Cart({ customerId: req.user.id });
-    await cart.save();
-    return res.status(201).json(cart);
-  } catch (err) {
-    return next(new CustomError(err.message));
-  }
-};
 
-exports.deleteCart = async (req, res, next) => {
-  try {
-    Cart.deleteOne({ customerId: req.user.id });
-    return res.status(204).send();
-  } catch (err) {
-    return next(new CustomError(err.message));
-  }
-};
-
-exports.postCartItemByDishId = async (req, res, next) => {
-  try {
-    const cart = await Cart.findOne({ customerId: req.user.id });
-    if (!cart) return next(new CustomError('cart not found', 404));
+    if (!cart) {
+      cart = await Cart.create({ customerId: req.user.id });
+    }
 
     let cartItem = await Cart.findOne({
       customerId: req.user.id,
-      'cartItems.dishId': req.body.id,
+      'cartItems.dishId': req.body.dishId,
     });
-    if (cartItem) return next(new CustomError('item already in cart', 300));
-    const dish = await dishModel.findOne({ _id: req.body.id });
-    if (!dish) return next(new CustomError('error dish is not found', 404));
+
+    if (cartItem) {
+      return next(new CustomError('Item already in cart.', 409));
+    }
+
+    const dish = await Dish.findOne({ _id: req.body.dishId });
+    if (!dish) {
+      return next(new CustomError('Dish not found.', 404));
+    }
+
     cartItem = {
-      dishId: req.body.id,
+      dishId: req.body.dishId,
       quantity: req.body.quantity,
     };
+
     cart.cartItems.push(cartItem);
-    cart.save();
+    await cart.save();
+
     return res.status(201).json(cart);
   } catch (err) {
-    return next(new CustomError(err.message));
+    return next(new CustomError(err.message, 500));
   }
 };
 
-exports.putCartItemByDishId = async (req, res, next) => {
+const putCartItemById = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const cart = await Cart.findOne({
-      customerId: req.user.id,
-      'cartItems.dishId': req.params.id,
-    });
+    const { quantity } = req.body;
 
-    if (cart.cartItems[0]) {
-      cart.cartItems[0].quantity = req.body.quantity;
-      cart.save();
-    } else {
-      return next(new CustomError('item not found', 404));
+    const cart = await Cart.findOneAndUpdate(
+      {
+        customerId: req.user.id,
+        'cartItems._id': id,
+      },
+      {
+        $set: {
+          'cartItems.$.quantity': quantity,
+        },
+      },
+      { new: true }
+    );
+
+    if (!cart) {
+      return next(new CustomError('Item not found.', 404));
     }
-    return res.status(201).json(cart);
+
+    return res.json(cart);
   } catch (err) {
     return next(new CustomError(err.message));
   }
 };
 
-exports.getCartItemByDishId = async (req, res, next) => {
+const getCartItemById = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const cart = await Cart.findOne({
-      customerId: req.user.id,
-      'cartItems.dishId': req.params.id,
-    });
-    if (cart.cartItems[0]) {
-      return res.status(200).json(cart.cartItems[0]);
+    const cart = await Cart.findOne(
+      {
+        customerId: req.user.id,
+        'cartItems._id': id,
+      },
+      { 'cartItems.$': 1 }
+    );
+
+    // return first cartItem that matches the condition
+    if (!cart) {
+      return next(new CustomError('Item not found.', 404));
     }
-    return next(new CustomError('item not found', 404));
+
+    return res.json(cart.cartItems[0]);
   } catch (err) {
     return next(new CustomError(err.message));
   }
 };
 
-exports.deleteCartItemByDishId = async (req, res, next) => {
+const deleteCartItemById = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const cart = await Cart.findOne({
-      customerId: req.user.id,
-      'cartItems.dishId': req.params.id,
-    });
-    if (cart) {
-      cart.cartItems.splice(0, 1);
-      cart.save();
-      return res.status(204).send();
+    const cart = await Cart.findOneAndUpdate(
+      {
+        customerId: req.user.id,
+        'cartItems._id': id,
+      },
+      { $pull: { cartItems: { _id: id } } }
+    );
+
+    if (!cart) {
+      return next(new CustomError('Item not found.', 404));
     }
-    return next(new CustomError('item not found', 404));
+
+    return res.sendStatus(204);
   } catch (err) {
     return next(new CustomError(err.message));
   }
+};
+
+module.exports = {
+  getCart,
+  deleteCart,
+  postCartItemById,
+  putCartItemById,
+  getCartItemById,
+  deleteCartItemById,
 };
