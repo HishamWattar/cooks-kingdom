@@ -15,7 +15,6 @@ const addReviewToDish = async (req, res, next) => {
     dish.reviews.push(reviewData);
     await dish.save();
     return res.status(201).json({
-      success: true,
       data: dish,
     });
   } catch (err) {

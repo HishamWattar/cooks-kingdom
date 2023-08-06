@@ -46,11 +46,6 @@ const createOrder = async (req, res, next) => {
       // eslint-disable-next-line no-await-in-loop
       const dish = await Dish.findOne({ id: dishId });
 
-      // Check if the dish exists
-      if (!dish) {
-        return next(new CustomError('Dish not Found', 404));
-      }
-
       const { chefId, price } = dish;
 
       let order = orders.find((o) => o.chefId.equals(chefId));
