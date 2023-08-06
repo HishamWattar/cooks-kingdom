@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List of Dishes</title>
+  <%- include('header') %>    
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin: 20px;
+      font-size: 36px;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      width: 80%;
+    }
+    li {
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+    p {
+      margin: 5px 0;
+    }
+    h3 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    ul.reviews {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.reviews li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>List of Dishes</h1>
+  <ul>
+    <% dishes.forEach((dish) => { %>
+      <li>
+        <h2><%= dish.name %></h2> 
+        <p>Description: <%= dish.description %></p>
+        <p>Price: $<%= dish.price.toFixed(2) %></p>
+        <button class="add-to-cart-btn" onclick="addToCart('<%= dish._id %>')">Add to Cart</button>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

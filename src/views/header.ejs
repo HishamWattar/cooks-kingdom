@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cooks Kingdom</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #f1f1f1;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    .user-info {
+    position: relative;
+  }
+
+  #userDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 120px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    display: none;
+    flex-direction: column;
+  }
+
+  #userDropdown a {
+    display: block;
+    padding: 4px 0;
+    text-decoration: none;
+    color: #333;
+  }
+
+  #userDropdown a:hover {
+    background-color: #f1f1f1;
+  }
+    .user-info img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .user-info a {
+      text-decoration: none;
+      color: #333;
+      margin-left: 10px;
+    }
+    .auth-buttons a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+    .auth-buttons a:hover {
+      background-color: #f1f1f1;
+    }
+    .add-to-cart-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cooks Kingdom</h1>
+    <% if (user) { %>
+      <!-- User is logged in -->
+      <div class="user-info">
+        <% if (user.avatar) { %>
+        <img src="<%= user.avatar %>" alt="Profile Picture">
+        <% } %>  
+      
+        <a href="#" id="welcomeLink">Welcome, <%= user.username %></a>
+        <div id="userDropdown" style="display: none;">
+          <a href="/profile">Profile</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- User is not logged in -->
+      <div class="auth-buttons">
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
+      </div>
+    <% } %>  
+  </header>
+</body>
+<script>
+  // When the Welcome link is clicked, toggle the visibility of the dropdown menu
+  document.getElementById('welcomeLink').addEventListener('click', function() {
+    var dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'flex' : 'none';
+  });
+
+  // Hide the dropdown when clicking outside the user-info element
+  document.addEventListener('click', function(event) {
+    var dropdown = document.getElementById('userDropdown');
+    var userElem = document.querySelector('.user-info');
+
+    if (!userElem.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+</script>
+</html>

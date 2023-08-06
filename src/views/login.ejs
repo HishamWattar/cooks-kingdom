@@ -1,0 +1,26 @@
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 75%;">
+<h1 class="mb-4" style="display: flex; justify-content: center;">Sign in to your account</h1>
+<form action="/user/signin" enctype="application/x-www-form-urlencoded" method="post"
+    style="max-width: 550px; margin: 0 auto; background-color: #ffffff; border: 1px solid #ccc; padding: 40px; border-radius: 10px;">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <div class="input-group">
+            <span class="input-group-text" id="usernameSymbol">🖋️</span>
+            <input type="text" class="form-control" id="username" aria-describedby="usernameSymbol"
+                placeholder="Username" name="username">
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+            <span class="input-group-text" id="passwordSymbol">🔑</span>
+            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+        </div>
+    </div>
+    <div class="form-check mb-4">
+        <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+        <label class="form-check-label" for="rememberMe">Keep me signed in</label>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Sign in</button>
+</form>
+</div>

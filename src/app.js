@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
@@ -10,6 +11,7 @@ const logger = require('./utils/logger');
 const globalErrorHandler = require('./middlewares/error');
 
 const apiRoutes = require('./routes/index');
+const frontRoutes = require('./routes/front/index');
 
 const { connectToMongo } = require('./db/connection');
 
@@ -20,8 +22,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../src/views'));
 
 app.use('/api', apiRoutes);
+app.use('/', frontRoutes);
 
 app.use(globalErrorHandler);
 
