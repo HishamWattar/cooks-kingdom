@@ -8,40 +8,39 @@ const {
 
 const routes = express.Router();
 
+// Get authenticated user cart
 routes.get('/', isAuthenticated, isCustomer, cartControllers.getCart);
-routes.post(
-  '/',
-  updateCartItem,
-  isAuthenticated,
-  isCustomer,
-  cartControllers.postCart
-);
+
+// Delete authenticated user cart
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
-routes.post(
-  '/item',
-  isAuthenticated,
-  isCustomer,
-  cartControllers.postCartItemByDishId
-);
+
+// Add item to cart
+routes.post('/item', isAuthenticated, isCustomer, cartControllers.postCartItem);
+
+// Update item in cart
 routes.put(
   '/item/:id',
   updateCartItem,
   validationHandler,
   isAuthenticated,
   isCustomer,
-  cartControllers.putCartItemByDishId
+  cartControllers.putCartItemById
 );
+
+// Get cart by item id
 routes.get(
   '/item/:id',
   isAuthenticated,
   isCustomer,
-  cartControllers.getCartItemByDishId
+  cartControllers.getCartItemById
 );
+
+// Delete item from cart
 routes.delete(
   '/item/:id',
   isAuthenticated,
   isCustomer,
-  cartControllers.deleteCartItemByDishId
+  cartControllers.deleteCartItemById
 );
 
 module.exports = routes;
