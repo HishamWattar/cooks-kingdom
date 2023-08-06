@@ -48,6 +48,31 @@
       padding: 10px;
       border-bottom: 1px solid #ccc;
     }
+
+    .quantityContainer{
+      width: 200;
+    }
+    .quantityContainer > *{
+      width: 2%;
+    }
+
+    .btn{
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      animation: forwards;
+    }
+
+    .btn :hover{
+      width: 3%;
+    }
+
+    .quantityContainer{
+    display: none;
+    margin-top: 10px;
+  }
   </style>
 </head>
 <body>
@@ -59,8 +84,44 @@
         <p>Description: <%= dish.description %></p>
         <p>Price: $<%= dish.price.toFixed(2) %></p>
         <button class="add-to-cart-btn" onclick="addToCart('<%= dish._id %>')">Add to Cart</button>
+        <div class="quantityContainer">
+          <button class="plut btn">+</button>
+          <input type="number" value="1" disabled>
+          <button class="minus btn">-</button>
+        </div>
       </li>
     <% }) %>
   </ul>
-</body>
+  <script>
+    async function addToCart(dishId) {
+      const clickedButton = event.target;
+      try {
+        const response = await fetch('/api/cart/item', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: dishId }),
+          credentials: 'same-origin' // or 'include' if you want to include cookies for cross-origin requests
+        });
+  
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Failed to add to cart.');
+        }
+        alert('Item was added to the cart'); // Assuming the API returns a message indicating success or failure
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add to cart. Please try again.');
+      }
+
+      // Get the next sibling element
+    const siblingElement = clickedButton.nextElementSibling;
+    
+    // Change the display style to "block"
+    siblingElement.style.display = "block";
+    }
+  </script>
+
+
 </html>

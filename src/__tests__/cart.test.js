@@ -16,7 +16,7 @@ const chef = {
   firstName: 'chef',
   lastName: 'chef',
   password: 'cheFf%123',
-  name: 'chefName',
+  username: 'chefName',
   isApproved: true,
   email: 'chefCart@example.com',
   role: 'chef',

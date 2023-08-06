@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
+app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views'));
 
