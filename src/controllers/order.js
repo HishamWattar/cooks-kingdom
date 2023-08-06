@@ -7,9 +7,9 @@ const getAllOrdersForCustomer = async (req, res, next) => {
   try {
     const orders = await orderModel.find({ customerId: req.user.id });
     if (!orders) {
-      return next(new CustomError('Customer Orders not Found', 404));
+      return next(new CustomError("You don't have orders", 404));
     }
-    return res.status(200).json({ data: orders });
+    return res.json({ data: orders });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -18,9 +18,9 @@ const getAllOrdersForChef = async (req, res, next) => {
   try {
     const orders = await orderModel.find({ chefId: req.user.id });
     if (!orders) {
-      return next(new CustomError('Chef Orders not Found', 404));
+      return next(new CustomError("You don't have orders", 404));
     }
-    return res.status(200).json({ data: orders });
+    return res.json({ data: orders });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -82,7 +82,6 @@ const createOrder = async (req, res, next) => {
 
     // Save all the orders to the database
     orders = await orderModel.insertMany(orders);
-
     // Return a success response with the orders
     return res.status(201).json({ message: 'Orders created', orders });
   } catch (error) {
@@ -91,18 +90,18 @@ const createOrder = async (req, res, next) => {
 };
 
 const updateOrder = async (req, res, next) => {
-  const { orderId } = req.params;
+  const { id } = req.params;
   const { status } = req.body;
   try {
     const order = await orderModel.findOneAndUpdate(
-      { _id: orderId },
+      { _id: id },
       { status },
       { returnOriginal: false }
     );
     if (!order) {
       return next(new CustomError('Order not Found', 404));
     }
-    return res.status(200).json(order);
+    return res.json({ data: order });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -112,9 +111,9 @@ const deleteOrder = async (req, res, next) => {
   try {
     const order = await orderModel.findByIdAndDelete(id);
     if (!order) {
-      return next(new CustomError('Orders not Found', 404));
+      return next(new CustomError("You don't have orders", 404));
     }
-    return res.status(204).json(order);
+    return res.sendStatus(204).json({ message: 'Order deleted successfully' });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
