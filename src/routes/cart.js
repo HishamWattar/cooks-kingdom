@@ -15,12 +15,7 @@ routes.get('/', isAuthenticated, isCustomer, cartControllers.getCart);
 routes.delete('/', isAuthenticated, isCustomer, cartControllers.deleteCart);
 
 // Add item to cart
-routes.post(
-  '/item',
-  isAuthenticated,
-  isCustomer,
-  cartControllers.postCartItemById
-);
+routes.post('/item', isAuthenticated, isCustomer, cartControllers.postCartItem);
 
 // Update item in cart
 routes.put(

@@ -30,7 +30,7 @@ const deleteCart = async (req, res, next) => {
   }
 };
 
-const postCartItemById = async (req, res, next) => {
+const postCartItem = async (req, res, next) => {
   try {
     let cart = await Cart.findOne({ customerId: req.user.id });
 
@@ -140,7 +140,7 @@ const deleteCartItemById = async (req, res, next) => {
 module.exports = {
   getCart,
   deleteCart,
-  postCartItemById,
+  postCartItem,
   putCartItemById,
   getCartItemById,
   deleteCartItemById,
