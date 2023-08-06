@@ -3,46 +3,14 @@ paths:
     get:
       tags:
         - Cart
-      summary: gets a cart for the user
+      summary: Get cart of authenticated user.
       produces:
         - application/json
       responses:
-        201:
-          description: An object with a cart
+        200:
+          description: An object with a cart.
         404:
-          description: cart not found
-        401:
-          description: Unauthenticated. Please check if you are logged in.
-        500:
-          description: Internal Server Error.
-    post:
-      tags:
-        - Cart
-      summary: creates a new cart for the user
-      produces:
-        - application/json
-      requestBody:
-        description: creates a new cart for the usert.
-        content:
-          application/json:
-            schema:
-              properties:
-                _id:
-                  type: string
-                  description: cart id
-                  example: 64c69697afcf6e333eace111
-                customerId:
-                  type: ObjectId
-                  description: last name of user
-                  example: 64c6968dafcf6e333eace10d
-                cartItems:
-                  type: array
-                  description: array of items
-                  example: []
-        required: true
-      responses:
-        201:
-          description: An object with new cart
+          description: cart not found.
         401:
           description: Unauthenticated. Please check if you are logged in.
         500:
@@ -50,12 +18,12 @@ paths:
     delete:
       tags:
         - Cart
-      summary: delete a cart for the user
+      summary: Delete a cart for the user.
       produces:
         - application/json
       responses:
         204:
-          description: an object with a message
+          description: Cart deleted successfully.
         401:
           description: Unauthenticated. Please check if you are logged in.
         500:
@@ -63,111 +31,110 @@ paths:
   /api/cart/item:
     post:
       tags:
-        - cartItem
-      summary: adds an cartItem to the cart
+        - Cart
+      summary: Add cartItem to the cart.
       operationId: postCartItemByDishId
       requestBody:
-        description: adds a new cart item to cart.
+        description: Adds a new cart item to cart.
         content:
           application/json:
             schema:
               properties:
-              quantity:
-                type: integer
-                description: quantity for the item, must be greater than 0 and less than a 100
-                example: 1
-      required: false
-      parameters:
-        - name: dishId
-          in: path
-          description: ID of dish that needs to be added
-          required: true
+                dishId:
+                  type: string
+                  description: ID of dish.
+                  example: 64cfb0fec454e3e66c0d89de
+                quantity:
+                  type: integer
+                  description: quantity for the item, must be greater than 0 and less than a 100.
+                  example: 1
+        required: true
       produces:
         - application/json
       responses:
-        '200':
-          description: An object with cart
-        '300':
-          description: item already in cart
+        '201':
+          description: Item added to cart successfully.
+        '409':
+          description: Item already in cart.
         401:
           description: Unauthenticated. Please check if you are logged in.
         500:
           description: Internal Server Error.
-  /api/cart/item/:id:
+  /api/cart/item/{id}:
     get:
       tags:
-        - cartItem
-      summary: Find cartItem by DishId
-      description: Returns a single cartItem
-      operationId: getCartItemByDishId
+        - Cart
+      summary: Find cartItem by ID.
+      description: Returns a single cartItem by ID.
+      operationId: getCartItemById
       parameters:
-        - name: dishId
+        - name: id
           in: path
-          description: ID of dish that needs to be added
+          description: ID of cartItem.
           required: true
       produces:
         - application/json
       responses:
         '200':
-          description: An object with cartItem
+          description: An object with cartItem.
         '404':
-          description: item not found
+          description: Item not found.
         401:
           description: Unauthenticated. Please check if you are logged in.
         500:
           description: Internal Server Error.
     put:
       tags:
-        - cartItem
-      summary: increase the quantity for cartItem by one
-      operationId: putCartItemByDishId
+        - Cart
+      summary: Update quantity of cartItem.
+      operationId: putCartItemById
       requestBody:
-        description: adds a new cart item to cart.
+        description: Update quantity of cartItem by ID.
         content:
           application/json:
             schema:
               properties:
                 quantity:
                   type: integer
-                  description: quantity for the item, must be greater than 0 and less than a 100
+                  description: quantity for the item, must be greater than 0 and less than a 100.
                   example: 1
       required: true
       parameters:
-        - name: dishId
+        - name: id
           in: path
-          description: ID of dish that needs to be updated
+          description: ID of cartItem that needs to be updated.
           required: true
       produces:
         - application/json
       responses:
         '200':
-          description: An object with cart
+          description: An object with cart.
         401:
           description: Unauthenticated. Please check if you are logged in.
         '404':
-          description: item not found
+          description: item not found.
         500:
           description: Internal Server Error.
 
     delete:
       tags:
-        - cartItem
-      summary: Deletes a cartItem from cart
-      description: delete a cartItem
-      operationId: deleteCartItemByDishId
+        - Cart
+      summary: Delete a cartItem from cart.
+      description: delete a cartItem by Id.
+      operationId: deleteCartItemById
       parameters:
-        - name: dishId
+        - name: id
           in: path
-          description: ID of dish that needs to be deleted
+          description: ID of cartUItem that needs to be deleted.
           required: true
       produces:
         - application/json
       responses:
-        '200':
-          description: An object with cart
+        '204':
+          description: CartItem deleted successfully.
         401:
           description: Unauthenticated. Please check if you are logged in.
         '404':
-          description: item not found
+          description: item not found.
         500:
           description: Internal Server Error.
