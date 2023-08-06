@@ -82,7 +82,8 @@
 </head>
 <body>
   <header>
-    <h1>Cooks Kingdom</h1>
+    <a href="/"> <h1>Cooks Kingdom</h1></a>
+   
     <% if (user) { %>
       <!-- User is logged in -->
       <div class="user-info">
@@ -93,6 +94,8 @@
         <a href="#" id="welcomeLink">Welcome, <%= user.username %></a>
         <div id="userDropdown" style="display: none;">
           <a href="/profile">Profile</a>
+          <a href="/cart">Cart</a>
+          <a href="/order">Orders</a>
           <a href="/logout">Logout</a>
         </div>
       </div>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <%- include('header') %>    
+    <style>
+        .title{
+            margin-bottom: 20px;
+        }
+       .cart-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+      font-family: Arial, sans-serif;
+      margin-top: 5%;
+      padding: 0;
+    }
+
+      
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .item-details {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .item-price {
+            font-size: 16px;
+        }
+
+        .item-quantity {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .remove-button {
+            background-color: #ff5733;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        table {
+      width: 80%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .remove-btn{
+        background-color: #ff5733;
+        color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+    <h1 class="title">Shopping Cart</h1>
+
+    <% if (!cartItems) { %>
+        <p>Your cart is empty.</p>
+    <% } else { %>
+        <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% cartItems.forEach((item, index) => { %>
+                  <tr>
+                    <td><%= item.dishId.name  %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.dishId.price %></td>
+                    <td>
+                        <button class="remove-btn"  onclick="removeItem('<%= index %>')">Remove</button>
+                    </td>
+                    
+                  </tr>
+                <% }); %>
+              </tbody>
+        </table>   
+    <% } %>
+</div>
+    <script>
+        // JavaScript functions for interactions (e.g., removing items from the cart)
+        function removeItem(index) {
+            // Replace this code with your logic to remove an item from the cart
+            console.log('Removing item at index: ', index);
+        }
+    </script>
+</body>
+</html>
