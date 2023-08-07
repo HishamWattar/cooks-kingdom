@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('header') %>    
+
+  <title>Update User Profile</title>
+  <style>
+  
+    h1 {
+      color: #333;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #479bf5;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Update User Profile</h1>
+  <form action="/update-profile" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="<%= user.username %>" required>
+
+    <label for="addresses">Addresses:</label>
+    <input type="text" id="addresses" name="addresses" value="<%= user.addresses.join(', ') %>" required>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="<%= user.email %>" required>
+
+    <label for="avatar">Avatar URL:</label>
+    <input type="text" id="avatar" name="avatar" value="<%= user.avatar %>" required>
+
+    <!-- Add other profile fields here -->
+
+    <input type="submit" value="Update Profile">
+  </form>
+</body>
+</html>

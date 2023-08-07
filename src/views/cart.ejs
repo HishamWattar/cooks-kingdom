@@ -4,9 +4,7 @@
     <title>Shopping Cart</title>
     <%- include('header') %>    
     <style>
-        .title{
-            margin-bottom: 20px;
-        }
+      
        .cart-container {
 display: flex;
 flex-direction: column;
@@ -91,7 +89,6 @@ align-items: center;
 <body>
     <div class="cart-container">
     <h1 class="title">Shopping Cart</h1>
-
     <% if (!cartItems) { %>
         <p>Your cart is empty.</p>
     <% } else { %>
@@ -108,10 +105,16 @@ align-items: center;
                 <% cartItems.forEach((item, index) => { %>
                   <tr>
                     <td><%= item.dishId.name  %></td>
-                    <td><%= item.quantity %></td>
+                    <td>
+                      <div id="quantityContainer">
+                        <button class="plut btn" onclick="plusCart('<%= item.dishId._id %>')">+</button>
+                        <input type="number" value='<%= item.quantity %>' disabled>
+                        <button class="minus btn" onclick="minus('<%= item.dishId._id %>')">-</button>
+                      </div>
+                      </td>
                     <td><%= item.dishId.price %></td>
                     <td>
-                        <button class="remove-btn"  onclick="removeItem('<%= index %>')">Remove</button>
+                        <button class="remove-btn"  onclick="removeItem('<%= item._id %>')">Remove</button>
                     </td>
                     
                   </tr>
@@ -121,11 +124,102 @@ align-items: center;
     <% } %>
 </div>
     <script>
-        // JavaScript functions for interactions (e.g., removing items from the cart)
-        function removeItem(index) {
-            // Replace this code with your logic to remove an item from the cart
-            console.log('Removing item at index: ', index);
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuantity()
+        }, false);
+   
+        function showQuantity (){
+          console.log(document.getElementById('quantityContainer'))
+          document.getElementById('quantityContainer').style.display = 'flex'
         }
+        async function removeItem(id) {
+          const clickedButton = event.target;
+            console.log('Removing item at index: ', id);
+
+            try {
+              const response = await fetch(`api/cart/item/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                },
+              credentials: 'same-origin' 
+              });
+    
+              console.log(response);
+              if (!response.ok) {
+                throw new Error('Failed to delete item.');
+              }
+              
+              const table = clickedButton.parentElement.parentElement
+              table.style.display ='none'
+              alert('Item was deleted'); 
+           }catch (error) {
+              console.error('Error adding to cart:', error);
+             alert('Failed to update the cart. Please try again.');
+            }
+           }
+
+        async function plusCart(dishId) {
+      const clickedButton = event.target;
+      let quantity = clickedButton.nextElementSibling;
+      if(quantity.value == 99)
+        alert('quantity should be less than 100')
+      else{
+      try {
+        const response = await fetch(`/item/${dishId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ quantity: quantity.value + 1}),
+          credentials: 'same-origin' 
+        });
+  
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Failed to update item.');
+        }
+        quantity.value ++;
+        alert('Item was updated'); 
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to update the cart. Please try again.');
+      }
+    }
+    }
+
+    async function minus(dishId) {
+      const clickedButton = event.target;
+      let  quantity = clickedButton.parentElement;
+      quantity = quantity.children[1]
+      if(quantity.value == 1){
+        alert('quantity should be more than 0')
+      }
+      
+      else{
+      try {
+        const response = await fetch(`/item/${dishId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ quantity: quantity.value - 1}),
+          credentials: 'same-origin' 
+        });
+  
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Failed to update item.');
+        }
+        quantity.value --;
+        console.log(quantity)
+        alert('Item was updated'); 
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to update the cart. Please try again.');
+      }
+    }
+    }
     </script>
 </body>
 </html>
