@@ -1,5 +1,5 @@
 paths:
-  /api/reviews/:id:
+  /api/reviews/{id}:
     post:
       tags:
         - Review
@@ -11,25 +11,28 @@ paths:
           required: true
           description: The ID of the dish to add the review to.
           type: string
-        - name: rating
-          in: body
-          required: true
-          description: The rating of the dish.
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 5
-        - name: comment
-          in: body
-          required: true
-          description: The comment for the review.
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: integer
+                  description: The rating of the dish.
+                  example: 5
+                comment:
+                  type: string
+                  description: The comment for the review.
+                  example: It was good.
+        required: true
       responses:
         201:
           description: The review was added successfully.
           schema:
             $ref: '#/definitions/Review'
+        400:
+          description: The dish already has a review.
         404:
           description: The dish was not found.
         422:
@@ -45,22 +48,23 @@ paths:
           required: true
           description: The ID of the dish to update the review for.
           type: string
-        - name: rating
-          in: body
-          required: true
-          description: The new rating of the dish.
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 5
-        - name: comment
-          in: body
-          required: true
-          description: The new comment for the review.
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: integer
+                  description: The rating of the dish.
+                  example: 2
+                comment:
+                  type: string
+                  description: The comment for the review.
+                  example: It was bad.
+        required: true
       responses:
-        201:
+        200:
           description: The review was updated successfully.
           schema:
             $ref: '#/definitions/Review'
@@ -84,15 +88,18 @@ paths:
           description: The review was deleted successfully.
         404:
           description: The dish or review was not found.
+
+
 definitions:
   Review:
     type: object
     properties:
       id:
         type: string
-      rating:
+        example: 64d0fa2c6a3bc4a654f618ae
+      rate:
         type: integer
-        minimum: 1
-        maximum: 5
+        example: 5
       comment:
         type: string
+        example: It was good.
