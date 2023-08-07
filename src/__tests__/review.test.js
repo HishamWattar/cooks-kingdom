@@ -42,7 +42,7 @@ afterAll(async () => {
   await db.closeDatabase();
 });
 
-describe('POST /api/reviews/:id', () => {
+describe('POST /api/reviews/:dishId', () => {
   it('should return 422 if no rate provided', async () => {
     const res = await req
       .post(`/api/reviews/${fishId.toString()}`)
@@ -76,7 +76,7 @@ describe('POST /api/reviews/:id', () => {
     expect(res.statusCode).toBe(400);
   });
 });
-describe('PUT /api/reviews/:id', () => {
+describe('PUT /api/reviews/:dishId', () => {
   it('should return 401 if no token provided', async () => {
     const res = await req.put(`/api/reviews/${fishId.toString()}`).send({
       rate: 5,
@@ -95,7 +95,7 @@ describe('PUT /api/reviews/:id', () => {
     expect(res.statusCode).toBe(200);
   });
 });
-describe('DELETE /api/reviews/:id', () => {
+describe('DELETE /api/reviews/:dishId', () => {
   it('should return 401 if no token provided', async () => {
     const res = await req.delete(`/api/reviews/${fishId}`);
     expect(res.statusCode).toBe(401);

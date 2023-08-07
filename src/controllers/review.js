@@ -3,12 +3,12 @@ const Dish = require('../models/dish');
 const CustomError = require('../utils/customError');
 
 const addReviewToDish = async (req, res, next) => {
-  const { id } = req.params;
+  const { dishId } = req.params;
   const { rate, comment } = req.body;
   const customerId = req.user.id;
   const reviewData = { customerId, rate, comment };
   try {
-    const dish = await Dish.findById(id);
+    const dish = await Dish.findById(dishId);
 
     if (!dish) {
       return next(new CustomError('Dish not found.', 404));
@@ -33,10 +33,10 @@ const addReviewToDish = async (req, res, next) => {
   }
 };
 const updateReviewToDish = async (req, res, next) => {
-  const { id } = req.params;
+  const { dishId } = req.params;
   const { rate, comment } = req.body;
   try {
-    const dish = await Dish.findById(id);
+    const dish = await Dish.findById(dishId);
 
     if (!dish) {
       return next(new CustomError('Dish not found', 404));
@@ -44,7 +44,7 @@ const updateReviewToDish = async (req, res, next) => {
 
     const updatedDishReview = await Dish.findOneAndUpdate(
       {
-        _id: id,
+        _id: dishId,
         'reviews.customerId': req.user.id,
       },
       {
@@ -68,9 +68,9 @@ const updateReviewToDish = async (req, res, next) => {
   }
 };
 const deleteReviewFromDish = async (req, res, next) => {
-  const { id } = req.params;
+  const { dishId } = req.params;
   try {
-    const dish = await Dish.findById(id);
+    const dish = await Dish.findById(dishId);
 
     if (!dish) {
       return next(new CustomError('Dish not found', 404));
@@ -78,7 +78,7 @@ const deleteReviewFromDish = async (req, res, next) => {
 
     const deletedDishReview = await Dish.findOneAndUpdate(
       {
-        _id: id,
+        _id: dishId,
         'reviews.customerId': req.user.id,
       },
       {

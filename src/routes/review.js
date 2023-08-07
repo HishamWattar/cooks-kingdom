@@ -12,7 +12,7 @@ const {
 } = require('../middlewares/validation');
 
 router.post(
-  '/:id',
+  '/:dishId',
   createReview,
   validationHandler,
   isAuthenticated,
@@ -20,7 +20,7 @@ router.post(
   reviewController.addReviewToDish
 );
 router.put(
-  '/:id',
+  '/:dishId',
   updateReview,
   validationHandler,
   isAuthenticated,
@@ -28,7 +28,7 @@ router.put(
   reviewController.updateReviewToDish
 );
 router.delete(
-  '/:id',
+  '/:dishId',
   isAuthenticated,
   isCustomer,
   reviewController.deleteReviewFromDish

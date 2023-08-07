@@ -276,13 +276,13 @@ const createReview = [
   check('rate')
     .notEmpty()
     .withMessage('rate cannot be empty.')
-    .isFloat({ min: 1, max: 5 })
+    .isInt({ min: 1, max: 5 })
     .withMessage('rate must be a number between 1 and 5.'),
 ];
 
 const updateReview = [
   check('rate')
-    .isFloat({ min: 1, max: 5 })
+    .isInt({ min: 1, max: 5 })
     .withMessage('rate must be a number between 1 and 5.')
     .optional(),
 ];

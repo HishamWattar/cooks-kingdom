@@ -1,12 +1,12 @@
 paths:
-  /api/reviews/{id}:
+  /api/reviews/{dishId}:
     post:
       tags:
         - Review
       summary: Add a review to a dish.
       operationId: addReviewToDish
       parameters:
-        - name: id
+        - name: dishId
           in: path
           required: true
           description: The ID of the dish to add the review to.
@@ -43,7 +43,7 @@ paths:
       summary: Update a review for a dish.
       operationId: updateReviewToDish
       parameters:
-        - name: id
+        - name: dishId
           in: path
           required: true
           description: The ID of the dish to update the review for.
@@ -78,7 +78,7 @@ paths:
       summary: Delete a review for a dish.
       operationId: deleteReviewFromDish
       parameters:
-        - name: id
+        - name: dishId
           in: path
           required: true
           description: The ID of the dish to delete the review for.
