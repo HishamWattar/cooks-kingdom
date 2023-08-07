@@ -1343,8 +1343,30 @@
         {
           "name": "upload",
           "request": {
-            "method": "GET",
-            "header": []
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/C:/Users/Hisham Wattar/Downloads/dbmem.jpg"
+                }
+              ],
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/user/profile/upload",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "user", "profile", "upload"]
+            }
           },
           "response": [
             {
@@ -1493,7 +1515,7 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "http://localhost:3000/api/dishes/filter?minPrice=4999&name=burger&maxPrice=6000",
+                  "raw": "http://localhost:3000/api/dishes/filter",
                   "protocol": "http",
                   "host": ["localhost"],
                   "port": "3000",
@@ -1501,19 +1523,32 @@
                   "query": [
                     {
                       "key": "minPrice",
-                      "value": "4999"
+                      "value": "4999",
+                      "disabled": true
                     },
                     {
                       "key": "name",
-                      "value": "burger"
+                      "value": "burger",
+                      "disabled": true
                     },
                     {
                       "key": "maxPrice",
-                      "value": "6000"
+                      "value": "6000",
+                      "disabled": true
                     },
                     {
-                      "key": "rate",
+                      "key": "maxRate",
                       "value": "3",
+                      "disabled": true
+                    },
+                    {
+                      "key": "minRate",
+                      "value": "2",
+                      "disabled": true
+                    },
+                    {
+                      "key": "ingredients",
+                      "value": "bread,meet",
                       "disabled": true
                     }
                   ]
@@ -1773,6 +1808,738 @@
               ],
               "cookie": [],
               "body": null
+            }
+          ]
+        },
+        {
+          "name": "upload dish image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/C:/Users/Hisham Wattar/Downloads/dbmem.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/dishes/image/64cf85783c833e44c850ecb4",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "dishes", "image", "64cf85783c833e44c850ecb4"]
+            }
+          },
+          "response": [
+            {
+              "name": "upload dish image",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "image",
+                      "type": "file",
+                      "src": "/C:/Users/Hisham Wattar/Downloads/dbmem.jpg"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/dishes/image/64cf85783c833e44c850ecb4",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "dishes", "image", "64cf85783c833e44c850ecb4"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "47"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2f-C6gs5Cn4SNQGcfg8eWzxDinGqsQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 06 Aug 2023 11:38:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Dish image uploaded successfully.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "get my cart",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "get my cart",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/cart",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "180"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"b4-iWiozQ+BeRbL5tyNoLQU8Z5s8nw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 04 Aug 2023 17:16:36 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_id\": \"64cd255e56693b3bd87b433a\",\n    \"customerId\": \"64cd1bc456693b3bd87b4328\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64cd15932456d9ddf83efd3a\",\n            \"quantity\": 4,\n            \"_id\": \"64cd256356693b3bd87b4341\"\n        }\n    ],\n    \"__v\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "add item to cart",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/cart/itme/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "cart", "itme", ""]
+            }
+          },
+          "response": [
+            {
+              "name": "add item to cart",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"dishId\":\"64ceaf7b414a927e14d07b4f\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/cart/item",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart", "item"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "172"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"ac-BSyHO0/kKoZ9gYx9TBbhZQ2I0e8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sat, 05 Aug 2023 21:21:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_id\": \"64cebca6713027db23ebe9e0\",\n    \"customerId\": \"64cd37c274e5afba42bc8e80\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64ceaf7b414a927e14d07b4f\",\n            \"quantity\": 1,\n            \"_id\": \"64cebd69dc83f70871fdbbd0\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "update item of cart",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\":4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/cart/item/64cd15932456d9ddf83efd3a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "cart", "item", "64cd15932456d9ddf83efd3a"]
+            }
+          },
+          "response": [
+            {
+              "name": "update item of cart",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"quantity\":88\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/cart/item/64cf92cdb4def3be3ffc650b",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart", "item", "64cf92cdb4def3be3ffc650b"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "258"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"102-fGU+hjxzpaF33Pq6tEDXERSWckI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 06 Aug 2023 12:33:04 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_id\": \"64cf92bab4def3be3ffc64f9\",\n    \"customerId\": \"64cf865d3c833e44c850ecd3\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64cf85e23c833e44c850ecbe\",\n            \"quantity\": 88,\n            \"_id\": \"64cf92cdb4def3be3ffc650b\"\n        },\n        {\n            \"dishId\": \"64cf85783c833e44c850ecb4\",\n            \"quantity\": 12,\n            \"_id\": \"64cf92f9b4def3be3ffc6526\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "get item of cart",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"quantity\":4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/cart/item/64cd15932456d9ddf83efd3a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "cart", "item", "64cd15932456d9ddf83efd3a"]
+            }
+          },
+          "response": [
+            {
+              "name": "get item of cart",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/cart/item/64cf92cdb4def3be3ffc650b",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart", "item", "64cf92cdb4def3be3ffc650b"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "84"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"54-qyWkxSbJTR1+7nseJl4FkfRa1/w\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 06 Aug 2023 12:33:45 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"dishId\": \"64cf85e23c833e44c850ecbe\",\n    \"quantity\": 88,\n    \"_id\": \"64cf92cdb4def3be3ffc650b\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete item of cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/cart/item/64cd15932456d9ddf83efd3a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "cart", "item", "64cd15932456d9ddf83efd3a"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete item of cart",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/cart/item/64cf92cdb4def3be3ffc650b",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart", "item", "64cf92cdb4def3be3ffc650b"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 06 Aug 2023 12:35:43 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "delete my cart",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/cart/item/64cd15932456d9ddf83efd3a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "cart", "item", "64cd15932456d9ddf83efd3a"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete my cart",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/cart",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "cart"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a-bAsFyilMr4Ra1hIU5PyoyFRunpI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Sun, 06 Aug 2023 12:35:51 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "create review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rate\":4,\r\n    \"comment\":\"It was nice\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/reviews/64d102549ddd1fdaabad9421",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "reviews", "64d102549ddd1fdaabad9421"]
+            }
+          },
+          "response": [
+            {
+              "name": "create review",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"rate\":4,\r\n    \"comment\":\"It was nice\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/reviews/64d102549ddd1fdaabad9421",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "reviews", "64d102549ddd1fdaabad9421"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "441"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1b9-Hs6WfuBWqy0bYiJa8rF2LzXs5qI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 07 Aug 2023 16:17:00 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"_id\": \"64d102549ddd1fdaabad9421\",\n        \"name\": \"burger\",\n        \"chefId\": \"64d1022a9ddd1fdaabad9418\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 5000,\n        \"reviews\": [\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 2.5,\n                \"comment\": \"It was good\",\n                \"_id\": \"64d102ce7f9d6081cc3fe631\"\n            },\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 4,\n                \"comment\": \"It was nice\",\n                \"_id\": \"64d118fc9feed490847d4c99\"\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update my review",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rate\":2.5,\r\n    \"comment\":\"It was good\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/reviews/64d102549ddd1fdaabad9421",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "reviews", "64d102549ddd1fdaabad9421"]
+            }
+          },
+          "response": [
+            {
+              "name": "update review",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"rate\":2.5,\r\n    \"comment\":\"It was good\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/reviews/64d102549ddd1fdaabad9421",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "reviews", "64d102549ddd1fdaabad9421"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "333"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"14d-Q9oXX2tzS7IxEIqPbcpQ8ijKGRc\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 07 Aug 2023 16:15:35 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"data\": {\n        \"_id\": \"64d102549ddd1fdaabad9421\",\n        \"name\": \"burger\",\n        \"chefId\": \"64d1022a9ddd1fdaabad9418\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 5000,\n        \"reviews\": [\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 2.5,\n                \"comment\": \"It was good\",\n                \"_id\": \"64d102ce7f9d6081cc3fe631\"\n            }\n        ]\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete my review",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/reviews/64cfd34f076132b5ea49e72a",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "reviews", "64cfd34f076132b5ea49e72a"]
+            }
+          },
+          "response": [
+            {
+              "name": "delete my review",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/api/reviews/64d0f759d8380e1c68e859e4",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3000",
+                  "path": ["api", "reviews", "64d0f759d8380e1c68e859e4"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "36"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"24-WfFn3/85Oi21t2YEZosjOuxzkiI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 07 Aug 2023 13:54:50 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": ""
             }
           ]
         }
