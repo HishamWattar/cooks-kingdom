@@ -272,12 +272,19 @@ const updateCartItem = [
     .withMessage('Quantity must be a number between 1 and 99.'),
 ];
 
-const ratingCheck = [
+const createReview = [
   check('rate')
     .notEmpty()
     .withMessage('rate cannot be empty.')
-    .isInt({ min: 1, max: 5 })
+    .isFloat({ min: 1, max: 5 })
     .withMessage('rate must be a number between 1 and 5.'),
+];
+
+const updateReview = [
+  check('rate')
+    .isFloat({ min: 1, max: 5 })
+    .withMessage('rate must be a number between 1 and 5.')
+    .optional(),
 ];
 
 const updatePassword = [
@@ -327,6 +334,7 @@ module.exports = {
   updateProfile,
   updateCartItem,
   updatePassword,
+  createReview,
+  updateReview,
   validationHandler,
-  ratingCheck,
 };

@@ -5,11 +5,15 @@ const router = express.Router();
 const { isCustomer } = require('../middlewares/auth');
 const { isAuthenticated } = require('../middlewares/auth');
 const reviewController = require('../controllers/review');
-const { ratingCheck, validationHandler } = require('../middlewares/validation');
+const {
+  validationHandler,
+  createReview,
+  updateReview,
+} = require('../middlewares/validation');
 
 router.post(
   '/:id',
-  ratingCheck,
+  createReview,
   validationHandler,
   isAuthenticated,
   isCustomer,
@@ -17,6 +21,8 @@ router.post(
 );
 router.put(
   '/:id',
+  updateReview,
+  validationHandler,
   isAuthenticated,
   isCustomer,
   reviewController.updateReviewToDish
@@ -27,5 +33,5 @@ router.delete(
   isCustomer,
   reviewController.deleteReviewFromDish
 );
-// eslint-disable-next-line no-undef
+
 module.exports = router;
