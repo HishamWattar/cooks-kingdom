@@ -18,7 +18,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"firstName\":\"toxic\",\r\n    \"lastName\":\"player\",\r\n    \"email\":\"toxic@example.test\",\r\n    \"name\":\"toxicsafsdf\",\r\n    \"password\":\"Aa2$1233\"\r\n}",
+              "raw": "{\r\n  \"firstName\": \"customer\",\r\n  \"lastName\": \"customer\",\r\n  \"username\": \"customerUser\",\r\n  \"email\": \"customer@gmail.com\",\r\n  \"password\": \"Example$123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -105,7 +105,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\":\"hello@example.com\",\r\n    \"password\":\"Aa2$1233\"\r\n}",
+              "raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"Example$123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -189,7 +189,14 @@
           "name": "signout",
           "request": {
             "method": "POST",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/auth/signout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "signout"]
+            }
           },
           "response": [
             {
@@ -339,7 +346,14 @@
           "name": "list users",
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/admin/user",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "admin", "user"]
+            }
           },
           "response": [
             {
@@ -1935,15 +1949,15 @@
                 },
                 {
                   "key": "Content-Length",
-                  "value": "180"
+                  "value": "172"
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"b4-iWiozQ+BeRbL5tyNoLQU8Z5s8nw\""
+                  "value": "W/\"ac-0tKgBYPuw2EeC7fk+H0vrwp7l7c\""
                 },
                 {
                   "key": "Date",
-                  "value": "Fri, 04 Aug 2023 17:16:36 GMT"
+                  "value": "Mon, 07 Aug 2023 20:23:49 GMT"
                 },
                 {
                   "key": "Connection",
@@ -1955,7 +1969,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"_id\": \"64cd255e56693b3bd87b433a\",\n    \"customerId\": \"64cd1bc456693b3bd87b4328\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64cd15932456d9ddf83efd3a\",\n            \"quantity\": 4,\n            \"_id\": \"64cd256356693b3bd87b4341\"\n        }\n    ],\n    \"__v\": 1\n}"
+              "body": "{\n    \"_id\": \"64d152b16ef9199d83c2754f\",\n    \"customerId\": \"64d14ba26ef9199d83c274f3\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64d152c7eb1bd992f2fa4e7a\",\n            \"quantity\": 2,\n            \"_id\": \"64d152d06ef9199d83c2755a\"\n        }\n    ]\n}"
             }
           ]
         },
@@ -1980,7 +1994,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"dishId\":\"64ceaf7b414a927e14d07b4f\"\r\n}",
+                  "raw": "{\r\n    \"dishId\":\"64d152c7eb1bd992f2fa4e7a\",\r\n    \"quantity\": 2\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -2013,11 +2027,11 @@
                 },
                 {
                   "key": "ETag",
-                  "value": "W/\"ac-BSyHO0/kKoZ9gYx9TBbhZQ2I0e8\""
+                  "value": "W/\"ac-0tKgBYPuw2EeC7fk+H0vrwp7l7c\""
                 },
                 {
                   "key": "Date",
-                  "value": "Sat, 05 Aug 2023 21:21:45 GMT"
+                  "value": "Mon, 07 Aug 2023 20:23:44 GMT"
                 },
                 {
                   "key": "Connection",
@@ -2029,7 +2043,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"_id\": \"64cebca6713027db23ebe9e0\",\n    \"customerId\": \"64cd37c274e5afba42bc8e80\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64ceaf7b414a927e14d07b4f\",\n            \"quantity\": 1,\n            \"_id\": \"64cebd69dc83f70871fdbbd0\"\n        }\n    ]\n}"
+              "body": "{\n    \"_id\": \"64d152b16ef9199d83c2754f\",\n    \"customerId\": \"64d14ba26ef9199d83c274f3\",\n    \"cartItems\": [\n        {\n            \"dishId\": \"64d152c7eb1bd992f2fa4e7a\",\n            \"quantity\": 2,\n            \"_id\": \"64d152d06ef9199d83c2755a\"\n        }\n    ]\n}"
             }
           ]
         },
@@ -2391,7 +2405,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"data\": {\n        \"_id\": \"64d102549ddd1fdaabad9421\",\n        \"name\": \"burger\",\n        \"chefId\": \"64d1022a9ddd1fdaabad9418\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 5000,\n        \"reviews\": [\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 2.5,\n                \"comment\": \"It was good\",\n                \"_id\": \"64d102ce7f9d6081cc3fe631\"\n            },\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 4,\n                \"comment\": \"It was nice\",\n                \"_id\": \"64d118fc9feed490847d4c99\"\n            }\n        ]\n    }\n}"
+              "body": "{\n    \"data\": {\n        \"_id\": \"64d102549ddd1fdaabad9421\",\n        \"name\": \"burger\",\n        \"chefId\": \"64d1022a9ddd1fdaabad9418\",\n        \"description\": \"this food contains bread and meet and tomato and chease\",\n        \"ingredients\": [\n            \"bread\",\n            \"meet\"\n        ],\n        \"price\": 5000,\n        \"reviews\": [\n            {\n                \"customerId\": \"64d102169ddd1fdaabad9415\",\n                \"rate\": 4,\n                \"comment\": \"It was nice\",\n                \"_id\": \"64d118fc9feed490847d4c99\"\n            }\n        ]\n    }\n}"
             }
           ]
         },
@@ -2402,7 +2416,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"rate\":2.5,\r\n    \"comment\":\"It was good\"\r\n}",
+              "raw": "{\r\n    \"rate\":2\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2410,11 +2424,11 @@
               }
             },
             "url": {
-              "raw": "http://localhost:3000/api/reviews/64d102549ddd1fdaabad9421",
+              "raw": "http://localhost:3000/api/reviews/64d137058406078c6e1ba6ac",
               "protocol": "http",
               "host": ["localhost"],
               "port": "3000",
-              "path": ["api", "reviews", "64d102549ddd1fdaabad9421"]
+              "path": ["api", "reviews", "64d137058406078c6e1ba6ac"]
             }
           },
           "response": [
