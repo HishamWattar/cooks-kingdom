@@ -287,6 +287,14 @@ const updateReview = [
     .optional(),
 ];
 
+const updateOrder = [
+  check('status')
+    .notEmpty()
+    .withMessage('status cannot be empty.')
+    .isIn(['canceled', 'in_progress', 'delivered'])
+    .withMessage('status should either canceled or in_progress or delivered.'),
+];
+
 const updatePassword = [
   check('currentPassword')
     .notEmpty()
@@ -336,5 +344,6 @@ module.exports = {
   updatePassword,
   createReview,
   updateReview,
+  updateOrder,
   validationHandler,
 };
