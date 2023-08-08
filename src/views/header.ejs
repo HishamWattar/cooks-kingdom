@@ -55,16 +55,29 @@
   #userDropdown a:hover {
     background-color: #f1f1f1;
   }
+  .user-info{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: space-between;
+    align-items: center ;
+  }
     .user-info img {
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      margin-right: 10px;
+      background: wheat;
+      padding: 15px;
+      text-align: center;
     }
     .user-info a {
       text-decoration: none;
       color: #333;
       margin-left: 10px;
+    }
+
+    #welcomeLink{
+      margin-top: 5px;
     }
     .auth-buttons a {
       text-decoration: none;
@@ -119,16 +132,16 @@
     <% if (user) { %>
       <!-- User is logged in -->
       <div class="user-info">
-        <% if (user.avatar) { %>
-        <img src="<%= user.avatar %>" alt="Profile Picture">
-        <% } %>  
-      
+        <!-- <% if (user.avatar) { %>
+        <img src="<%= user.avatar %>">
+        <% } %>   -->
+         <img src="https://w7.pngwing.com/pngs/223/244/png-transparent-computer-icons-avatar-user-profile-avatar-heroes-rectangle-black.png"> 
         <a href="#" id="welcomeLink">Welcome, <%= user.username %></a>
         <div id="userDropdown" style="display: none;">
           <a href="/profile">Profile</a>
           <a href="/cart">Cart</a>
           <a href="/order">Orders</a>
-          <a href="/logout">Logout</a>
+          <a id="logout"  onclick="logout()">Logout</a>
         </div>
       </div>
     <% } else { %>
@@ -157,5 +170,23 @@
       dropdown.style.display = 'none';
     }
   });
+
+  async function logout() {
+    try {
+      const response = await fetch(`/api/auth/signout`, {
+        method: 'POST',
+      });
+
+      console.log(response.response);
+      if (!response.ok) {
+        throw new Error('Failed to update item.');
+      }
+      location.reload();
+    } catch (error) {
+      console.error( error);
+      alert(error);
+    }
+    }
+    
 </script>
 </html>

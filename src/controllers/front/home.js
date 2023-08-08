@@ -8,9 +8,11 @@ const getAllDishes = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     const dishes = await dishModel.find();
-
-    const decoded = jwt.verify(token, process.env.APP_SECRET);
-    const user = await User.findById({ _id: decoded.userId });
+    let user = null;
+    if (token) {
+      const decoded = jwt.verify(token, process.env.APP_SECRET);
+      user = await User.findById({ _id: decoded.userId });
+    }
     return res.render('index', { dishes, user });
   } catch (err) {
     return next(new CustomError(err.message, 500));

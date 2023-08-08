@@ -1,13 +1,13 @@
 <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 75%;">
 <h1 class="mb-4" style="display: flex; justify-content: center;">Sign in to your account</h1>
-<form action="/user/signin" enctype="application/x-www-form-urlencoded" method="post"
+<form action="/user/signin" id="form" enctype="application/x-www-form-urlencoded" method="post"
     style="max-width: 550px; margin: 0 auto; background-color: #ffffff; border: 1px solid #ccc; padding: 40px; border-radius: 10px;">
     <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
+        <label for="email" class="form-label">Email</label>
         <div class="input-group">
-            <span class="input-group-text" id="usernameSymbol">🖋️</span>
-            <input type="text" class="form-control" id="username" aria-describedby="usernameSymbol"
-                placeholder="Username" name="username">
+            <span class="input-group-text" id="emailSymbol">🖋️</span>
+            <input type="text" class="form-control" id="email" aria-describedby="emailSymbol"
+                placeholder="Email" name="email">
         </div>
     </div>
     <div class="mb-3">
@@ -23,4 +23,40 @@
     </div>
     <button type="submit" class="btn btn-success w-100">Sign in</button>
 </form>
+<script>
+    const form = document.getElementById("form");
+   
+   form.addEventListener("submit", async (e) => {
+     e.preventDefault();
+   
+     let email = document.getElementById("email").value;
+     let password = document.getElementById("password").value;
+     //let isDefault = document.getElementById("isDefault").value;
+   
+     try {
+           const response = await fetch(`/api/auth/signin`, {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json',
+             },
+             body: JSON.stringify({
+               email: email,
+               password: password,
+              }),
+             credentials: 'same-origin' 
+           });
+     
+           if (!response.ok) {
+             throw new Error('Failed to login user.');
+           }
+           console.log(response.response)
+           location.href = "/";
+         } catch (error) {
+           console.error('Error adding to cart:', error);
+           alert('Failed to update the user. Please try again.');
+         }
+   
+   });
+   
+   </script>
 </div>
