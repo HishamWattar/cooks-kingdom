@@ -8,6 +8,8 @@ const cartModel = require('../models/cart');
 const req = supertest(app);
 const db = require('../db/connection');
 
+jest.mock('../utils/email');
+
 let customerToken;
 let customerId;
 let orderId;
@@ -23,7 +25,7 @@ const customerUser = {
   lastName: 'customerTests',
   password: 'Customer%123Tests',
   username: 'customerUserTests',
-  email: 'customerTests@example.com',
+  email: 'ahmadalashtar@gmail.com',
   role: 'customer',
 };
 const chefUser = {
