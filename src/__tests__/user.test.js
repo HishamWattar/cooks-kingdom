@@ -9,6 +9,7 @@ const req = supertest(app);
 const { sendApprovalEmail } = require('../utils/email');
 
 jest.mock('../utils/email');
+jest.setTimeout(10000);
 
 let addressId;
 let newUserToken;

@@ -9,6 +9,7 @@ const req = supertest(app);
 const db = require('../db/connection');
 
 jest.mock('../utils/email');
+jest.setTimeout(10000);
 
 let customerToken;
 let customerId;

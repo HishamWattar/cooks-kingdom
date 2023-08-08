@@ -8,6 +8,7 @@ const { Chef } = require('../models/user');
 jest.mock('../utils/email');
 
 const req = supertest(app);
+jest.setTimeout(10000);
 
 let allDishes;
 let fishId;

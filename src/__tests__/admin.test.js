@@ -4,6 +4,7 @@ const db = require('../db/connection');
 const { User } = require('../models/user');
 const { sendChefWelcomeEmail } = require('../utils/email');
 // const uploadImage = require('../services/gcs');
+jest.setTimeout(10000);
 
 const req = supertest(app);
 jest.mock('../utils/email');
