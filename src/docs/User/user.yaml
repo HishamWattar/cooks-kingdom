@@ -97,7 +97,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddressUpdate'
+              type: object
+              properties:
+                address:
+                  $ref: '#/components/schemas/AddressUpdate'
       responses:
         '200':
           description: Successful response
