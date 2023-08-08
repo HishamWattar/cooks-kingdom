@@ -1,9 +1,7 @@
 const supertest = require('supertest');
 const app = require('../app'); // Import your Express app
 const db = require('../db/connection');
-const { User } = require('../models/user');
 const { sendChefWelcomeEmail } = require('../utils/email');
-// const uploadImage = require('../services/gcs');
 
 const req = supertest(app);
 jest.mock('../utils/email');
@@ -50,9 +48,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // await db.clearDatabase();
-  await User.deleteMany({});
+  await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('Admin Endpoints', () => {
@@ -122,7 +120,7 @@ describe('Admin Endpoints', () => {
       // Check if the response status code is correct
       expect(res.statusCode).toBe(404);
 
-      expect(res.body.message).toBe('User not found');
+      expect(res.body.message).toBe('User not found.');
     });
   });
 
@@ -190,7 +188,7 @@ describe('Admin Endpoints', () => {
       // Check if the response status code is correct
       expect(res.statusCode).toBe(409);
 
-      expect(res.body.message).toBe('The email already exists');
+      expect(res.body.message).toBe('The email already exists.');
     });
 
     it('should return validation errors for invalid data', async () => {
@@ -238,7 +236,7 @@ describe('Admin Endpoints', () => {
       // Check if the response status code is correct
       expect(res.statusCode).toBe(404);
 
-      expect(res.body.message).toBe('User not found');
+      expect(res.body.message).toBe('User not found.');
     });
 
     it('should return validation errors for invalid data', async () => {
@@ -309,7 +307,7 @@ describe('Admin Endpoints', () => {
       // Check if the response status code is correct
       expect(res.statusCode).toBe(404);
 
-      expect(res.body.message).toBe('User not found');
+      expect(res.body.message).toBe('User not found.');
     });
   });
 });

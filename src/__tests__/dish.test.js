@@ -111,9 +111,8 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await db.clearDatabase();
-  // await Dish.deleteMany({});
-  // await Chef.deleteMany({});
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('GET /api/dishes', () => {

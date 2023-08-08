@@ -2,7 +2,7 @@ const { compare } = require('bcrypt');
 const { User } = require('../models/user');
 const CustomError = require('../utils/customError');
 
-// This a function will create token and assign it to cookie
+// This function will create a token and assign it to a cookie
 const { saveTokenToCookie } = require('../utils/token');
 
 const { sendSignUpWelcomeEmail } = require('../utils/email');
@@ -14,7 +14,7 @@ const savePayloadToToken = (req, res) => {
 
 const signup = async (req, res, next) => {
   try {
-    // Check if email is already been token.
+    // Check if email is already being token.
     let user = await User.findOne({ email: req.body.email });
     if (user) {
       return next(new CustomError('The email is already exists', 409));
@@ -27,8 +27,8 @@ const signup = async (req, res, next) => {
     sendSignUpWelcomeEmail(user.email, user.firstName);
 
     return res.status(201).json({ data: user });
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -49,8 +49,8 @@ const signin = async (req, res, next) => {
     saveTokenToCookie(user, res);
 
     return res.json({ message: 'You have logged in successfully' });
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -93,8 +93,8 @@ const changePassword = async (req, res, next) => {
     await user.save();
 
     return res.json({ message: 'Password updated successfully.' });
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
