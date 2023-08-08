@@ -216,4 +216,22 @@ components:
       properties:
         city:
           type: string
-          example: new york
+          example: New York
+        country:
+          type: string
+          example: USA
+        street:
+          type: string
+          example: 123 Main St
+        block:
+          type: string
+          example: A3
+        postalCode:
+          type: string
+          example: 10001
+        apartment:
+          type: string
+          example: Apt 101
+        isDefault:
+          type: string
+          example: false
