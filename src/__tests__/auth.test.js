@@ -6,13 +6,15 @@ const { User } = require('../models/user');
 
 const req = supertest(app);
 
+jest.mock('../utils/email');
+
 const URL_REGEX =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\.[a-zA-Z0-9()]{1,6})?\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 const newUser = {
   firstName: 'John',
   lastName: 'Doe',
-  email: 'john.doe@example.com',
+  email: 'ahmadalashtar@gmail.com',
   username: 'JohnDoe',
   password: 'Correct$123',
   avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
