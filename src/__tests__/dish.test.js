@@ -1,6 +1,6 @@
 // dishes.test.js
 const supertest = require('supertest');
-const dishModel = require('../models/dish');
+const Dish = require('../models/dish');
 const app = require('../app');
 const db = require('../db/connection');
 const { Chef } = require('../models/user');
@@ -40,11 +40,11 @@ const spaghetti = {
   reviews: [
     {
       rate: 5,
-      description: 'Absolutely delicious, perfect spaghetti bolognese!',
+      comment: 'Absolutely delicious, perfect spaghetti bolognese!',
     },
     {
       rate: 4,
-      description: 'Great Italian classic, will definitely order again.',
+      comment: 'Great Italian classic, will definitely order again.',
     },
   ],
 };
@@ -62,7 +62,7 @@ const fish = {
   reviews: [
     {
       rate: 4,
-      description: 'Perfect portion sizes and crispy batter.',
+      comment: 'Perfect portion sizes and crispy batter.',
     },
   ],
 };
@@ -79,7 +79,7 @@ const chicken = {
   ],
   reviews: [
     {
-      rate: 5,
+      rate: 4,
       description: 'Flavours were spot on, really tasty dish.',
     },
     {
@@ -102,76 +102,75 @@ beforeAll(async () => {
   [otherChefToken] = res.headers['set-cookie'][0].split(';');
 
   // Create sample dishes for tests
-  allDishes = await dishModel.insertMany([fish, chicken]);
+  allDishes = await Dish.insertMany([fish, chicken]);
   fishId = allDishes[0]._id;
   chickenId = allDishes[1]._id;
 });
 
 afterAll(async () => {
-  // await db.clearDatabase();
-  await dishModel.deleteMany({});
-  await Chef.deleteMany({});
-
+  await db.clearDatabase();
+  // await Dish.deleteMany({});
+  // await Chef.deleteMany({});
   await db.closeDatabase();
 });
 
 describe('GET /api/dishes', () => {
-  it('Returns all dishes', async () => {
+  it('should return all dishes', async () => {
     const res = await req.get('/api/dishes');
     expect(res.body.data).toHaveLength(allDishes.length);
   });
 });
 
 describe('GET /api/dishes/filter', () => {
-  it('Filters by single ingredient returns one item', async () => {
+  it('should filter dishes by single ingredient and return one item', async () => {
     const res = await req
       .get('/api/dishes/filter')
       .query({ ingredients: 'Chicken thighs' });
     expect(res.body.data).toHaveLength(1);
   });
-  it('Filters by single ingredient returns multiple items', async () => {
+  it('should filter dishes by single ingredient and return multiple items', async () => {
     const res = await req
       .get('/api/dishes/filter')
       .query({ ingredients: 'Potatoes' });
     expect(res.body.data).toHaveLength(2);
   });
-  it('Filters by multiple ingredients returns one item', async () => {
+  it('should filter dishes by multiple ingredients and return one item', async () => {
     const res = await req
       .get('/api/dishes/filter')
-      .query({ ingredients: ['Cod fish', 'Vegetable oil'] });
+      .query({ ingredients: 'Cod fish,Vegetable oil' });
 
     expect(res.body.data).toHaveLength(1);
   });
-  it('Filters by multiple ingredients returns multiple items', async () => {
+  it('should filter dishes by multiple ingredients return multiple items', async () => {
     const res = await req
       .get('/api/dishes/filter')
-      .query({ ingredients: ['Tomato sauce', 'Yogurt marinade'] });
+      .query({ ingredients: 'Tomato sauce,Yogurt marinade' });
 
     expect(res.body.data).toHaveLength(2);
   });
-  it('Filters by minimum price', async () => {
+  it('should filter dishes by minimum price', async () => {
     const res = await req.get('/api/dishes/filter').query({ minPrice: 9 });
 
     expect(res.body.data).toHaveLength(1);
   });
-  it('Filters by maximum price', async () => {
+  it('should filter dishes by maximum price', async () => {
     const res = await req.get('/api/dishes/filter').query({ maxPrice: 20 });
 
     expect(res.body.data).toHaveLength(2);
   });
-  it('Filters by maximum and minimum price', async () => {
+  it('should filter dishes by maximum and minimum price', async () => {
     const res = await req
       .get('/api/dishes/filter')
       .query({ maxPrice: 20, minPrice: 6 });
 
     expect(res.body.data).toHaveLength(1);
   });
-  it('Filters by rate', async () => {
-    const res = await req.get('/api/dishes/filter').query({ rate: 5 });
+  it('should filter dishes by rate', async () => {
+    const res = await req.get('/api/dishes/filter').query({ maxRate: 3.5 });
 
     expect(res.body.data).toHaveLength(1);
   });
-  it('Filters by name', async () => {
+  it('should filter dishes by name', async () => {
     const res = await req.get('/api/dishes/filter').query({ name: 'chi' });
 
     expect(res.body.data).toHaveLength(2);
@@ -179,14 +178,14 @@ describe('GET /api/dishes/filter', () => {
 });
 
 describe('POST /api/dishes', () => {
-  it('Adds a new dish', async () => {
+  it('should filter create a new dish', async () => {
     const res = await req
       .post('/api/dishes')
       .send(spaghetti)
       .set('Cookie', ownerChefToken);
     expect(res.body.data.name).toBe('Spaghetti Bolognese');
   });
-  it("Doesn't add a new dish with missing details", async () => {
+  it('should return an error message when dish is passed with missing details', async () => {
     const res = await req
       .post('/api/dishes')
       .send({ name: 'hello' })
@@ -196,7 +195,7 @@ describe('POST /api/dishes', () => {
 });
 
 describe('PUT /api/dishes/:id', () => {
-  it('Updates a dish', async () => {
+  it('should return an updated dish by ID', async () => {
     const res = await req
       .put(`/api/dishes/${fishId.toString()}`)
       .send({
@@ -205,16 +204,16 @@ describe('PUT /api/dishes/:id', () => {
       .set('Cookie', ownerChefToken);
     expect(res.body.data.name).toBe('Not fish');
   });
-  it("Doesn't update others' dishes", async () => {
+  it("should not update others' dishes and return an error message", async () => {
     const res = await req
       .put(`/api/dishes/${fishId.toString()}`)
       .send({
         name: 'Not fish',
       })
       .set('Cookie', otherChefToken);
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(404);
   });
-  it("Doesn't update non-existing dishes", async () => {
+  it('should not update non-existing dishes', async () => {
     const res = await req
       .put(`/api/dishes/000000000000000000000000`)
       .send({
@@ -226,7 +225,7 @@ describe('PUT /api/dishes/:id', () => {
 });
 
 describe('DELETE /api/dishes/:id', () => {
-  it('Deletes a dish', async () => {
+  it('should delete a dish by ID', async () => {
     const res = await req
       .delete(`/api/dishes/${fishId.toString()}`)
       .send({
@@ -235,16 +234,16 @@ describe('DELETE /api/dishes/:id', () => {
       .set('Cookie', ownerChefToken);
     expect(res.status).toBe(204);
   });
-  it("Doesn't delete others' dishes", async () => {
+  it("should not delete others' dishes", async () => {
     const res = await req
       .delete(`/api/dishes/${chickenId.toString()}`)
       .send({
         name: 'Not fish',
       })
       .set('Cookie', otherChefToken);
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(404);
   });
-  it("Doesn't delete non-existing dishes", async () => {
+  it('should not delete non-existing dishes', async () => {
     const res = await req
       .delete(`/api/dishes/000000000000000000000000`)
       .send({

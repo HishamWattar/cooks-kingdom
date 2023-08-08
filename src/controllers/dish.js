@@ -1,12 +1,11 @@
-/* eslint-disable prettier/prettier */
-const dishModel = require('../models/dish');
+const Dish = require('../models/dish');
 const CustomError = require('../utils/customError');
 const uploadImage = require('../services/gcs');
 
 const getAllDishes = async (req, res, next) => {
   try {
-    const Dishes = await dishModel.find();
-    return res.json({ data: Dishes });
+    const dishes = await Dish.find();
+    return res.json({ data: dishes });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -15,8 +14,12 @@ const getAllDishes = async (req, res, next) => {
 const getDishById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    // Find by ID query
-    const dish = await dishModel.findById(id);
+    const dish = await Dish.findById(id);
+
+    if (!dish) {
+      return next(new CustomError('Dish not found.', 404));
+    }
+
     return res.json({ data: dish });
   } catch (err) {
     return next(new CustomError(err.message, 500));
@@ -24,38 +27,59 @@ const getDishById = async (req, res, next) => {
 };
 const filterDishes = async (req, res, next) => {
   try {
-    const { name, maxPrice, minPrice, rate } = req.query;
+    const { name, maxPrice, minPrice, minRate, maxRate, ingredients } =
+      req.query;
 
-    let { ingredients } = req.query;
-    if (!Array.isArray(ingredients)) {
-      ingredients = ingredients ? ingredients.split(',') : [];
+    // console.log(req.query);
+
+    const pipeline = [];
+
+    if (minPrice)
+      pipeline.push({ $match: { price: { $gte: parseInt(minPrice, 10) } } });
+    if (maxPrice)
+      pipeline.push({ $match: { price: { $lte: parseInt(maxPrice, 10) } } });
+    if (name)
+      pipeline.push({ $match: { name: { $regex: new RegExp(name, 'i') } } });
+    if (ingredients)
+      pipeline.push({
+        $match: { ingredients: { $all: ingredients.split(',') } },
+      });
+
+    if (minRate || maxRate) {
+      const matchStage = {};
+      if (minRate) matchStage.$gte = parseFloat(minRate);
+      if (maxRate) matchStage.$lte = parseFloat(maxRate);
+
+      pipeline.push({
+        $addFields: {
+          avgRating: { $avg: '$reviews.rate' },
+        },
+      });
+      pipeline.push({ $match: { avgRating: matchStage } });
     }
 
-    const filters = {};
-    if (ingredients.length > 0) filters.ingredients = { $all: ingredients };
-    filters.price = {
-      $lte: maxPrice ? Number(maxPrice) : Infinity,
-      $gte: minPrice ? Number(minPrice) : 0,
-    };
-    if (rate) filters['reviews.rate'] = { $gte: Number(rate) };
-    if (name) filters.name = { $regex: new RegExp(name, 'i') };
+    pipeline.push({ $project: { __v: 0 } }); // Exclude the __v field
 
-    const filteredDishes = await dishModel.find(filters);
+    const filteredDishes = await Dish.aggregate(pipeline);
 
     return res.json({ data: filteredDishes });
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
 };
+
 const addDish = async (req, res, next) => {
-  const { name, chefId, description, image, price } = req.body;
-  let { ingredients } = req.body;
-  if (!Array.isArray(ingredients)) {
-    ingredients = ingredients ? ingredients.split(',') : [];
-  }
-  const dishData = { name, chefId, description, image, ingredients, price };
+  const { name, description, price, ingredients } = req.body;
+  const dishData = {
+    name,
+    chefId: req.user.id,
+    description,
+    ingredients,
+    price,
+  };
+
   try {
-    const newDish = await dishModel.create(dishData);
+    const newDish = await Dish.create(dishData);
     return res.status(201).json({ data: newDish });
   } catch (err) {
     return next(new CustomError(err.message, 500));
@@ -63,20 +87,24 @@ const addDish = async (req, res, next) => {
 };
 const updateDish = async (req, res, next) => {
   const { id } = req.params;
-  const { name, chefId, ingredients, price, image } = req.body;
+  const { name, description, price, ingredients } = req.body;
 
   try {
-    const updatedDish = await dishModel.findOneAndUpdate(
-      { _id: id },
+    const updatedDish = await Dish.findOneAndUpdate(
+      { _id: id, chefId: req.user.id },
       {
         name,
-        chefId,
+        description,
         ingredients,
-        image,
         price,
       },
       { returnOriginal: false }
     );
+
+    if (!updatedDish) {
+      return next(new CustomError('Dish not found.', 404));
+    }
+
     return res.json({ data: updatedDish });
   } catch (err) {
     return next(new CustomError(err.message, 500));
@@ -86,9 +114,16 @@ const deleteDish = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    await dishModel.findByIdAndDelete(id);
+    const isDeleted = await Dish.findOneAndDelete({
+      _id: id,
+      chefId: req.user.id,
+    });
 
-    return res.status(204).send();
+    if (!isDeleted) {
+      return next(new CustomError('Dish not found.', 404));
+    }
+
+    return res.sendStatus(204);
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
@@ -96,19 +131,19 @@ const deleteDish = async (req, res, next) => {
 const uploadDishImage = async (req, res, next) => {
   try {
     if (req.file) {
-      const url = await uploadImage(req.file);
-      await dishModel.findByIdAndUpdate(
-        req.user.id,
-        {
-          image: url,
-        },
-        {
-          new: true,
-        }
-      );
-      return res.json({ message: 'Dish image uploaded successfully' });
+      const { id } = req.params;
+
+      const dish = await Dish.findOne({ _id: id, chefId: req.user.id });
+      if (!dish) {
+        return next(new CustomError('Dish not found.', 404));
+      }
+
+      dish.image = await uploadImage(req.file);
+      await dish.save();
+
+      return res.json({ message: 'Dish image uploaded successfully.' });
     }
-    return next(new CustomError('Please provide a profile image', 422));
+    return next(new CustomError('Please provide a dish image.', 400));
   } catch (error) {
     return next(new CustomError(error.message, 500));
   }

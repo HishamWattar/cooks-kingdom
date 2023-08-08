@@ -13,7 +13,7 @@ const reviewSchema = new Schema({
     maximum: 5,
     require: true,
   },
-  description: {
+  comment: {
     type: String,
   },
 });

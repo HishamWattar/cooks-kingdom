@@ -140,21 +140,30 @@ paths:
           description: Name of the dish to filter (case-insensitive).
           schema:
             type: string
+          example: Chicken Tikka
         - name: maxPrice
           in: query
           description: Maximum price of the dish to filter.
           schema:
             type: number
             format: float
+          example: 400
         - name: minPrice
           in: query
           description: Minimum price of the dish to filter.
           schema:
             type: number
             format: float
-        - name: rate
+          example: 200
+        - name: minRate
           in: query
           description: Minimum rating of the dish to filter.
+          schema:
+            type: integer
+          example: 4
+        - name: maxRate
+          in: query
+          description: Maximum rating of the dish to filter.
           schema:
             type: integer
           example: 4
@@ -162,9 +171,8 @@ paths:
           in: query
           description: Comma-separated list of ingredients to filter dishes by.
           schema:
-            type: array
-            items:
-              type: string
+            type: string
+          example: Meet,Tomato
       responses:
         '200':
           description: Successful operation.
