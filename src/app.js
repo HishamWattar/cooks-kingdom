@@ -23,7 +23,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cookieParser());
+app.use(express.static('public'));
+
 app.use(cors());
+// app.use('/css', express.static(`${__dirname}/node_modules/bootstrap/dist/css`));
+app.use('/node_modules', express.static(`${__dirname}/node_modules`));
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../src/views'));
 
