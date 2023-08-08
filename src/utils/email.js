@@ -100,7 +100,7 @@ const sendChefWelcomeEmail = (chefEmail) => {
   });
 };
 
-const sendSignUpWelcomeEmail = async (email, firstName) => {
+const sendSignUpWelcomeEmail = (email, firstName) => {
   const mailOptions = {
     from: process.env.USER_EMAIL,
     to: email,
