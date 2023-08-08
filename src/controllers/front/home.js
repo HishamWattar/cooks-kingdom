@@ -21,14 +21,17 @@ const getAllDishes = async (req, res, next) => {
 
 const getCart = async (req, res, next) => {
   try {
+    let cartItems = null;
     const { token } = req.cookies;
     const decoded = jwt.verify(token, process.env.APP_SECRET);
     const user = await User.findById({ _id: decoded.userId });
-
     const [cart] = await Cart.find({ customerId: user.id })
       .populate('cartItems.dishId')
       .exec();
-    const { cartItems } = cart;
+
+    if (cart) {
+      cartItems = cart.cartItems;
+    }
     return res.render('cart', { cartItems, user });
   } catch (err) {
     return next(new CustomError(err.message, 500));
