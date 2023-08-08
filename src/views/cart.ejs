@@ -1,226 +1,224 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Shopping Cart</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <%- include('header') %>    
-    <style>
-      
-       .cart-container {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-
-      font-family: Arial, sans-serif;
-      margin-top: 5%;
-      padding: 0;
-    }
-
-      
-
-        .cart-items {
-            list-style: none;
-            padding: 0;
+  <head>
+      <title>Shopping Cart</title>
+      <%- include('header') %>    
+      <style>
+        
+        .cart-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          font-family: Arial, sans-serif;
+          margin-top: 5%;
+          padding: 0;
         }
 
-        .cart-item {
+        
+
+          .cart-items {
+            list-style: none;
+            padding: 0;
+          }
+
+          .cart-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid #ddd;
             padding: 10px 0;
-        }
+          }
 
-        .item-details {
+          .item-details {
             flex: 1;
             padding: 0 10px;
-        }
+          }
 
-        .item-name {
+          .item-name {
             font-size: 18px;
             font-weight: bold;
-        }
+          }
 
-        .item-price {
+          .item-price {
             font-size: 16px;
-        }
+          }
 
-        .item-quantity {
+          .item-quantity {
             font-size: 14px;
             color: #666;
-        }
+          }
 
-        .remove-button {
+          .remove-button {
             background-color: #ff5733;
             color: #fff;
             border: none;
             padding: 8px 15px;
             cursor: pointer;
             font-size: 14px;
-        }
+          }
 
-        .total {
+          .total {
             text-align: right;
             font-size: 20px;
             margin-top: 20px;
+          }
+          table {
+          width: 80%;
+          border-collapse: collapse;
         }
-        table {
-      width: 80%;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    .remove-btn{
-        background-color: #ff5733;
-        color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    </style>
-</head>
-<body>
+          th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+          }
+          th {
+            background-color: #f2f2f2;
+          }
+          .remove-btn{
+            background-color: #ff5733;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+      </style>
+  </head>
+  <body>
     <div class="cart-container">
-    <h1 class="title">Shopping Cart</h1>
-    <% if (!cartItems) { %>
-        <p>Your cart is empty.</p>
-    <% } else { %>
-        <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-            <tbody>
-                <% cartItems.forEach((item, index) => { %>
-                  <tr>
-                    <td><%= item.dishId.name  %></td>
-                    <td>
-                      <div id="quantityContainer">
-                        <button class="plut btn" onclick="plusCart('<%= item.dishId._id %>')">+</button>
-                        <input type="number" value='<%= item.quantity %>' disabled>
-                        <button class="minus btn" onclick="minus('<%= item.dishId._id %>')">-</button>
-                      </div>
+      <h1 class="title">Shopping Cart</h1>
+      <% if (!cartItems) { %>
+          <p>Your cart is empty.</p>
+      <% } else { %>
+          <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% cartItems.forEach((item, index) => { %>
+                    <tr>
+                      <td><%= item.dishId.name  %></td>
+                      <td>
+                        <div id="quantityContainer">
+                          <button class="plut btn" onclick="plusCart('<%= item.dishId._id %>')">+</button>
+                          <input type="number" value='<%= item.quantity %>' disabled>
+                          <button class="minus btn" onclick="minus('<%= item.dishId._id %>')">-</button>
+                        </div>
+                        </td>
+                      <td><%= item.dishId.price %></td>
+                      <td>
+                          <button class="remove-btn"  onclick="removeItem('<%= item._id %>')">Remove</button>
                       </td>
-                    <td><%= item.dishId.price %></td>
-                    <td>
-                        <button class="remove-btn"  onclick="removeItem('<%= item._id %>')">Remove</button>
-                    </td>
-                    
-                  </tr>
-                <% }); %>
-              </tbody>
-        </table>   
-    <% } %>
-</div>
+                      
+                    </tr>
+                  <% }); %>
+                </tbody>
+          </table>   
+      <% } %>
+    </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            showQuantity()
-        }, false);
-   
-        function showQuantity (){
-          console.log(document.getElementById('quantityContainer'))
-          document.getElementById('quantityContainer').style.display = 'flex'
-        }
-        async function removeItem(id) {
-          const clickedButton = event.target;
-            console.log('Removing item at index: ', id);
+      document.addEventListener('DOMContentLoaded', function() {
+          showQuantity()
+      }, false);
+  
+      function showQuantity (){
+        console.log(document.getElementById('quantityContainer'))
+        document.getElementById('quantityContainer').style.display = 'flex'
+      }
+      async function removeItem(id) {
+        const clickedButton = event.target;
+          console.log('Removing item at index: ', id);
 
-            try {
-              const response = await fetch(`api/cart/item/${id}`, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json',
-                },
-              credentials: 'same-origin' 
-              });
-    
-              console.log(response);
-              if (!response.ok) {
-                throw new Error('Failed to delete item.');
-              }
-              
-              const table = clickedButton.parentElement.parentElement
-              table.style.display ='none'
-              alert('Item was deleted'); 
-           }catch (error) {
-              console.error('Error adding to cart:', error);
-             alert('Failed to update the cart. Please try again.');
+          try {
+            const response = await fetch(`api/cart/item/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              },
+            credentials: 'same-origin' 
+            });
+  
+            console.log(response);
+            if (!response.ok) {
+              throw new Error('Failed to delete item.');
             }
-           }
+            
+            const table = clickedButton.parentElement.parentElement
+            table.style.display ='none'
+            alert('Item was deleted'); 
+          }catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to update the cart. Please try again.');
+          }
+          }
 
-        async function plusCart(dishId) {
-      const clickedButton = event.target;
-      let quantity = clickedButton.nextElementSibling;
-      if(quantity.value == 99)
-        alert('quantity should be less than 100')
-      else{
-      try {
-        const response = await fetch(`/item/${dishId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ quantity: quantity.value + 1}),
-          credentials: 'same-origin' 
-        });
-  
-        console.log(response);
-        if (!response.ok) {
-          throw new Error('Failed to update item.');
-        }
-        quantity.value ++;
-        alert('Item was updated'); 
-      } catch (error) {
-        console.error('Error adding to cart:', error);
-        alert('Failed to update the cart. Please try again.');
-      }
-    }
-    }
+      async function plusCart(dishId) {
+    const clickedButton = event.target;
+    let quantity = clickedButton.nextElementSibling;
+    if(quantity.value == 99)
+      alert('quantity should be less than 100')
+    else{
+    try {
+      const response = await fetch(`/item/${dishId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quantity: quantity.value + 1}),
+        credentials: 'same-origin' 
+      });
 
-    async function minus(dishId) {
-      const clickedButton = event.target;
-      let  quantity = clickedButton.parentElement;
-      quantity = quantity.children[1]
-      if(quantity.value == 1){
-        alert('quantity should be more than 0')
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Failed to update item.');
       }
-      
-      else{
-      try {
-        const response = await fetch(`/item/${dishId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ quantity: quantity.value - 1}),
-          credentials: 'same-origin' 
-        });
-  
-        console.log(response);
-        if (!response.ok) {
-          throw new Error('Failed to update item.');
-        }
-        quantity.value --;
-        console.log(quantity)
-        alert('Item was updated'); 
-      } catch (error) {
-        console.error('Error adding to cart:', error);
-        alert('Failed to update the cart. Please try again.');
+      quantity.value ++;
+      alert('Item was updated'); 
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to update the cart. Please try again.');
+    }
+  }
+  }
+
+  async function minus(dishId) {
+    const clickedButton = event.target;
+    let  quantity = clickedButton.parentElement;
+    quantity = quantity.children[1]
+    if(quantity.value == 1){
+      alert('quantity should be more than 0')
+    }
+    
+    else{
+    try {
+      const response = await fetch(`/item/${dishId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quantity: quantity.value - 1}),
+        credentials: 'same-origin' 
+      });
+
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Failed to update item.');
       }
+      quantity.value --;
+      console.log(quantity)
+      alert('Item was updated'); 
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to update the cart. Please try again.');
     }
     }
-    </script>
+    }
+  </script>
 </body>
 </html>

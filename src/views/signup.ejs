@@ -62,7 +62,7 @@
 
 <body>
   <h1>User Signup</h1>
-  <form action="/api/auth/signup" method="post">
+  <form action="/api/auth/signup" method="post" id="form">
     <label for="firstName">First Name:</label>
     <input type="text" id="firstName" name="firstName" required>
 
@@ -80,12 +80,54 @@
 
     <label for="avatar">Avatar URL:</label>
     <input type="text" id="avatar" name="avatar">
-    <input type="customer" id="role" name="role" hidden value="customer">
+    <!-- <input type="customer" id="role" name="role" hidden value="customer"> -->
 
    
 
     <input type="submit" value="Sign Up">
   </form>
 </body>
-
+<script>
+  const form = document.getElementById("form");
+ 
+ form.addEventListener("submit", async (e) => {
+   e.preventDefault();
+ 
+   let username = document.getElementById("username").value;
+   let firstName = document.getElementById("firstName").value;
+   let lastName = document.getElementById("lastName").value;
+   let email = document.getElementById("email").value;
+   let password = document.getElementById("password").value;
+   //let isDefault = document.getElementById("isDefault").value;
+ 
+   try {
+         const response = await fetch(`/api/auth/signup`, {
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({ 
+             username: username,
+             name: username,
+             firstName: firstName,
+             lastName: lastName,
+             email: email,
+             password: password,
+            }),
+           credentials: 'same-origin' 
+         });
+   
+         if (!response.ok) {
+           throw new Error('Failed to update user.');
+         }
+         console.log(response.response)
+         location.href = "/role";
+       } catch (error) {
+         console.error('Error adding to cart:', error);
+         alert('Failed to update the user. Please try again.');
+       }
+ 
+ });
+ 
+ </script>
 </html>
