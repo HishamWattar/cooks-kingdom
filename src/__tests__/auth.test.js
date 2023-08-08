@@ -3,6 +3,7 @@ require('jsonwebtoken');
 const app = require('../app');
 const db = require('../db/connection');
 const { User } = require('../models/user');
+const { sendSignUpWelcomeEmail } = require('../utils/email');
 
 const req = supertest(app);
 
