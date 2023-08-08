@@ -1,11 +1,11 @@
-const orderModel = require('../models/order');
+const Order = require('../models/order');
 const CustomError = require('../utils/customError');
 const Cart = require('../models/cart');
 const Dish = require('../models/dish');
 
 const getAllOrdersForCustomer = async (req, res, next) => {
   try {
-    const orders = await orderModel.find({ customerId: req.user.id });
+    const orders = await Order.find({ customerId: req.user.id });
     if (!orders) {
       return next(new CustomError("You don't have orders", 404));
     }
@@ -16,7 +16,7 @@ const getAllOrdersForCustomer = async (req, res, next) => {
 };
 const getAllOrdersForChef = async (req, res, next) => {
   try {
-    const orders = await orderModel.find({ chefId: req.user.id });
+    const orders = await Order.find({ chefId: req.user.id });
     if (!orders) {
       return next(new CustomError("You don't have orders", 404));
     }
@@ -37,6 +37,7 @@ const createOrder = async (req, res, next) => {
     }
 
     const { cartItems } = cart;
+
     let orders = [];
 
     // eslint-disable-next-line no-restricted-syntax
@@ -44,10 +45,11 @@ const createOrder = async (req, res, next) => {
       const { dishId, quantity } = item;
 
       // eslint-disable-next-line no-await-in-loop
-      const dish = await Dish.findOne({ id: dishId });
+      const dish = await Dish.findById(dishId);
 
       const { chefId, price } = dish;
 
+      // eslint-disable-next-line no-await-in-loop
       let order = orders.find((o) => o.chefId.equals(chefId));
 
       // If there is no existing order, create a new one and push it to the orders array
@@ -76,22 +78,29 @@ const createOrder = async (req, res, next) => {
     }
 
     // Save all the orders to the database
-    orders = await orderModel.insertMany(orders);
+    orders = await Order.insertMany(orders);
+
+    // Delete user cart when order is created
+    await Cart.deleteOne({ customerId });
+
     // Return a success response with the orders
-    return res.status(201).json({ message: 'Orders created', orders });
+    return res.status(201).json({ data: orders });
   } catch (error) {
     return next(new CustomError(error.message, 500));
   }
 };
-
 const updateOrder = async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
-    const order = await orderModel.findOneAndUpdate(
-      { _id: id },
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: id,
+        chefId: req.user.id,
+        status: { $in: ['pending', 'in_progress'] },
+      },
       { status },
-      { returnOriginal: false }
+      { returnOriginal: false, strict: true }
     );
     if (!order) {
       return next(new CustomError('Order not Found', 404));
@@ -104,11 +113,22 @@ const updateOrder = async (req, res, next) => {
 const deleteOrder = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const order = await orderModel.findByIdAndDelete(id);
+    const order = await Order.findOneAndUpdate(
+      {
+        _id: id,
+        customerId: req.user.id,
+        status: { $in: ['pending', 'in_progress'] },
+      },
+      {
+        status: 'canceled',
+      }
+    );
+
     if (!order) {
       return next(new CustomError("You don't have orders", 404));
     }
-    return res.sendStatus(204).json({ message: 'Order deleted successfully' });
+
+    return res.sendStatus(204);
   } catch (err) {
     return next(new CustomError(err.message, 500));
   }
