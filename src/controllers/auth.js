@@ -5,6 +5,8 @@ const CustomError = require('../utils/customError');
 // This a function will create token and assign it to cookie
 const { saveTokenToCookie } = require('../utils/token');
 
+const { sendSignUpWelcomeEmail } = require('../utils/email');
+
 const savePayloadToToken = (req, res) => {
   saveTokenToCookie(req.user, res);
   return res.status(200).json({ message: 'You have logged in successfully' });
