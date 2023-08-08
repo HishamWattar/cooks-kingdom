@@ -15,7 +15,7 @@ const URL_REGEX =
 const newUser = {
   firstName: 'John',
   lastName: 'Doe',
-  email: 'ahmadalashtar@gmail.com',
+  email: 'john.doe@example.com',
   username: 'JohnDoe',
   password: 'Correct$123',
   avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
