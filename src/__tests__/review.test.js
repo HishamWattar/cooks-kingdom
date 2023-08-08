@@ -4,6 +4,9 @@ const db = require('../db/connection');
 const Dish = require('../models/dish');
 // const { User } = require('../models/user');
 const req = supertest(app);
+
+jest.mock('../utils/email');
+
 let customerToken;
 let fishId;
 
