@@ -3,8 +3,11 @@ require('jsonwebtoken');
 const app = require('../app');
 const db = require('../db/connection');
 const { User } = require('../models/user');
+const { sendSignUpWelcomeEmail } = require('../utils/email');
 
 const req = supertest(app);
+
+jest.mock('../utils/email');
 
 const URL_REGEX =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\.[a-zA-Z0-9()]{1,6})?\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
@@ -61,6 +64,11 @@ describe('Local Auth Endpoints', () => {
       const tokenCookie = res.headers['set-cookie'][0];
       expect(tokenCookie).toBeDefined();
       expect(tokenCookie.includes('token=')).toBe(true);
+      expect(sendSignUpWelcomeEmail).toHaveBeenCalledTimes(1);
+      expect(sendSignUpWelcomeEmail).toHaveBeenCalledWith(
+        newUser.email,
+        newUser.firstName
+      );
     });
 
     it('Returns validation errors for invalid data', async () => {

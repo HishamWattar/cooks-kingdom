@@ -5,6 +5,8 @@ const app = require('../app');
 const db = require('../db/connection');
 const { Chef } = require('../models/user');
 
+jest.mock('../utils/email');
+
 const req = supertest(app);
 
 let allDishes;
