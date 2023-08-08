@@ -64,6 +64,11 @@ describe('Local Auth Endpoints', () => {
       const tokenCookie = res.headers['set-cookie'][0];
       expect(tokenCookie).toBeDefined();
       expect(tokenCookie.includes('token=')).toBe(true);
+      expect(sendSignUpWelcomeEmail).toHaveBeenCalledTimes(1);
+      expect(sendSignUpWelcomeEmail).toHaveBeenCalledWith(
+        newUser.email,
+        newUser.firstName
+      );
     });
 
     it('Returns validation errors for invalid data', async () => {
