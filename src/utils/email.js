@@ -1,18 +1,18 @@
 // Write your util function here
 const nodemailer = require('nodemailer');
 
-const sendApprovalEmail = (adminEmail, userId) => {
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.USER_EMAIL, // generated ethereal user
-      pass: process.env.USER_PASSWORD, // generated ethereal password
-    },
-  });
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.USER_EMAIL, // generated ethereal user
+    pass: process.env.USER_PASSWORD, // generated ethereal password
+  },
+});
 
+const sendApprovalEmail = (adminEmail, userId) => {
   const htmlContent = `
     <html>
       <head>
@@ -82,17 +82,6 @@ const sendApprovalEmail = (adminEmail, userId) => {
 };
 
 const sendChefWelcomeEmail = (chefEmail) => {
-  const transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.USER_EMAIL, // generated ethereal user
-      pass: process.env.USER_PASSWORD, // generated ethereal password
-    },
-  });
-
   const mailOptions = {
     from: process.env.USER_EMAIL,
     to: chefEmail,
