@@ -108,10 +108,13 @@ const sendSignUpWelcomeEmail = async (email, firstName) => {
     text: `Dear ${firstName},\n\nWe are delighted to welcome you to our platform.`,
   };
 
-  transporter.sendMail(mailOptions, (error) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       // eslint-disable-next-line no-console
       console.log(error);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`Email sent successfully: ${info.response}`);
     }
   });
 };
