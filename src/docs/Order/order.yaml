@@ -1,0 +1,181 @@
+paths:
+  /order:
+    post:
+      summary: Create a new order
+      tags:
+        - Order
+      parameters:
+        - in: header
+          name: Cookie
+          description: The customer's authentication token
+          required: true
+          type: string
+        - in: body
+          name: order
+          description: The order details
+          required: true
+          schema:
+            type: object
+            properties:
+              customerId:
+                type: string
+                format: uuid
+              cartItems:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    dishId:
+                      type: string
+                      format: uuid
+                    quantity:
+                      type: integer
+                      minimum: 1
+      responses:
+        '200':
+          description: Order created successfully
+          schema:
+            type: object
+            properties:
+              orders:
+                type: array
+                items:
+                  $ref: '#/definitions/Order'
+        '400':
+          description: Invalid input or missing parameters
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized access or invalid token
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      summary: Get all orders for a customer or a chef
+      tags:
+        - Order
+      parameters:
+        - in: header
+          name: Cookie
+          description: The customer's or chef's authentication token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Orders retrieved successfully
+          schema:
+            type: object
+            properties:
+              orders:
+                type: array
+                items:
+                  $ref: '#/definitions/Order'
+        '401':
+          description: Unauthorized access or invalid token
+          schema:
+            $ref: '#/definitions/Error'
+  /order/{id}:
+    put:
+      summary: Update the status of an order by the chef
+      tags:
+        - Order
+      parameters:
+        - in: header
+          name: Cookie
+          description: The chef's authentication token
+          required: true
+          type: string 
+        - in: path 
+          name: id 
+          description: The order id 
+          required: true 
+          type: string 
+        - in : body 
+          name : status 
+          description : The new status of the order 
+          required : true 
+          schema : 
+            type : object 
+            properties : 
+              status : 
+                type : string 
+                enum : [pending, accepted, rejected, completed]
+      responses :
+        '200' :
+          description : Order updated successfully 
+          schema :
+            $ref : '#/definitions/Order'
+        '400' :
+          description : Invalid input or missing parameters 
+          schema :
+            $ref : '#/definitions/Error'
+        '401' :
+          description : Unauthorized access or invalid token 
+          schema :
+            $ref : '#/definitions/Error'
+    delete :
+      summary : Delete an order by the customer 
+      tags :
+        - Order 
+      parameters :
+        - in : header 
+          name : Cookie 
+          description : The customer's authentication token 
+          required : true 
+          type : string 
+        - in : path 
+          name : id 
+          description : The order id 
+          required : true 
+          type : string 
+      responses :
+        '200' :
+          description : Order deleted successfully 
+          schema :
+            type : object 
+            properties :
+              message :
+                type : string 
+        '400' :
+          description : Invalid input or missing parameters 
+          schema :
+            $ref : '#/definitions/Error'
+        '401' :
+          description : Unauthorized access or invalid token 
+          schema :
+            $ref : '#/definitions/Error'
+definitions :
+  Order :
+    type : object 
+    properties :
+      _id :
+        type : string 
+        format : uuid 
+      customerId :
+        type : string 
+        format : uuid  
+      chefId :
+        type : string  
+        format : uuid  
+      totalPrice :
+        type : number  
+      status :
+        type : string  
+        enum : [pending, accepted, rejected, completed]  
+      orderItems :
+        type : array  
+        items :
+          type: object
+          properties:
+            price:
+              type: number
+            dishId:
+              type: string
+              format: uuid
+            quantity:
+              type: integer
+              minimum: 1
+  Error:
+    type: object
+    properties:
+      message:
+        type: string        

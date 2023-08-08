@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Pick a Role</h1>
+  <form action="/signup" id="role_form" method="post">
+
+    <label for="role">Role:</label>
+    <select id="role" name="role">
+      <option value="customer">Customer</option>
+      <option value="chef">Chef</option>
+      <option value="admin">Admin</option>
+    </select>
+
+
+    <input type="submit" value="Choose">
+  </form>
+</body>
+
+<script>
+    const roleForm = document.getElementById("role_form");
+   
+    role_form.addEventListener("submit", async (e) => {
+     e.preventDefault();
+   
+     let role = document.getElementById("role").value;   
+     //let isDefault = document.getElementById("isDefault").value;
+   
+     try {
+           const response = await fetch(`api/user/profile/role`, {
+             method: 'PUT',
+             headers: {
+               'Content-Type': 'application/json',
+             },
+             body: JSON.stringify({ 
+                role: role
+            }),
+             credentials: 'same-origin' 
+           });
+     
+           if (!response.ok) {
+             throw new Error('Failed to update user.');
+           }
+           alert('role was updated'); 
+           location.href = "/";
+         } catch (error) {
+           console.error('Error updating the role:', error);
+           alert('Failed to update the role. Please try again.');
+         }
+
+   });
+   
+   </script>
+</html>

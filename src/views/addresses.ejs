@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Addresses</title>
+    <%- include('header') %>    
+    <style>
+      
+       .cart-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+      font-family: Arial, sans-serif;
+      margin-top: 5%;
+      padding: 0;
+    }
+
+      
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .item-details {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .item-price {
+            font-size: 16px;
+        }
+
+        .item-quantity {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .remove-button {
+            background-color: #ff5733;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        table {
+      width: 80%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .remove-btn{
+        background-color: #ff5733;
+        color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .edit-btn{
+        background-color: #65ac53;
+        color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+    <h1 class="title">Shopping Cart</h1>
+    <% if (!addresses) { %>
+        <p>Your cart is empty.</p>
+    <% } else { %>
+        <table>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>Street</th>
+                <th>Block</th>
+                <th>Apartment</th>
+                <th>PostalCode</th>
+                <th>Is it Default?</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% addresses.forEach((item, index) => { %>
+                  <tr>
+                    <td><%= item._id %></td>
+                    <td><%= item.city %></td>
+                    <td><%= item.country %></td>
+                    <td><%= item.street %></td>
+                    <td><%= item.block %></td>
+                    <td><%= item.apartment %></td>
+                    <td><%= item.postalCode %></td>
+                    <td><%= item.isDefault %></td>
+                    <td>
+                        <button class="remove-btn"  onclick="removeItem('<%= item._id %>')">Remove</button>
+                        <button class="edit-btn"  onclick="editItem('<%= item._id %>')">Edit</button>
+                    </td>
+                    
+                  </tr>
+                <% }); %>
+              </tbody>
+        </table>   
+    <% } %>
+</div>
+    <script>
+   
+       
+        async function removeItem(id) {
+          const clickedButton = event.target;
+            console.log('Removing item at index: ', id);
+
+            try {
+              const response = await fetch(`/api/user/profile/address/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                },
+              credentials: 'same-origin' 
+              });
+    
+              console.log(response);
+              if (!response.ok) {
+                throw new Error('Failed to delete item.');
+              }
+              
+              const table = clickedButton.parentElement.parentElement
+              table.style.display ='none'
+              alert('Item was deleted'); 
+           }catch (error) {
+              console.error('Error adding to cart:', error);
+             alert('Failed to update the cart. Please try again.');
+            }
+           }
+
+        function editItem(id){
+            location.href = `/addresses/edit/${id}`;
+        }
+    </script>
+</body>
+</html>

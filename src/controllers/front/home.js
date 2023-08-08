@@ -48,6 +48,10 @@ const signup = async (req, res) => {
   res.render('signup');
 };
 
+const role = async (req, res) => {
+  res.render('role');
+};
+
 const putCartItemByDishId = async (req, res, next) => {
   try {
     const { token } = req.cookies;
@@ -70,11 +74,50 @@ const putCartItemByDishId = async (req, res, next) => {
   }
 };
 
+const getAddresses = async (req, res, next) => {
+  const { token } = req.cookies;
+  const decoded = jwt.verify(token, process.env.APP_SECRET);
+  try {
+    const user = await User.findById(decoded.userId, 'addresses');
+
+    if (!user) {
+      return next(new CustomError('User not found', 404));
+    }
+    const { addresses } = user;
+    return res.render('addresses', { addresses, user });
+  } catch (error) {
+    return res.status(500).json({ error: 'Error retrieving user addresses' });
+  }
+  // const user = await User.findById(req.user.id, 'addresses');
+};
+
+const editAddress = async (req, res, next) => {
+  const { token } = req.cookies;
+  const decoded = jwt.verify(token, process.env.APP_SECRET);
+
+  try {
+    const user = await User.findById({ _id: decoded.userId });
+    const { id } = req.params;
+    const address = user.addresses.find((addr) => addr._id.toString() === id);
+
+    if (!address) {
+      return next(new CustomError('Address is not found', 404));
+    }
+
+    return res.render('address', { address, user });
+  } catch (error) {
+    return next(new CustomError(error.message, 500));
+  }
+};
+
 module.exports = {
   getAllDishes,
   login,
   signup,
   getCart,
   profile,
+  role,
   putCartItemByDishId,
+  getAddresses,
+  editAddress,
 };

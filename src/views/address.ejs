@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('header') %>    
+
+  <title>Update User Profile</title>
+  <style>
+  
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #479bf5;
+    }
+    .profile-form{
+      max-width: 60%;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+
+    .form-container.addressInfo{
+      flex-grow: 2;
+    }
+    .form-container.userInfo{
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Update User Profile</h1>
+  <form class="profile-form" id="form" action="/api/user/profile" method="POST">
+      
+    <!-- Add other profile fields here -->
+    <label for="city">city:</label>
+    <input type="text" id="id" value="<%= address._id %>" hidden required>
+    <input type="text" id="city" name="addresses[city]" value="<%= address.city %>" required>
+
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="addresses[country]" value="<%= address.country %>" required>
+
+    <label for="street">Street</label>
+    <input type="text" id="street" name="street" value="<%= address.street %>" required>
+
+    <label for="block">Block:</label>
+    <input type="text" id="block" name="block" value="<%= address.block %>" required>
+
+    <label for="postalCode">Postal Code:</label>
+    <input type="text" id="postalCode" name="postalCode" value="<%= address.postalCode %>" required>
+
+    <label for="apartment">Apartment:</label>
+    <input type="text" id="apartment" name="apartment" value="<%= address.apartment %>" required>
+    
+    <input type="submit" value="Update Profile"  id="submitBtn">
+
+  </form>
+</body>
+
+<script>
+ const form = document.getElementById("form");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let id = document.getElementById("id").value;
+  let city = document.getElementById("city").value;
+  let country = document.getElementById("country").value;
+  let street = document.getElementById("street").value;
+  let block = document.getElementById("block").value;
+  let postalCode = document.getElementById("postalCode").value;
+  let apartment = document.getElementById("apartment").value;
+  //let isDefault = document.getElementById("isDefault").value;
+
+  try {
+        const response = await fetch(`/api/user/profile/address/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            address : {
+              street: street,
+              city: city,
+              country: country,
+              block: block,
+              postalCode: postalCode,
+              apartment: apartment,
+              isDefault: false
+          }}),
+          credentials: 'same-origin' 
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to update user.');
+        }
+        console.log(response)
+        alert('Address was updated'); 
+        location.reload();
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to update the Address. Please try again.');
+
+
+  }
+});
+
+</script>
+</html>
