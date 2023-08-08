@@ -24,6 +24,8 @@ const signup = async (req, res, next) => {
 
     saveTokenToCookie(user, res);
 
+    sendSignUpWelcomeEmail(user.email, user.firstName);
+
     return res.status(201).json({ data: user });
   } catch (error) {
     return next(new CustomError(error.message, 500));
