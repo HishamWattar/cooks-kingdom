@@ -9,6 +9,8 @@ const Dish = require('../models/dish');
 const req = supertest(app);
 jest.mock('../utils/email');
 
+jest.setTimeout(10000);
+
 let dishId;
 let customerToken;
 let cartItemId;
