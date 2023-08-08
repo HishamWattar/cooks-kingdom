@@ -50,5 +50,12 @@ const orderSchema = new Schema(
   }
 );
 
+orderSchema.set('toJSON', {
+  transform(doc, ret) {
+    // eslint-disable-next-line no-param-reassign
+    delete ret.__v;
+  },
+});
+
 // Order model
 module.exports = mongoose.model('Order', orderSchema);
