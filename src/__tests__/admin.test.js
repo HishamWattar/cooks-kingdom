@@ -3,6 +3,8 @@ const app = require('../app'); // Import your Express app
 const db = require('../db/connection');
 const { sendChefWelcomeEmail } = require('../utils/email');
 
+// const uploadImage = require('../services/gcs');
+
 const req = supertest(app);
 jest.mock('../utils/email');
 
