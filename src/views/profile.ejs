@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <%- include('header') %>    
+
+  <title>Update User Profile</title>
+  <style>
+  
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #479bf5;
+    }
+    .profile-form{
+      max-width: 60%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    .form-container{  
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .form-container.addressInfo{
+      flex-grow: 2;
+    }
+    .form-container.userInfo{
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">Update User Profile</h1>
+  <form class="profile-form" id="form" action="/api/user/profile" method="POST">
+      
+    <input name="_method" type="hidden" value="PUT">
+     <div class="form-container userInfo">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" value="<%= user.username %>" required>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="<%= user.email %>" required>
+
+    <label for="avatar">Avatar URL:</label>
+    <input type="text" id="avatar" name="avatar" value="<%= user.avatar %>" required>
+
+    <!-- Add other profile fields here -->
+
+    <input type="submit" value="Update Profile"  id="submitBtn">
+  </div>
+  <div class="form-container addressInfo">
+    <label for="city">city:</label>
+    <input type="text" id="city" name="addresses[city]" value="" required>
+
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="addresses[country]" value="" required>
+
+    <label for="street">Street</label>
+    <input type="text" id="street" name="street" value="" required>
+
+    <label for="block">Block:</label>
+    <input type="block" id="block" name="block" value="" required>
+
+    <label for="postalCode">Postal Code:</label>
+    <input type="text" id="postalCode" name="postalCode" value="" required>
+
+    <label for="apartment">Apartment:</label>
+    <input type="text" id="apartment" name="apartment" value="" required>
+  </div>
+  </form>
+</body>
+
+<script>
+ const form = document.getElementById("form");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  let username = document.getElementById("username").value;
+  let firstName = document.getElementById("firstName").value;
+  let lastName = document.getElementById("lastName").value;
+  let email = document.getElementById("email").value;
+  let city = document.getElementById("city").value;
+  let country = document.getElementById("country").value;
+  let street = document.getElementById("street").value;
+  let block = document.getElementById("block").value;
+  let postalCode = document.getElementById("postalCode").value;
+  let apartment = document.getElementById("apartment").value;
+  //let isDefault = document.getElementById("isDefault").value;
+
+  try {
+        const response = await fetch(`api/user/profile`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            username: username,
+            name: username,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            addresses : [{
+              street: street,
+              city: city,
+              country: country,
+              block: block,
+              postalCode: postalCode,
+              apartment: apartment,
+              isDefault: false
+          }]}),
+          credentials: 'same-origin' 
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to update user.');
+        }
+        console.log(response.response)
+        alert('user was updated'); 
+        location.reload();
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('Failed to update the user. Please try again.');
+      }
+  if (username.value == "" || firstName.value == "") {
+    alert("Ensure you input a value in both fields!");
+  } else {
+    // perform operation with form input
+    alert("This form has been successfully submitted!");
+    console.log(
+      `This form has a username of ${username.value} and password of ${firstName.value}`
+    );  
+
+  }
+});
+
+</script>
+</html>

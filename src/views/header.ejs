@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cooks Kingdom</title>
+  <style>
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .title{
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    header {
+      background-color: #f1f1f1;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    .user-info {
+    position: relative;
+  }
+
+  #userDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 120px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    display: none;
+    flex-direction: column;
+  }
+
+  #userDropdown a {
+    display: block;
+    padding: 4px 0;
+    text-decoration: none;
+    color: #333;
+  }
+
+  #userDropdown a:hover {
+    background-color: #f1f1f1;
+  }
+    .user-info img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .user-info a {
+      text-decoration: none;
+      color: #333;
+      margin-left: 10px;
+    }
+    .auth-buttons a {
+      text-decoration: none;
+      color: #333;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-left: 10px;
+    }
+    .auth-buttons a:hover {
+      background-color: #f1f1f1;
+    }
+    .add-to-cart-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #479bf5;
+    }
+
+     #quantityContainer{
+      display: none;
+    margin-top: 10px;
+      width: 200px;
+    }
+    #quantityContainer > button{
+      width: 25px;
+    }
+
+    #quantityContainer > input[type="number"]{
+        width: 25px;
+    }
+    .btn{
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      animation: forwards;
+    }
+  </style>
+</head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+  <header>
+    <a href="/"> <h1>Cooks Kingdom</h1></a>
+   
+    <% if (user) { %>
+      <!-- User is logged in -->
+      <div class="user-info">
+        <% if (user.avatar) { %>
+        <img src="<%= user.avatar %>" alt="Profile Picture">
+        <% } %>  
+      
+        <a href="#" id="welcomeLink">Welcome, <%= user.username %></a>
+        <div id="userDropdown" style="display: none;">
+          <a href="/profile">Profile</a>
+          <% if (user.role === 'customer') { %>
+            <a href="/cart">Cart</a>
+          <% } %>  
+          <a href="/order">Orders</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </div>
+    <% } else { %>
+      <!-- User is not logged in -->
+      <div class="auth-buttons">
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
+      </div>
+    </nav>
+  </header>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+<script>
+
+  // When the Welcome link is clicked, toggle the visibility of the dropdown menu
+  document.getElementById('welcomeLink').addEventListener('click', function() {
+    var dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'flex' : 'none';
+  });
+
+  // Hide the dropdown when clicking outside the user-info element
+  document.addEventListener('click', function(event) {
+    var dropdown = document.getElementById('userDropdown');
+    var userElem = document.querySelector('.user-info');
+
+    if (!userElem.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  async function logout() {
+    try {
+      const response = await fetch(`/api/auth/signout`, {
+        method: 'POST',
+      });
+
+      console.log(response.response);
+      if (!response.ok) {
+        throw new Error('Failed to update item.');
+      }
+      location.reload();
+    } catch (error) {
+      console.error( error);
+      alert(error);
+    }
+    }
+    
+</script>
+</html>
