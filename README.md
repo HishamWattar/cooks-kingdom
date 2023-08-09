@@ -6,10 +6,10 @@
     <img src="src/assets/logo.png" alt="Logo" >
   </a>
   <p align="center">
-    Cookiz is a platform that connects busy individuals, like students, with local cooks offering<br>
+    Cooks Kingdom is a platform that connects busy individuals, like students, with local cooks offering<br>
     homemade food, providing convenient and delicious meal options. The website features an<br>
     easy-to-use interface, allowing customers to browse dishes, place orders, and support local<br>
-    cookers, while chefs can manage their offerings through an admin dashboard.<br>
+    chefs, while they can manage their offerings through an admin dashboard.<br>
     <a href="https://cookskingdom.onrender.com/docs/"><strong>Explore the docs »</strong> </a>
     <br />
     <br />
@@ -24,14 +24,14 @@
 ### Table of Contents
 
 1. [About the Project](#about-the-project)
-    - [Project Features](#project-features)
-    - [Tools and Technologies](#tools-and-technologies)
-    - [Design Diagrams](#design-diagrams)
-        - [System Architecture Diagram](#system-architecture-diagram)
-        - [Database Schema Design](#database-schema-design)
+   - [Project Features](#project-features)
+   - [Tools and Technologies](#tools-and-technologies)
+   - [Design Diagrams](#design-diagrams)
+     - [System Architecture Diagram](#system-architecture-diagram)
+     - [Database Schema Design](#database-schema-design)
 2. [Installation Guide](#installation-guide)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
 3. [Frontend Application](#frontend-application)
 4. [Contributing Guide](#contributing-guide)
 5. [Contributors](#contributors)
@@ -41,50 +41,50 @@
 
 ## About the Project
 
-Cookiz is a dynamic and innovative platform designed to bridge the gap between individuals seeking homemade meals and local cooks who are passionate about sharing their culinary expertise. The project's ideology revolves around providing a convenient and delicious solution for people with limited time to cook, such as students and busy professionals, while also supporting local cookers and their culinary ventures.
+Cooks Kingdom is a dynamic and innovative platform designed to bridge the gap between individuals seeking homemade meals and local cooks who are passionate about sharing their culinary expertise. The project's ideology revolves around providing a convenient and delicious solution for people with limited time to cook, such as students and busy professionals, while also supporting local cookers and their culinary ventures.
 
-The primary objective of Cookiz is to create a seamless and user-friendly experience for both customers and cooks. The platform enables customers to explore a diverse range of dishes, filter options based on location and preferences, and effortlessly place orders for homemade food. On the other hand, local cooks have access to an admin dashboard, allowing them to showcase their culinary creations, post images, and provide enticing descriptions to enthrall potential customers.
+The primary objective of Cooks Kingdom is to create a seamless and user-friendly experience for both customers and cooks. The platform enables customers to explore a diverse range of dishes, filter options based on location and preferences, and effortlessly place orders for homemade food. On the other hand, local cooks have access to an admin dashboard, allowing them to showcase their culinary creations, post images, and provide enticing descriptions to enthrall potential customers.
 
-At its core, Cookiz aims to foster a thriving community of food enthusiasts, where customers can indulge in delectable homemade dishes and cooks can take pride in serving their creations to a wider audience. The project stands as a testament to the power of technology in connecting people, facilitating impactful collaborations, and nurturing a sense of culinary camaraderie among diverse communities.
+At its core, Cooks Kingdom aims to foster a thriving community of food enthusiasts, where customers can indulge in delectable homemade dishes and cooks can take pride in serving their creations to a wider audience. The project stands as a testament to the power of technology in connecting people, facilitating impactful collaborations, and nurturing a sense of culinary camaraderie among diverse communities.
 
-Cookiz empowers individuals with limited time to relish the joys of homemade meals without the hassles of cooking. It cultivates an ecosystem where local cooks can showcase their talents and build a loyal customer base. By bringing together culinary passions and technological ingenuity, Cookiz envisions transforming how homemade food is experienced and enjoyed by people worldwide. Join Cookiz in savoring the delights of homemade goodness and embracing the spirit of community-driven gastronomy.
+Cooks Kingdom empowers individuals with limited time to relish the joys of homemade meals without the hassles of cooking. It cultivates an ecosystem where local cooks can showcase their talents and build a loyal customer base. By bringing together culinary passions and technological ingenuity, Cooks Kingdom envisions transforming how homemade food is experienced and enjoyed by people worldwide. Join Cooks Kingdom in savoring the delights of homemade goodness and embracing the spirit of community-driven gastronomy.
 
 ### Project Features
 
--   CRUD Orders/Dishes/Carts
--   Sign in/up/out
--   Create a cutsomer or a chef account
--   Edit cutsomer or a chef account
--   Review a dish
--   Get public dishes
--   Filter publish dishes
--   Sign in/up with Google
--   Sign in/up with Twitter
+- CRUD Orders/Dishes/Carts
+- Sign in/up/out
+- Create a cutsomer or a chef account
+- Edit cutsomer or a chef account
+- Review a dish
+- Get public dishes
+- Filter publish dishes
+- Sign in/up with Google
+- Sign in/up with Twitter
 
 ### Tools and Technologies
 
--   [![Figma-shield]][figma-link]
--   [![Github-shield]][github-link]
--   [![Git-shield]][git-link]
--   [![Prettier-shield]][prettier-link]
--   [![Eslint-shield]][eslint-link]
--   [![mongodb-shield]][mongodb-link]
--   [![nodejs-shield]][nodejs-link]
--   [![express-shield]][express-link]
--   [![express-validator-shield]][express-validator-link]
--   [![swagger-shield]][swagger-link]
--   [![Jest-shield]][jest-link]
--   [![JWT-shield]][jwt-link]
--   [![Passport-shield]][passport-link]
--   [![Postman-shield]][postman-link]
--   [![yarn-shield]][yarn-link]
--   [![nodemailer-shield]][nodemailer-link]
--   ![multer-shield](https://img.shields.io/badge/multer-FFFFFF?style=flat&logo=uuid&logoColor=white)
--   ![uuid-shield](https://img.shields.io/badge/uuid-FFFFFF?style=flat&logo=uuid&logoColor=white)
--   [![google-shield]][google-link]
--   [![twitter-shield]][twitter-link]
--   ![Google Cloud](https://img.shields.io/badge/google%20cloud-FFFFFF?style=flat&logo=googlecloud)
--   [![husky-shield]][husky-link]
+- [![Figma-shield]][figma-link]
+- [![Github-shield]][github-link]
+- [![Git-shield]][git-link]
+- [![Prettier-shield]][prettier-link]
+- [![Eslint-shield]][eslint-link]
+- [![mongodb-shield]][mongodb-link]
+- [![nodejs-shield]][nodejs-link]
+- [![express-shield]][express-link]
+- [![express-validator-shield]][express-validator-link]
+- [![swagger-shield]][swagger-link]
+- [![Jest-shield]][jest-link]
+- [![JWT-shield]][jwt-link]
+- [![Passport-shield]][passport-link]
+- [![Postman-shield]][postman-link]
+- [![yarn-shield]][yarn-link]
+- [![nodemailer-shield]][nodemailer-link]
+- ![multer-shield](https://img.shields.io/badge/multer-FFFFFF?style=flat&logo=uuid&logoColor=white)
+- ![uuid-shield](https://img.shields.io/badge/uuid-FFFFFF?style=flat&logo=uuid&logoColor=white)
+- [![google-shield]][google-link]
+- [![facebook-shield]][facebook-link]
+- ![Google Cloud](https://img.shields.io/badge/google%20cloud-FFFFFF?style=flat&logo=googlecloud)
+- [![husky-shield]][husky-link]
 
 ### Design Diagrams
 
@@ -111,27 +111,27 @@ This is known as a UML diagram, and it shows the collections used in the databas
 ### Installation
 
 1. Clone the repo
-    ```sh
-    git clone git@github.com:HishamWattar/cooks-kingdom.git
-    ```
+   ```sh
+   git clone git@github.com:HishamWattar/cooks-kingdom.git
+   ```
 2. Navigate to the project folder
 
-    ```sh
-    cd cooks-kingdom
-    ```
+   ```sh
+   cd cooks-kingdom
+   ```
 
 3. Install dependencies
-    ```sh
-    yarn install
-    ```
+   ```sh
+   yarn install
+   ```
 4. Run the project
-    ```sh
-    yarn start
-    ```
+   ```sh
+   yarn start
+   ```
 5. Run checks and tests
-    ```sh
-    yarn test
-    ```
+   ```sh
+   yarn test
+   ```
 
 ## Documentation
 
@@ -141,9 +141,9 @@ Explore our interactive documentation API [here](https://cookskingdom.onrender.c
 
 ## Frontend Application
 
--   Check front-end application [here](https://github.com/ReCoded-Org/cookiz-capstone-project)
+- Check front-end application [here](https://github.com/ReCoded-Org/cookiz-capstone-project)
 
--   [![Pebble-work-website](https://img.shields.io/badge/Cooks--Kingdom-black?style=flat-square)](https://cookskingdom.onrender.com/)
+- [![Pebble-work-website](https://img.shields.io/badge/Cooks--Kingdom-black?style=flat-square)](https://cookskingdom.onrender.com/)
 
 ## Contributing Guide
 
@@ -157,10 +157,10 @@ Contributions are what make the open source community such a wonderful place to 
 
 ## Contributors
 
-| <img alt="hisham" src="src/assets/hisham.jpg" width="115"> | <img alt="rawan" src="src/assets/rawan.png" width="115"> | <img alt="mahmoud" src="src/assets/mahmoud.jpg" width="115"> | <img alt="ahmad" src="src/assets/ahmad.jpg" width="115">   | <img alt="zak" src="src/assets/zak.jpg" width="115"> |
-| -------------------------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------ | 
-| Junior Engineer                                        | Junior Engineer                                            | Junior Engineer                                        | Junior Engineer                                        | Junior Engineer                                        |
-| [Hisham Al Wattar](https://github.com/HishamWattar/)             | [Rawan Mustafa](https://github.com/0Rawan)             | [Mahmoud Alshahin](https://github.com/mahmoudsha)              | [Ahmad Alashtar](https://github.com/ahmadalashtar) | [Sakarie Ali](https://github.com/sack-ali)       
+| <img alt="hisham" src="src/assets/hisham.jpg" width="115"> | <img alt="rawan" src="src/assets/rawan.png" width="115"> | <img alt="mahmoud" src="src/assets/mahmoud.jpg" width="115"> | <img alt="ahmad" src="src/assets/ahmad.jpg" width="115"> | <img alt="zak" src="src/assets/zak.jpg" width="115"> |
+| ---------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- | ---------------------------------------------------- |
+| Junior Engineer                                            | Junior Engineer                                          | Junior Engineer                                              | Junior Engineer                                          | Junior Engineer                                      |
+| [Hisham Al Wattar](https://github.com/HishamWattar/)       | [Rawan Mustafa](https://github.com/0Rawan)               | [Mahmoud Alshahin](https://github.com/mahmoudsha)            | [Ahmad Alashtar](https://github.com/ahmadalashtar)       | [Sakarie Ali](https://github.com/sack-ali)           |
 
 ## License
 
@@ -168,14 +168,15 @@ Distributed under the MIT License. See [LICENSE](https://choosealicense.com/lice
 
 ## Acknowledgments
 
--   [![google-shield]][google-link]
--   [![stackoverflow-shield]][stackoverflow-link]
+- [![google-shield]][google-link]
+- [![stackoverflow-shield]][stackoverflow-link]
+- [![chatgpt-shield]][chatgpt-link]
 
 ## Contact
 
 ### Cooks Kingdom Team
 
-**Email:** pebbleworkplatform@gmail.com
+**Email:** cooks.supp@gmail.com
 
 <!-- Links -->
 
@@ -183,14 +184,18 @@ Distributed under the MIT License. See [LICENSE](https://choosealicense.com/lice
 [stackoverflow-link]: https://stackoverflow.com/
 [heroku-shield]: https://img.shields.io/badge/heroku-7D4E89?style=flat&logo=heroku
 [heroku-link]: https://www.heroku.com
+[chatgpt-link]: http://openai.chat.com
 [yarn-shield]: https://img.shields.io/badge/yarn-FFFFFF?style=flat&logo=yarn
+[chatgpt-shield]: https://img.shields.io/badge/ChatGPT-black?style=flat&logo=openai
 [yarn-link]: https://yarnpkg.com/
 [nodemailer-shield]: https://img.shields.io/badge/nodemailer-22B573?style=flat&logo=nodemailer
 [nodemailer-link]: https://nodemailer.com/
 [google-shield]: https://img.shields.io/badge/google-FFFFFF?style=flat&logo=google
 [google-link]: https://www.google.com/
 [twitter-shield]: https://img.shields.io/badge/twitter-FFFFFF?style=flat&logo=twitter
+[facebook-shield]: https://img.shields.io/badge/facebook-FFFFFF?style=flat&logo=facebook
 [twitter-link]: https://www.twitter.com/
+[facebook-link]: https://www.facebook.com/
 [firebase-shield]: https://img.shields.io/badge/firebase-FFFFFF?style=flat&logo=firebase
 [firebase-link]: https://firebase.google.com/
 [husky-shield]: https://img.shields.io/badge/husky-FFFFFF?style=flat&logo=husky
