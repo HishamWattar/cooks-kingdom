@@ -10,7 +10,8 @@ paths:
           in: path
           required: true
           description: The ID of the dish to add the review to.
-          type: string
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -47,7 +48,8 @@ paths:
           in: path
           required: true
           description: The ID of the dish to update the review for.
-          type: string
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -82,7 +84,8 @@ paths:
           in: path
           required: true
           description: The ID of the dish to delete the review for.
-          type: string
+          schema:
+            type: string
       responses:
         204:
           description: The review was deleted successfully.
