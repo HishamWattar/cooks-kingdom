@@ -11,10 +11,10 @@ const uploadImage = (imageFile) =>
     const { buffer, originalname } = imageFile;
 
     // Get received a file extension
-    const fileName = `${getFileExtension(originalname).toLowerCase()}`;
+    const fileExtension = `${getFileExtension(originalname).toLowerCase()}`;
 
     // The new ID of GCS file
-    const destFileName = `cloud-${uuid()}${fileName}`;
+    const destFileName = `cloud-${uuid()}${fileExtension}`;
 
     // Get a reference to the bucket
     const myBucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
