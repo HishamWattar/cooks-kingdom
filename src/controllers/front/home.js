@@ -22,9 +22,7 @@ const getAllDishes = async (req, res, next) => {
 const getCart = async (req, res, next) => {
   try {
     let cartItems = null;
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.APP_SECRET);
-    const user = await User.findById({ _id: decoded.userId });
+    const { user } = req;
     const [cart] = await Cart.find({ customerId: user.id })
       .populate('cartItems.dishId')
       .exec();
@@ -39,9 +37,7 @@ const getCart = async (req, res, next) => {
 };
 
 const profile = async (req, res) => {
-  const { token } = req.cookies;
-  const decoded = jwt.verify(token, process.env.APP_SECRET);
-  const user = await User.findById({ _id: decoded.userId });
+  const { user } = req;
   return res.render('profile', { user });
 };
 
@@ -59,9 +55,7 @@ const role = async (req, res) => {
 
 const putCartItemByDishId = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
-    const decoded = jwt.verify(token, process.env.APP_SECRET);
-    const user = await User.findById({ _id: decoded.userId });
+    const { user } = req;
     const cart = await Cart.findOne({
       customerId: user.id,
       'cartItems.dishId': req.params.id,
@@ -80,10 +74,8 @@ const putCartItemByDishId = async (req, res, next) => {
 };
 
 const getAddresses = async (req, res, next) => {
-  const { token } = req.cookies;
-  const decoded = jwt.verify(token, process.env.APP_SECRET);
   try {
-    const user = await User.findById(decoded.userId, 'addresses');
+    const user = await User.findById(req.user.id, 'addresses');
 
     if (!user) {
       return next(new CustomError('User not found', 404));
@@ -97,11 +89,8 @@ const getAddresses = async (req, res, next) => {
 };
 
 const editAddress = async (req, res, next) => {
-  const { token } = req.cookies;
-  const decoded = jwt.verify(token, process.env.APP_SECRET);
-
   try {
-    const user = await User.findById({ _id: decoded.userId });
+    const { user } = req;
     const { id } = req.params;
     const address = user.addresses.find((addr) => addr._id.toString() === id);
 

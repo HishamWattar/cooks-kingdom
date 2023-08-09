@@ -139,7 +139,9 @@
         <a href="#" id="welcomeLink">Welcome, <%= user.username %></a>
         <div id="userDropdown" style="display: none;">
           <a href="/profile">Profile</a>
-          <a href="/cart">Cart</a>
+          <% if (user.role === 'customer') { %>
+            <a href="/cart">Cart</a>
+          <% } %>  
           <a href="/order">Orders</a>
           <a id="logout"  onclick="logout()">Logout</a>
         </div>

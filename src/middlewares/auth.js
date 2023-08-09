@@ -22,6 +22,32 @@ const isAuthenticated = async (req, res, next) => {
   }
 };
 
+const isNotAuthenticated = async (req, res, next) => {
+  if (req.cookies) {
+    const { token } = req.cookies;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.APP_SECRET);
+        const user = await User.findById({ _id: decoded.userId });
+        if (user) return next(new CustomError('Authenticated', 401));
+      } catch (error) {
+        return next(new CustomError('Invalid token', 401));
+      }
+    }
+  }
+  return next();
+};
+
+const hasNoRole = (req, res, next) => {
+  if (
+    req.user.role !== 'customer' &&
+    req.user.role !== 'admin' &&
+    req.user.role !== 'chef'
+  ) {
+    return next();
+  }
+  return next(new CustomError('This action is unauthorized', 403));
+};
 const isChef = (req, res, next) => {
   if (
     (req.user.role === 'chef' && req.user.isApproved) ||
@@ -87,6 +113,8 @@ function isOwner(path) {
 
 module.exports = {
   isAuthenticated,
+  isNotAuthenticated,
+  hasNoRole,
   isAdmin,
   isCustomer,
   isChef,
