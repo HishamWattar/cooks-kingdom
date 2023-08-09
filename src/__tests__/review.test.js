@@ -6,7 +6,6 @@ const Dish = require('../models/dish');
 const req = supertest(app);
 
 jest.mock('../utils/email');
-jest.setTimeout(10000);
 
 let customerToken;
 let fishId;
@@ -40,10 +39,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // await Dish.deleteMany({});
-  // await User.deleteMany({});
   await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('POST /api/reviews/:dishId', () => {

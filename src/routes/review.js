@@ -13,18 +13,18 @@ const {
 
 router.post(
   '/:dishId',
-  createReview,
-  validationHandler,
   isAuthenticated,
   isCustomer,
+  createReview,
+  validationHandler,
   reviewController.addReviewToDish
 );
 router.put(
   '/:dishId',
-  updateReview,
-  validationHandler,
   isAuthenticated,
   isCustomer,
+  updateReview,
+  validationHandler,
   reviewController.updateReviewToDish
 );
 router.delete(

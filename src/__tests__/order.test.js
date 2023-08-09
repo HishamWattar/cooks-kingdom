@@ -1,15 +1,13 @@
 const supertest = require('supertest');
 const app = require('../app');
-const { User, Chef } = require('../models/user');
+const { Chef } = require('../models/user');
 const Dish = require('../models/dish');
-const Order = require('../models/order');
-const cartModel = require('../models/cart');
+const Cart = require('../models/cart');
 
 const req = supertest(app);
 const db = require('../db/connection');
 
 jest.mock('../utils/email');
-jest.setTimeout(10000);
 
 let customerToken;
 let customerId;
@@ -17,9 +15,7 @@ let orderId;
 let chefToken;
 let allDishes;
 let fishId;
-// let chickenId;
-// let orderExp;
-// let cart;
+let chickenId;
 
 const customerUser = {
   firstName: 'customerTests',
@@ -49,12 +45,6 @@ const fish = {
     'Vegetable oil',
     'Yogurt marinade',
   ],
-  reviews: [
-    {
-      rate: 4,
-      description: 'Perfect portion sizes and crispy batter.',
-    },
-  ],
 };
 
 const chicken = {
@@ -67,178 +57,135 @@ const chicken = {
     'Spices',
     'Potatoes',
   ],
-  reviews: [
-    {
-      rate: 5,
-      description: 'Flavours were spot on, really tasty dish.',
-    },
-    {
-      rate: 3,
-      description: 'A bit low on spice for my liking.',
-    },
-  ],
-};
-const cartItemData = {
-  quantity: 2,
 };
 
 beforeAll(async () => {
   await db.connectToMongo();
+
   let res = await req.post('/api/auth/signup').send(customerUser);
-  customerId = res.body.data._id;
   [customerToken] = res.headers['set-cookie'][0].split(';');
-  const _chefUser = await Chef.create(chefUser);
+  customerId = res.body.data._id;
+  const chef = await Chef.create(chefUser);
   res = await req.post('/api/auth/signin').send(chefUser);
   [chefToken] = res.headers['set-cookie'][0].split(';');
-  const chefID = _chefUser._id;
-  fish.chefId = _chefUser._id;
-  chicken.chefId = _chefUser._id;
-  const orderExample = {
-    customerId,
-    chefID,
-    totalPrice: 50.0,
-    status: 'pending',
-    orderItems: [
-      {
-        fishId,
-        quantity: 2,
-        price: 25.0,
-      },
-    ],
-    quantity: 2,
-  };
-  const cartItems = [
-    {
-      dishId: fishId,
-      quantity: 2,
-    },
-  ];
+
+  const chefId = chef._id;
+  fish.chefId = chefId;
+  chicken.chefId = chefId;
+  allDishes = await Dish.insertMany([fish, chicken]);
+  fishId = allDishes[0]._id;
+  chickenId = allDishes[1]._id;
   const cartData = {
     customerId,
-    cartItems,
+    cartItems: [
+      {
+        dishId: fishId,
+        quantity: 5,
+      },
+      {
+        dishId: chickenId,
+        quantity: 2,
+      },
+    ],
   };
-  allDishes = await Dish.insertMany([fish, chicken]);
-  await Order.create(orderExample);
-  await cartModel.create(cartData);
-  fishId = allDishes[0]._id;
-  //   chickenId = allDishes[1]._id;
+  await Cart.create(cartData);
 });
 
 afterAll(async () => {
-  await User.deleteMany({});
-  await Dish.deleteMany({});
-  await cartModel.deleteMany({});
-  await Chef.deleteMany({});
+  await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
-// Test suite for order routes
-describe('Order Routes', () => {
+// Test suite for order endpoints
+describe('Order Endpoints', () => {
   // Test for getting all orders for customer
-  describe('GET /api/order/customer', () => {
+  describe('POST /api/orders', () => {
     // Test for success response
     it('should return a success response with an array of orders', async () => {
-      // Create an order for the customer
-      const orderResponse = await req
-        .post('/api/orders')
-        .set('Cookie', customerToken)
-        .send({ customerId, cartItems: [cartItemData] });
-      orderId = orderResponse.body.orders[0]._id;
+      // Make a post-request to the route with the customer id and cart items
+      const res = await req.post('/api/orders').set('Cookie', customerToken);
 
+      // Expect a status code of 201 and an array of orders in the response body
+      expect(res.status).toBe(201);
+      expect(Array.isArray(res.body.data)).toBe(true);
+      expect(res.body.data[0].customerId).toEqual(customerId);
+      expect(res.body.data[0].totalPrice).toEqual(45);
+      expect(res.body.data[0].status).toEqual('pending');
+      expect(Array.isArray(res.body.data[0].orderItems)).toBe(true);
+      expect(res.body.data[0].orderItems[0].price).toEqual(5);
+      expect(res.body.data[0].orderItems[0].quantity).toEqual(5);
+      orderId = res.body.data[0]._id;
+    });
+
+    it("should return an error message when customer doesn't have a cart or cartItem", async () => {
+      const res = await req.post('/api/orders').set('Cookie', customerToken);
+
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe('Cart is empty');
+    });
+  });
+
+  describe('GET /api/orders/customer', () => {
+    // Test for success response
+    it('should return a success response with an array of orders', async () => {
       // Make a get request to the route
-      const response = await req
+      const res = await req
         .get('/api/orders/customer')
         .set('Cookie', customerToken);
 
       // Expect a status code of 200 and an array of orders in the response body
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body.data)).toBe(true);
+      expect(res.status).toBe(200);
+      expect(Array.isArray(res.body.data)).toBe(true);
     });
 
     // Test for failure response due to invalid token
-    it('should return a failure response with an error message', async () => {
+    it('should return an error message when user is not authenticated', async () => {
       // Make a get request to the route with an invalid token
-      const response = await req
-        .get('/api/orders/customer')
-        .set('Cookie', 'Bearer invalidtoken');
+      const res = await req.get('/api/orders/customer');
 
       // Expect a status code of 401 and an error message in the response body
-      expect(response.status).toBe(401);
-      expect(response.body.message).toEqual('Unauthenticated');
+      expect(res.status).toBe(401);
+      expect(res.body.message).toEqual('Unauthenticated');
     });
   });
 
   // Test for getting all orders for chef
-  describe('GET /api/v1/order/chef', () => {
+  describe('GET /api/orders/chef', () => {
     // Test for success response
     it('should return a success response with an array of orders', async () => {
-      const response = await req
-        .get('/api/orders/chef')
-        .set('Cookie', chefToken);
+      const res = await req.get('/api/orders/chef').set('Cookie', chefToken);
 
       // Expect a status code of 200 and an array of orders in the response body
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.body.data)).toBe(true);
-      expect(response.body.data[0]._id).toEqual(orderId);
+      expect(res.status).toBe(200);
+      expect(Array.isArray(res.body.data)).toBe(true);
+      expect(res.body.data[0]._id).toEqual(orderId);
     });
 
     // Test for failure response due to invalid token
-    it('should return a failure response with an error message', async () => {
+    it('should return an error message when user is not authenticated', async () => {
       // Make a get request to the route with an invalid token
-      const response = await req
-        .get('/api/orders/chef')
-        .set('Cookie', 'Bearer invalidtoken');
+      const res = await req.get('/api/orders/chef');
 
       // Expect a status code of 401 and an error message in the response body
-      expect(response.status).toBe(401);
-      expect(response.body.message).toEqual('Unauthenticated');
-    });
-  });
-
-  describe('POST /api/orders', () => {
-    // Test for success response
-    it('should return a success response with an array of orders', async () => {
-      // Make a post request to the route with the customer id and cart items
-      const response = await req
-        .post('/api/orders')
-        .set('Cookie', customerToken)
-        .send({ customerId, cartItems: [cartItemData] });
-
-      // Expect a status code of 201 and an array of orders in the response body
-      expect(response.status).toBe(201);
-      expect(Array.isArray(response.body.orders)).toBe(true);
-      expect(response.body.orders[0].customerId).toEqual(customerId);
-      expect(response.body.orders[0].totalPrice).toEqual(10);
-      expect(response.body.orders[0].status).toEqual('pending');
-      expect(Array.isArray(response.body.orders[0].orderItems)).toBe(true);
-      expect(response.body.orders[0].orderItems[0].price).toEqual(5);
-      expect(response.body.orders[0].orderItems[0].quantity).toEqual(2);
-    });
-
-    // Test for failure response due to invalid input
-    it('should return a failure response with an error message', async () => {
-      // Make a post request to the route with an invalid customer id
-      const response = await req
-        .post('/api/orders')
-        .send({ customerId: 'invalidid', cartItems: [cartItemData] });
-
-      expect(response.status).toBe(401);
+      expect(res.status).toBe(401);
+      expect(res.body.message).toEqual('Unauthenticated');
     });
   });
 
   // Test for updating an order
-  describe('PUT /api/v1/order/:id', () => {
+  describe('PUT /api/orders/:id', () => {
     // Test for success response
     it('should return a success response with the updated order', async () => {
-      const response = await req
+      const res = await req
         .put(`/api/orders/${orderId}`)
         .set('Cookie', chefToken)
         .send({ status: 'in_progress' });
 
       // Expect a status code of 200 and the updated order in the response body
-      expect(response.status).toBe(200);
-      expect(response.body.data._id).toEqual(orderId);
-      expect(response.body.data.status).toEqual('in_progress');
+      expect(res.status).toBe(200);
+      expect(res.body.data._id).toEqual(orderId);
+      expect(res.body.data.status).toEqual('in_progress');
     });
   });
 
@@ -246,12 +193,12 @@ describe('Order Routes', () => {
   describe('DELETE /api/orders/:id', () => {
     // Test for success response
     it('should return a success response with a message', async () => {
-      // Make a delete request to the route with the order id
-      const response = await req
+      // Send delete request to the route with the order id
+      const res = await req
         .delete(`/api/orders/${orderId}`)
         .set('Cookie', customerToken);
 
-      expect(response.status).toBe(204);
+      expect(res.status).toBe(204);
     });
   });
 });

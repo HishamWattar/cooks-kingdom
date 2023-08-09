@@ -20,10 +20,10 @@ routes.post('/item', isAuthenticated, isCustomer, cartControllers.postCartItem);
 // Update item in cart
 routes.put(
   '/item/:id',
-  updateCartItem,
-  validationHandler,
   isAuthenticated,
   isCustomer,
+  updateCartItem,
+  validationHandler,
   cartControllers.putCartItemById
 );
 

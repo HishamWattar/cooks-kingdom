@@ -2,9 +2,6 @@ const supertest = require('supertest');
 const app = require('../app');
 const db = require('../db/connection');
 const Dish = require('../models/dish');
-// const Cart = require('../models/cart');
-// const { User } = require('../models/user');
-// const { Chef } = require('../models/user');
 
 const req = supertest(app);
 jest.mock('../utils/email');
@@ -38,14 +35,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // await User.deleteMany({
-  //   email: customerUser.email,
-  // });
-  // await Chef.deleteMany({});
-  // await Dish.deleteMany({});
-  // await Cart.deleteMany({});
   await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('CartItem Endpoints', () => {

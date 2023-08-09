@@ -7,8 +7,8 @@ const getUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     return res.json(user);
-  } catch (error) {
-    return next(new CustomError('Internal server error', 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -19,7 +19,7 @@ const updateUserRole = async (req, res, next) => {
 
     // Check if user already has a role
     if (user.role) {
-      return next(new CustomError("You can't change your role", 422));
+      return next(new CustomError("You can't change your role.", 422));
     }
 
     // Email admin in case a user wants to be a chef
@@ -40,9 +40,9 @@ const updateUserRole = async (req, res, next) => {
         overwriteDiscriminatorKey: true,
       }
     );
-    return res.json({ message: 'Your role has been updated successfully' });
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+    return res.json({ message: 'Your role has been updated successfully.' });
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -71,12 +71,12 @@ const updateUserAddress = async (req, res, next) => {
     );
 
     if (!updatedUserAddress) {
-      return next(new CustomError('Address is not found', 404));
+      return next(new CustomError('Address not found.', 404));
     }
 
-    return res.json({ message: 'Address updated successfully' });
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+    return res.json({ message: 'Address updated successfully.' });
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -96,12 +96,12 @@ const deleteUserAddress = async (req, res, next) => {
     );
 
     if (!updateResult) {
-      return next(new CustomError('Address is not found', 404));
+      return next(new CustomError('Address not found.', 404));
     }
 
     return res.sendStatus(204);
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -141,7 +141,7 @@ const updateUserProfile = async (req, res, next) => {
 
     // Check if user didn't specify his role yet
     if (!user.role) {
-      return next(new CustomError('You should update your role first', 400));
+      return next(new CustomError('You should update your role first.', 400));
     }
 
     // Update the user based on their role
@@ -166,8 +166,8 @@ const updateUserProfile = async (req, res, next) => {
     }
 
     return res.json(updatedUser);
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -184,11 +184,11 @@ const uploadUserImage = async (req, res, next) => {
           new: true,
         }
       );
-      return res.json({ message: 'Profile image uploaded successfully' });
+      return res.json({ message: 'Profile image uploaded successfully.' });
     }
-    return next(new CustomError('Please provide a profile image', 422));
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+    return next(new CustomError('Please provide a profile image.', 422));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 
@@ -197,8 +197,8 @@ const deleteUserProfile = async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, { isActive: false });
     res.clearCookie('token');
     return res.sendStatus(204);
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 

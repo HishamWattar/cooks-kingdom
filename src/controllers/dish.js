@@ -144,8 +144,8 @@ const uploadDishImage = async (req, res, next) => {
       return res.json({ message: 'Dish image uploaded successfully.' });
     }
     return next(new CustomError('Please provide a dish image.', 400));
-  } catch (error) {
-    return next(new CustomError(error.message, 500));
+  } catch (err) {
+    return next(new CustomError(err.message, 500));
   }
 };
 

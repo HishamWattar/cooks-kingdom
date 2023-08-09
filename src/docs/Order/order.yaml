@@ -1,148 +1,129 @@
 paths:
-  /order:
+  /api/orders:
     post:
-      summary: Create a new order
       tags:
         - Order
-      parameters:
-        - in: header
-          name: Cookie
-          description: The customer's authentication token
-          required: true
-          type: string
-        - in: body
-          name: order
-          description: The order details
-          required: true
-          schema:
-            type: object
-            properties:
-              customerId:
-                type: string
-                format: uuid
-              cartItems:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    dishId:
-                      type: string
-                      format: uuid
-                    quantity:
-                      type: integer
-                      minimum: 1
+      summary: Create a new order.
+      description: Create a new order for customer.
       responses:
-        '200':
-          description: Order created successfully
-          schema:
-            type: object
-            properties:
-              orders:
-                type: array
-                items:
-                  $ref: '#/definitions/Order'
+        '201':
+          description: Order created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Order'
         '400':
-          description: Invalid input or missing parameters
-          schema:
-            $ref: '#/definitions/Error'
+          description: Customer doesn't have a cart.
         '401':
-          description: Unauthorized access or invalid token
-          schema:
-            $ref: '#/definitions/Error'
+          description: Unauthenticated or invalid token.
+        '403':
+          description: Unauthorized. Please check if you have the right role.
+  /api/orders/customer:
     get:
-      summary: Get all orders for a customer or a chef
       tags:
         - Order
-      parameters:
-        - in: header
-          name: Cookie
-          description: The customer's or chef's authentication token
-          required: true
-          type: string
+      summary: Get all orders for a customer.
+      description: Get all orders for customer.
       responses:
         '200':
-          description: Orders retrieved successfully
-          schema:
-            type: object
-            properties:
-              orders:
-                type: array
-                items:
-                  $ref: '#/definitions/Order'
+          description: Orders retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Order'
         '401':
-          description: Unauthorized access or invalid token
-          schema:
-            $ref: '#/definitions/Error'
-  /order/{id}:
-    put:
-      summary: Update the status of an order by the chef
+          description: Unauthenticated or invalid token.
+        '403':
+          description: Unauthorized. Please check if you have the right role.
+  /api/orders/chef:
+    get:
       tags:
         - Order
+      summary: Get all orders for a chef.
+      description: Get all orders for chef.
+      responses:
+        '200':
+          description: Orders retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Order'
+        '401':
+          description: Unauthenticated or invalid token.
+        '403':
+          description: Unauthorized. Please check if you have the right role.
+  /api/orders/{id}:
+    put:
+      tags:
+        - Order
+      summary: Update the status of an order.
+      description: Update the status of an order by it's id.
       parameters:
-        - in: header
-          name: Cookie
-          description: The chef's authentication token
-          required: true
-          type: string 
         - in: path 
           name: id 
-          description: The order id 
-          required: true 
-          type: string 
-        - in : body 
-          name : status 
-          description : The new status of the order 
-          required : true 
-          schema : 
-            type : object 
-            properties : 
-              status : 
-                type : string 
-                enum : [pending, accepted, rejected, completed]
+          description: The order id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update the status of an order.
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  type : string
+                  enum : [canceled, in_progress, delivered]
+        required: true
       responses :
         '200' :
-          description : Order updated successfully 
+          description : Order updated successfully.
           schema :
             $ref : '#/definitions/Order'
-        '400' :
-          description : Invalid input or missing parameters 
-          schema :
-            $ref : '#/definitions/Error'
+        '422' :
+          description : Invalid input or missing parameters.
         '401' :
-          description : Unauthorized access or invalid token 
-          schema :
-            $ref : '#/definitions/Error'
+          description: Unauthenticated or invalid token.
+        '403':
+          description: Unauthorized. Please check if you have the right role.
+        '404':
+          description: Order not found.
     delete :
       summary : Delete an order by the customer 
       tags :
         - Order 
       parameters :
-        - in : header 
-          name : Cookie 
-          description : The customer's authentication token 
-          required : true 
-          type : string 
         - in : path 
           name : id 
-          description : The order id 
-          required : true 
-          type : string 
+          description : The order id.
+          required : true
+          schema:
+            type: string
       responses :
-        '200' :
-          description : Order deleted successfully 
-          schema :
-            type : object 
-            properties :
-              message :
-                type : string 
-        '400' :
-          description : Invalid input or missing parameters 
-          schema :
-            $ref : '#/definitions/Error'
+        '204' :
+          description : Order deleted successfully.
         '401' :
-          description : Unauthorized access or invalid token 
-          schema :
-            $ref : '#/definitions/Error'
+          description: Unauthenticated or invalid token.
+        '403':
+          description: Unauthorized. Please check if you have the right role.
+        '404':
+          description: Order not found.
+
 definitions :
   Order :
     type : object 
@@ -174,8 +155,3 @@ definitions :
             quantity:
               type: integer
               minimum: 1
-  Error:
-    type: object
-    properties:
-      message:
-        type: string        
