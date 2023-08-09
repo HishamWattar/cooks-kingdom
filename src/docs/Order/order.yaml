@@ -77,8 +77,9 @@ paths:
         - in: path 
           name: id 
           description: The order id.
-          required: true 
-          type: string
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Update the status of an order.
         content:
@@ -110,8 +111,9 @@ paths:
         - in : path 
           name : id 
           description : The order id.
-          required : true 
-          type : string 
+          required : true
+          schema:
+            type: string
       responses :
         '204' :
           description : Order deleted successfully.

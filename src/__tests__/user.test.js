@@ -27,7 +27,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await User.deleteMany({});
+  await db.clearDatabase();
   await db.closeDatabase();
   jest.clearAllMocks();
 });
@@ -71,12 +71,11 @@ describe('User Endpoints', () => {
         .send({ role: 'chef' });
 
       // mock sending email because it is a 3rd party service
-      // sendApprovalEmail.mockResolvedValueOnce();
 
       expect(res.statusCode).toBe(200);
       expect(sendApprovalEmail).toHaveBeenCalledTimes(1);
       expect(sendApprovalEmail).toHaveBeenCalledWith(admin.email, newUser.id);
-      expect(res.body.message).toBe('Your role has been updated successfully');
+      expect(res.body.message).toBe('Your role has been updated successfully.');
     });
 
     it('should return an error message when role is invalid', async () => {
@@ -97,7 +96,7 @@ describe('User Endpoints', () => {
         .send({ role: 'chef' });
 
       expect(res.statusCode).toBe(422);
-      expect(res.body.message).toBe("You can't change your role");
+      expect(res.body.message).toBe("You can't change your role.");
     });
   });
 
@@ -195,10 +194,10 @@ describe('User Endpoints', () => {
         .send(updatedUserAddress);
 
       expect(res.statusCode).toBe(200);
-      expect(res.body.message).toBe('Address updated successfully');
+      expect(res.body.message).toBe('Address updated successfully.');
     });
 
-    it('should return an error message when address is no exists', async () => {
+    it('should return an error message when address is not exists', async () => {
       const updatedUserAddress = {
         address: {
           city: 'Istanbul',
@@ -213,7 +212,7 @@ describe('User Endpoints', () => {
         .send(updatedUserAddress);
 
       expect(res.statusCode).toBe(404);
-      expect(res.body.message).toBe('Address is not found');
+      expect(res.body.message).toBe('Address not found.');
     });
 
     it('should return an error message when invalid address is passed', async () => {
@@ -248,7 +247,7 @@ describe('User Endpoints', () => {
         .set('Cookie', newUserToken);
 
       expect(res.statusCode).toBe(404);
-      expect(res.body.message).toBe('Address is not found');
+      expect(res.body.message).toBe('Address not found.');
     });
   });
 

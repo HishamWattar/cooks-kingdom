@@ -2,7 +2,6 @@ const supertest = require('supertest');
 require('jsonwebtoken');
 const app = require('../app');
 const db = require('../db/connection');
-const { User } = require('../models/user');
 const { sendSignUpWelcomeEmail } = require('../utils/email');
 
 const req = supertest(app);
@@ -38,17 +37,16 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await User.deleteMany({
-    email: newUser.email,
-  });
+  await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 let redirectUri = null;
 
 describe('Local Auth Endpoints', () => {
   describe('Post /api/auth/signup', () => {
-    it('Returns a new user', async () => {
+    it('should return a new user', async () => {
       const res = await req.post('/api/auth/signup').send(newUser);
 
       // Check if the response status code is correct
@@ -71,7 +69,7 @@ describe('Local Auth Endpoints', () => {
       );
     });
 
-    it('Returns validation errors for invalid data', async () => {
+    it('should return validation errors for invalid data', async () => {
       // Missing three required fields 'firstName' and 'lastName' and 'username'
       const res = await req.post('/api/auth/signup').send(invalidUser);
 
@@ -85,7 +83,7 @@ describe('Local Auth Endpoints', () => {
   });
 
   describe('Post /api/auth/signin', () => {
-    it('Returns a success message when valid credentials are provided', async () => {
+    it('should return a success message when valid credentials are provided', async () => {
       const res = await req.post('/api/auth/signin').send(correctUser);
 
       // Check if the response status code is correct
@@ -102,7 +100,7 @@ describe('Local Auth Endpoints', () => {
       [token] = res.headers['set-cookie'][0].split(';');
     });
 
-    it('Returns an error message when invalid credentials are provided', async () => {
+    it('should return an error message when invalid credentials are provided', async () => {
       const res = await req.post('/api/auth/signin').send(invalidUser);
 
       expect(res.statusCode).toBe(401);
@@ -175,8 +173,8 @@ describe('Local Auth Endpoints', () => {
     });
   });
 
-  describe('Post /api/auth/signout', () => {
-    it('Returns a success message when a user is authenticated', async () => {
+  describe('POST /api/auth/signout', () => {
+    it('should return a success message when a user is authenticated', async () => {
       const res = await req.post('/api/auth/signout').set('Cookie', token);
 
       // Check if the response status code is correct
@@ -191,7 +189,7 @@ describe('Local Auth Endpoints', () => {
       expect(tokenCookie.includes('token=;')).toBe(true); // The token cookie should be cleared (empty value) with an immediate expiration
     });
 
-    it('Returns an error message when a user is not authenticated', async () => {
+    it('should return an error message when a user is not authenticated', async () => {
       const res = await req.post('/api/auth/signout');
 
       // Check if the response status code is correct
@@ -205,7 +203,7 @@ describe('Local Auth Endpoints', () => {
 
 describe('Google Auth Endpoints', () => {
   describe('GET /api/auth/google', () => {
-    it('Redirects to google authorization page', (done) => {
+    it('should redirect to google authorization page', (done) => {
       req
         .get('/api/auth/google')
         .expect(302)
@@ -213,7 +211,7 @@ describe('Google Auth Endpoints', () => {
         .end(done);
     });
 
-    it('Redirects with correct scope and credentials', async () => {
+    it('should redirect with correct scope and credentials', async () => {
       const res = await req.get('/api/auth/google');
       const { location } = res.header;
 
@@ -239,7 +237,7 @@ describe('Google Auth Endpoints', () => {
   });
 
   describe(`GET REDIRECT_URI`, () => {
-    it('Redirects to google sign in page without cookie for incorrect credentials', async () => {
+    it('should redirect to google sign in page without cookie for incorrect credentials', async () => {
       expect(redirectUri).not.toBeNull();
       const res = await req.get(redirectUri.pathname);
       expect(res.status).toBe(302);
@@ -250,7 +248,7 @@ describe('Google Auth Endpoints', () => {
 
 describe('Facebook Auth Endpoints', () => {
   describe('GET /api/auth/facebook', () => {
-    it('Redirects to facebook authorization page', (done) => {
+    it('should redirect to facebook authorization page', (done) => {
       req
         .get('/api/auth/facebook')
         .expect(302)
@@ -258,7 +256,7 @@ describe('Facebook Auth Endpoints', () => {
         .end(done);
     });
 
-    it('Redirects with correct scope and credentials', async () => {
+    it('should redirect with correct scope and credentials', async () => {
       const res = await req.get('/api/auth/facebook');
       const { location } = res.header;
 
@@ -280,7 +278,7 @@ describe('Facebook Auth Endpoints', () => {
   });
 
   describe(`GET REDIRECT_URI`, () => {
-    it('Redirects to facebook sign in page without cookie for incorrect credentials', async () => {
+    it('should redirect to facebook sign in page without cookie for incorrect credentials', async () => {
       expect(redirectUri).not.toBeNull();
       const res = await req.get(redirectUri.pathname);
       expect(res.status).toBe(302);

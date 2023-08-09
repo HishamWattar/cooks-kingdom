@@ -39,10 +39,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  // await Dish.deleteMany({});
-  // await User.deleteMany({});
   await db.clearDatabase();
   await db.closeDatabase();
+  jest.clearAllMocks();
 });
 
 describe('POST /api/reviews/:dishId', () => {

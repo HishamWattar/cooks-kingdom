@@ -152,7 +152,8 @@ paths:
           in: path
           description: ID of the user to retrieve.
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Successful response
@@ -178,7 +179,8 @@ paths:
           in: path
           description: ID of the user to update.
           required: true
-          type: string
+          schema:
+            type: string
       requestBody:
         description: Fields to update.
         content:
@@ -211,7 +213,8 @@ paths:
           in: path
           description: ID of the user to update.
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '204':
           description: User deleted successfully
@@ -235,7 +238,8 @@ paths:
           in: path
           description: ID of the user to approve as a chef
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
