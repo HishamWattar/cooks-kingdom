@@ -187,7 +187,43 @@ paths:
                       $ref: '#/components/schemas/Dish'
         '500':
           description: Internal server error. An error occurred while processing the request.
-    
+
+
+  /api/dishes/image/{id}:
+    put:
+      tags:
+        - Dishes
+      summary: Upload an image for dish by its id.
+      description: Upload an image for dish by its id.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the dish for which to upload an image.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The image file to upload (JPEG, PNG, etc.).
+      responses:
+        '200':
+          description: Image uploaded successfully
+        '401':
+          description: Unauthenticated. Please check if you are logged in.
+        '422':
+          description: Invalid input
+        '500':
+          description: Internal Server Error
+
+
     
 components:
   schemas:
