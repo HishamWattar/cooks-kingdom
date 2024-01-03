@@ -26,7 +26,7 @@ const options = {
     servers: [
       {
         url: process.env.PRODUCTION
-          ? 'https://cookskingdom.onrender.com'
+          ? 'https://cooks-kingdom.onrender.com'
           : 'http://localhost:3000/',
       },
     ],
